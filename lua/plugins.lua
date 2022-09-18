@@ -5,7 +5,93 @@ return require('packer').startup(function(use)
   use { 'wbthomason/packer.nvim', opt = true }
 
   use 'navarasu/onedark.nvim'
-  use 'NvChad/base46'
+
+  use { 
+    'tpope/vim-fugitive',
+    opt = true,
+    cmd = {"Git"},
+  }
+
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function()
+      require('lualine').setup {
+
+      options = {
+        icons_enabled = true,
+        theme = 'auto',
+        component_separators = { left = '', right = ''},
+        section_separators = { left = '', right = ''},
+        disabled_filetypes = {
+          statusline = {},
+          winbar = {},
+        },
+        ignore_focus = {},
+        always_divide_middle = true,
+        globalstatus = false,
+        refresh = {
+          statusline = 1000,
+          tabline = 1000,
+          winbar = 1000,
+        }
+      },
+      sections = {
+        lualine_a = {'mode'},
+        lualine_b = {'branch'},
+        lualine_c = {'filename'},
+        lualine_x = {'filetype'},
+        lualine_y = {''},
+        --lualine_z = {'location'}
+        lualine_z = {'progress'}
+      },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {'filename'},
+        lualine_x = {'location'},
+        lualine_y = {},
+        lualine_z = {}
+      },
+      tabline = {},
+      winbar = {},
+      inactive_winbar = {},
+      extensions = {}
+    }
+    end,
+}
+
+  use {
+    'lukas-reineke/indent-blankline.nvim',
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "indent-blankline.nvim"
+    end,
+    config = function()
+      vim.cmd [[highlight IndentBlanklineIndent1 guifg=#707070 gui=nocombine]]
+      vim.cmd [[highlight IndentBlanklineIndent2 guifg=#444444 gui=nocombine]]
+      require('indent_blankline').setup({
+        filetype_exclude = {
+          "help",
+          "terminal",
+          "packer",
+          "lspinfo",
+          "TelescopePrompt",
+          "TelescopeResults",
+          "mason",
+          "",
+        },
+        buftype_exclude = { "terminal" },
+        show_current_context = true,
+        show_current_context_start = true,
+        space_char_blankline = " ",
+        char_highlight_list = {
+          "IndentBlanklineIndent1",
+          "IndentBlanklineIndent2",
+        },
+      })
+    end,
+  }
 
   use {
     'nvim-telescope/telescope.nvim', tag = '0.1.0',
@@ -65,14 +151,89 @@ return require('packer').startup(function(use)
       },
 
       extensions_list = { "themes", "terms" },
-    }
-
-      )
+    })
     end
   }
 
   -- Post-install/update hook with neovim command
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 
+    'nvim-treesitter/nvim-treesitter', 
+    run = ':TSUpdate',
+    setup = function()
+      require("core.utils").on_file_open "nvim-treesitter"
+    end,
+    cmd = {"TSInstall", "TSBufEnable", "TSBufDisable", "TSEnable", "TSDisable", "TSModuleInfo"},
+    run = ":TSUpdate",
+    config = function()
+      require'nvim-treesitter.configs'.setup {
+        context_commentstring = {
+          enable = true
+        },
+        ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+        ignore_install = {"haskell"}, -- List of parsers to ignore installing
+        highlight = {
+          enable = true,              -- false will disable the whole extension
+          disable = { },  -- list of language that will be disabled
+          -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+          -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+          -- Using this option may slow down your editor, and you may see some duplicate highlights.
+          -- Instead of true it can also be a list of languages
+          additional_vim_regex_highlighting = false,
+        },
+        indent = {
+          enable = false
+        },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            -- init_selection = "gnn",
+            -- node_incremental = "grn",
+            -- scope_incremental = "grc",
+            -- node_decremental = "grm",
+            init_selection = "<CR>",
+            node_incremental = "<CR>",
+            scope_incremental = "<tab>",
+            node_decremental = "<BS>",
+          },
+        },
+        textobjects = {
+          select = {
+            enable = true,
+            -- Automatically jump forward to textobj, similar to targets.vim 
+            lookahead = true,
+
+            keymaps = {
+              -- You can use the capture groups defined in textobjects.scm
+              ["am"] = "@function.outer",
+              ["im"] = "@function.inner",
+              -- ["ac"] = "@class.outer",
+              -- ["ic"] = "@class.inner",
+            },
+          },
+          move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {
+              ["]]"] = "@function.outer",
+              ["]m"] = "@class.outer",
+            },
+            goto_next_end = {
+              ["]["] = "@function.outer",
+              ["]M"] = "@class.outer",
+            },
+            goto_previous_start = {
+              ["[["] = "@function.outer",
+              ["[m"] = "@class.outer",
+            },
+            goto_previous_end = {
+              ["[]"] = "@function.outer",
+              ["[M"] = "@class.outer",
+            },
+          },
+        },
+      }
+    end,
+  }
 
   -- Use dependency and run lua function after load
   use {
