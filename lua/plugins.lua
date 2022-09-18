@@ -2,7 +2,10 @@ vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
   -- Packer can manage itself
-  use { 'wbthomason/packer.nvim', opt = true }
+  use {
+    'wbthomason/packer.nvim', 
+    opt = true,
+  }
 
   use 'navarasu/onedark.nvim'
 
@@ -59,7 +62,7 @@ return require('packer').startup(function(use)
       extensions = {}
     }
     end,
-}
+  }
 
   use {
     'lukas-reineke/indent-blankline.nvim',
@@ -155,6 +158,58 @@ return require('packer').startup(function(use)
     end
   }
 
+  
+  
+  use {
+    'nvim-treesitter/nvim-treesitter-context',
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "nvim-treesitter-context"
+    end,
+    
+    config = function()
+      require'treesitter-context'.setup {
+        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+        max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+        patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+            -- For all filetypes
+            -- Note that setting an entry here replaces all other patterns for this entry.
+            -- By setting the 'default' entry below, you can control which nodes you want to
+            -- appear in the context window.
+            default = {
+                'class',
+                'function',
+                'method',
+                -- 'for', -- These won't appear in the context
+                -- 'while',
+                -- 'if',
+                -- 'switch',
+                -- 'case',
+            },
+            -- Example for a specific filetype.
+            -- If a pattern is missing, *open a PR* so everyone can benefit.
+            --   rust = {
+            --       'impl_item',
+            --   },
+        },
+        exact_patterns = {
+            -- Example for a specific filetype with Lua patterns
+            -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
+            -- exactly match "impl_item" only)
+            -- rust = true,
+        },
+
+        -- [!] The options below are exposed but shouldn't require your attention,
+        --     you can safely ignore them.
+
+        zindex = 20, -- The Z-index of the context window
+        mode = 'topline',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+      }
+    end,
+    
+  }
+
   -- Post-install/update hook with neovim command
   use { 
     'nvim-treesitter/nvim-treesitter', 
@@ -245,7 +300,40 @@ return require('packer').startup(function(use)
     opt = true,
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     config = function()
-      require'nvim-tree'.setup()
+      require'nvim-tree'.setup({
+        sort_by = "case_sensitive",
+        view = {
+          adaptive_size = false,
+          mappings = {
+            list = {
+              { key = "u", action = "dir_up" },
+            },
+          },
+        },
+        renderer = {
+          group_empty = true,
+          indent_markers = {
+            enable = true
+          },
+          icons = {
+            git_placement = "after",
+            show = {
+              file = true,
+              folder = true,
+              folder_arrow = true,
+              git = true,
+            },
+            glyphs = {
+              git = {
+                untracked = "-",
+              },
+            },
+          },
+        },
+        filters = {
+          dotfiles = false,
+        },
+      })
     end,
   }
 

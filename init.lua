@@ -16,7 +16,6 @@ require 'plugins'
 vim.cmd "colorscheme onedark"
 
 local opt = vim.opt
-
 opt.termguicolors = true 
 opt.mouse = "a"
 opt.eb = false
@@ -46,6 +45,13 @@ opt.cursorlineopt= "number"
 
 
 local map = require("utils").map
+map("v", "<", "<gv")
+map("v", ">", ">gv")
 
 map("n", "<f4>", ":Telescope oldfiles<cr>")
-map("n", "<c-n>", ":NvimTreeToggle %:p:h<cr>")
+map("", "<c-n>", ":NvimTreeToggle %:p:h<cr>")
+
+map("n", "<leader>gs", ":Git<cr>")
+map("n", "<leader>gc", ':Git commit -m "auto commit"<cr>')
+map("n", "<leader>gp", ":Git push<cr>")
+
