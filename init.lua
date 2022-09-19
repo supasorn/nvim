@@ -10,7 +10,6 @@ if fn.empty(fn.glob(install_path)) > 0 then
   require "plugins"
   vim.cmd "PackerSync"
 end
-
 require 'plugins'
 
 vim.cmd "colorscheme onedark"
@@ -43,7 +42,6 @@ opt.winblend = 0
 opt.cursorline = true
 opt.cursorlineopt= "number"
 
-
 local map = require("utils").map
 map("v", "<", "<gv")
 map("v", ">", ">gv")
@@ -55,3 +53,10 @@ map("n", "<leader>gs", ":Git<cr>")
 map("n", "<leader>gc", ':Git commit -m "auto commit"<cr>')
 map("n", "<leader>gp", ":Git push<cr>")
 
+--[[
+local function myfunc()
+  vim.opt.showtabline = 2
+  vim.opt.tabline = "%!v:lua.require('bufline').run()"
+end
+myfunc()
+--]]

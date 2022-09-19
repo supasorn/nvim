@@ -6,13 +6,54 @@ return require('packer').startup(function(use)
     'wbthomason/packer.nvim', 
     opt = true,
   }
-
+  
   use 'navarasu/onedark.nvim'
+
+
+  use {
+    'mildred/vim-bufmru'
+  }
+
+  use {
+    'kyazdani42/nvim-web-devicons'
+  }
 
   use { 
     'tpope/vim-fugitive',
     opt = true,
     cmd = {"Git"},
+  }
+
+  use {
+    'akinsho/bufferline.nvim',
+    tag = "v2.*",
+    config = function()
+      require("bufferline").setup{
+        options = {
+          sort_by = function(buffer_a, buffer_b)
+            for _, buffer in ipairs(vim.fn.BufMRUList()) do
+              if buffer == buffer_a.id then
+                return true
+              elseif buffer == buffer_b.id then
+                return false
+              end
+            end
+            return false
+          end,
+          numbers = function(opts)
+            return string.format('%s.', opts.ordinal)
+          end,
+          -- numbers = 'ordinal'
+        }
+      }
+    end
+  }
+
+  use {
+    "tiagovla/scope.nvim",
+    config = function()
+      require("scope").setup()
+    end
   }
 
   use {
@@ -296,7 +337,8 @@ return require('packer').startup(function(use)
     config = function() require('gitsigns').setup() end
   }
 
-  use {'kyazdani42/nvim-tree.lua',
+  use {
+    'kyazdani42/nvim-tree.lua',
     opt = true,
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     config = function()
