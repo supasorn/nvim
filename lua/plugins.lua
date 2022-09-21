@@ -28,22 +28,90 @@ return require('packer').startup(function(use)
     'akinsho/bufferline.nvim',
     tag = "v2.*",
     config = function()
+
+
       require("bufferline").setup{
         options = {
-          sort_by = function(buffer_a, buffer_b)
-            for _, buffer in ipairs(vim.fn.BufMRUList()) do
-              if buffer == buffer_a.id then
-                return true
-              elseif buffer == buffer_b.id then
-                return false
-              end
-            end
-            return false
-          end,
+          tab_size = 5,
+          color_icons = false,
+          show_buffer_icons = false,
+          sort_by = "none", 
+          -- sort_by = function(buffer_a, buffer_b)
+            -- for _, buffer in ipairs(vim.fn.BufMRUList()) do
+              -- if buffer == buffer_a.id then
+                -- return true
+              -- elseif buffer == buffer_b.id then
+                -- return false
+              -- end
+            -- end
+            -- return false
+          -- end,
           numbers = function(opts)
             return string.format('%s.', opts.ordinal)
           end,
           -- numbers = 'ordinal'
+          offsets = {
+            {
+              -- filetype = "NvimTree",
+              -- text = "File Explorer",
+              -- text_align = "left",
+              separator = false
+            }
+          },
+          indicator = {
+            style = 'thin'
+          },
+          separator_style = "none",
+          -- separator_style = {"", ""},
+        },
+
+
+        highlights = {
+          separator = {
+            fg = '#31353f',
+            bg = '#31353f'
+          },
+          numbers = {
+            bg = 'bg',
+            fg = '#8a919d'
+          },
+          close_button = {
+            bg = 'bg',
+            fg = '#8a919d'
+          },
+          background = {
+            bg = 'bg',
+            fg = '#8a919d'
+          },
+          buffer_selected =  {
+            fg = '#9299a6',
+            bold = false,
+            italic = false,
+          },
+          numbers_selected = {
+            fg = '#9299a6',
+            bold = false,
+            italic = false
+          },
+          close_button_selected = {
+            fg = '#9299a6',
+          },
+          buffer_visible = {
+            bg = 'bg',
+            fg = '#9299a6',
+          },
+          numbers_visible = {
+            bg = 'bg',
+            fg = '#9299a6',
+          },
+          close_button_visible = {
+            bg = 'bg',
+            fg = '#9299a6',
+          },
+          fill = {
+            bg = '#31353f',
+            fg = '#31353f'
+          },
         }
       }
     end
@@ -201,8 +269,7 @@ return require('packer').startup(function(use)
 
   
   
-  use {
-    'nvim-treesitter/nvim-treesitter-context',
+  use { 'nvim-treesitter/nvim-treesitter-context',
     opt = true,
     setup = function()
       require("core.utils").on_file_open "nvim-treesitter-context"
@@ -246,6 +313,7 @@ return require('packer').startup(function(use)
 
         zindex = 20, -- The Z-index of the context window
         mode = 'topline',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+        separator = '-',
       }
     end,
     

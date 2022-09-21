@@ -53,6 +53,10 @@ map("n", "<leader>gs", ":Git<cr>")
 map("n", "<leader>gc", ':Git commit -m "auto commit"<cr>')
 map("n", "<leader>gp", ":Git push<cr>")
 
+for i = 1,9 do
+  map("n", "<leader>"..i, ":BufferLineGoToBuffer ".. i .. "<cr>", {silent = true})
+end
+
 --[[
 local function myfunc()
   vim.opt.showtabline = 2
