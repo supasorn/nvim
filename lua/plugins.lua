@@ -12,8 +12,18 @@ return require('packer').startup(function(use)
     opt = true,
   }
 
+  use { 'supasorn/vim-pythonsense',
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "nvim-surround"
+    end
+  }
+
   use { "kylechui/nvim-surround",
-    require("core.utils").on_file_open "nvim-surround",
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "nvim-surround"
+    end,
     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
     config = function()
       require("nvim-surround").setup({
@@ -23,7 +33,10 @@ return require('packer').startup(function(use)
   }
 
   use { 'numToStr/Comment.nvim',
-    require("core.utils").on_file_open "Comment.nvim",
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "Comment.nvim"
+    end,
     config = function()
       require('Comment').setup()
       vim.cmd [[
@@ -35,8 +48,8 @@ return require('packer').startup(function(use)
 
   use {'supasorn/vim-easymotion',
     opt = true,
-    require("core.utils").on_file_open "vim-easymotion",
     setup = function()
+      require("core.utils").on_file_open "vim-easymotion"
       vim.g.EasyMotion_leader_key = '<leader>'
 
       vim.cmd [[
@@ -598,7 +611,10 @@ return require('packer').startup(function(use)
   }
 
   -- Use dependency and run lua function after load
-  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
+  use { 'lewis6991/gitsigns.nvim', 
+    opt = true,
+    requires = { 'nvim-lua/plenary.nvim' },
+    cmd = "Gitsigns",
     config = function()
       require('gitsigns').setup({
         signcolumn = false,
