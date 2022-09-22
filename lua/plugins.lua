@@ -12,14 +12,17 @@ return require('packer').startup(function(use)
     opt = true,
   }
 
+  --[[
   use { "williamboman/mason.nvim",
     config = function()
       require("mason").setup()
     end,
   }
+  --]]
 
+  --[[
   use { 'williamboman/mason-lspconfig.nvim',
-    after = "mason.nvim",
+    after = {"mason.nvim", 'cmp-nvim-lsp'},
     --requires = {'williamboman/mason.nvim'},
     config = function()
       local mason_lspconfig = require("mason-lspconfig")
@@ -34,7 +37,16 @@ return require('packer').startup(function(use)
         },
         automatic_installation = true
       })
+    end,
+  }
+  --]]
+
+  --[[
+  use {'neovim/nvim-lspconfig',
+    after = "mason-lspconfig.nvim",
+    config = function()
       local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local mason_lspconfig = require("mason-lspconfig")
       mason_lspconfig.setup_handlers({
         function (server_name)
           require("lspconfig")[server_name].setup {
@@ -42,11 +54,12 @@ return require('packer').startup(function(use)
           }
         end
       })
-    end,
-  }
+    end
+  }--]]
 
-  use {"rafamadriz/friendly-snippets", }
+  -- use {"rafamadriz/friendly-snippets"}
 
+  --[[
   use {"hrsh7th/nvim-cmp",
     after = "friendly-snippets",
     config = function()
@@ -146,8 +159,9 @@ return require('packer').startup(function(use)
 
     end,
   }
+  --]]
 
-  use {'neovim/nvim-lspconfig', after = "mason-lspconfig.nvim"}
+  --[[
 
   use {"L3MON4D3/LuaSnip",
     after = {"nvim-cmp", "friendly-snippets"},
@@ -164,23 +178,25 @@ return require('packer').startup(function(use)
   use {"hrsh7th/cmp-buffer", after = "cmp-nvim-lsp" }
   use {"hrsh7th/cmp-path", after = "cmp-buffer" }
   use {"hrsh7th/cmp-cmdline", after = "cmp-path" }
+  --]]
 
 
 
   use 'navarasu/onedark.nvim'
 
+  
+  --use { 'mildred/vim-bufmru' }
 
-  use { 'mildred/vim-bufmru'
-  }
-
-  use { 'kyazdani42/nvim-web-devicons'
-  }
-
+  -- use { 'kyazdani42/nvim-web-devicons' }
+  
+  --[[
   use { 'tpope/vim-fugitive',
     opt = true,
     cmd = {"Git"},
   }
+  --]]
 
+  --[[
   use { 'akinsho/bufferline.nvim',
     tag = "v2.*",
     config = function()
@@ -272,12 +288,7 @@ return require('packer').startup(function(use)
       }
     end
   }
-
-  use { "tiagovla/scope.nvim",
-    config = function()
-      require("scope").setup()
-    end
-  }
+  --]]
 
   use { 'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
@@ -286,7 +297,7 @@ return require('packer').startup(function(use)
 
       options = {
         icons_enabled = true,
-        theme = 'auto',
+        theme = 'onedark',
         component_separators = { left = '', right = ''},
         section_separators = { left = '', right = ''},
         disabled_filetypes = {
@@ -327,14 +338,15 @@ return require('packer').startup(function(use)
     end,
   }
 
+  --[[
   use { 'lukas-reineke/indent-blankline.nvim',
     opt = true,
     setup = function()
       require("core.utils").on_file_open "indent-blankline.nvim"
     end,
     config = function()
-      vim.cmd [[highlight IndentBlanklineIndent1 guifg=#707070 gui=nocombine]]
-      vim.cmd [[highlight IndentBlanklineIndent2 guifg=#444444 gui=nocombine]]
+      vim.cmd "highlight IndentBlanklineIndent1 guifg=#707070 gui=nocombine"
+      vim.cmd "highlight IndentBlanklineIndent2 guifg=#444444 gui=nocombine"
       require('indent_blankline').setup({
         filetype_exclude = {
           "help",
@@ -469,8 +481,10 @@ return require('packer').startup(function(use)
       }
     end,
   }
+  --]]
 
   -- Post-install/update hook with neovim command
+  --[[
   use { 'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     setup = function()
@@ -528,7 +542,9 @@ return require('packer').startup(function(use)
             enable = true,
             set_jumps = true, -- whether to set jumps in the jumplist
             goto_next_start = {
-              ["]]"] = "@function.outer",
+  --]]
+  --            ["]]"] = "@function.outer",
+  --[[
               ["]m"] = "@class.outer",
             },
             goto_next_end = {
@@ -548,8 +564,10 @@ return require('packer').startup(function(use)
       }
     end,
   }
+  --]]
 
   -- Use dependency and run lua function after load
+  --[[
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
     config = function()
       require('gitsigns').setup({
@@ -598,5 +616,6 @@ return require('packer').startup(function(use)
       })
     end,
   }
+  --]]
 
 end)

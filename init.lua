@@ -10,6 +10,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
   require "plugins"
   vim.cmd "PackerSync"
 end
+
 require 'plugins'
 
 vim.cmd "colorscheme onedark"
@@ -58,10 +59,3 @@ for i = 1,9 do
   map("n", "<leader>"..i, ":BufferLineGoToBuffer ".. i .. "<cr>", {silent = true})
 end
 
---[[
-local function myfunc()
-  vim.opt.showtabline = 2
-  vim.opt.tabline = "%!v:lua.require('bufline').run()"
-end
-myfunc()
---]]
