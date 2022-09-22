@@ -1,31 +1,187 @@
 vim.cmd [[packadd packer.nvim]]
 
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+
 return require('packer').startup(function(use)
   -- Packer can manage itself
-  use {
-    'wbthomason/packer.nvim', 
+  use { 'wbthomason/packer.nvim',
     opt = true,
   }
-  
+
+  use { "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end,
+  }
+
+  use { 'williamboman/mason-lspconfig.nvim',
+    after = "mason.nvim",
+    --requires = {'williamboman/mason.nvim'},
+    config = function()
+      local mason_lspconfig = require("mason-lspconfig")
+      mason_lspconfig.setup({
+        ensure_installed = {
+          "pyright",
+          "html",
+          "cssls",
+          "tsserver",
+          "eslint",
+          "sumneko_lua"
+        },
+        automatic_installation = true
+      })
+      local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      mason_lspconfig.setup_handlers({
+        function (server_name)
+          require("lspconfig")[server_name].setup {
+            capabilities = capabilities,
+          }
+        end
+      })
+    end,
+  }
+
+  use {"rafamadriz/friendly-snippets", }
+
+  use {"hrsh7th/nvim-cmp",
+    after = "friendly-snippets",
+    config = function()
+      local cmp = require'cmp'
+      cmp.setup({
+         formatting = {
+          format = function(entry, vim_item)
+            local kind_icons = {
+              Text = "",
+              Method = "",
+              Function = "",
+              Constructor = "",
+              Field = "",
+              Variable = "",
+              Class = "ﴯ",
+              Interface = "",
+              Module = "",
+              Property = "ﰠ",
+              Unit = "",
+              Value = "",
+              Enum = "",
+              Keyword = "",
+              Snippet = "",
+              Color = "",
+              File = "",
+              Reference = "",
+              Folder = "",
+              EnumMember = "",
+              Constant = "",
+              Struct = "",
+              Event = "",
+              Operator = "",
+              TypeParameter = ""
+            }
+            -- Kind icons
+            vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+            -- Source
+            vim_item.menu = ({
+              buffer = "[Buffer]",
+              nvim_lsp = "[LSP]",
+              luasnip = "[LuaSnip]",
+              nvim_lua = "[Lua]",
+              latex_symbols = "[LaTeX]",
+            })[entry.source.name]
+            return vim_item
+          end
+        },
+        snippet = {
+          -- REQUIRED - you must specify a snippet engine
+          expand = function(args)
+            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+          end,
+        },
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
+        mapping = {
+          ["<cr>"] = cmp.mapping.confirm({select = false}),
+          -- ["<s-tab>"] = cmp.mapping.select_prev_item(),
+          -- ["<tab>"] = cmp.mapping.select_next_item(),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            local luasnip = require("luasnip")
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
+            elseif has_words_before() then
+              cmp.complete()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            local luasnip = require("luasnip")
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+          ['<C-e>'] = cmp.mapping({
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+          }),
+        },
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp', max_item_count = 15},
+          { name = 'buffer' , max_item_count = 15},
+          { name = 'luasnip' },
+          { name = 'path'},
+        })
+      })
+
+    end,
+  }
+
+  use {'neovim/nvim-lspconfig', after = "mason-lspconfig.nvim"}
+
+  use {"L3MON4D3/LuaSnip",
+    after = {"nvim-cmp", "friendly-snippets"},
+    config = function()
+      require("luasnip.loaders.from_vscode").lazy_load()
+      vim.keymap.set({ "i", "s" }, "<c-n>", function() require'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
+      vim.keymap.set({ "i", "s" }, "<c-p>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
+    end,
+  }
+
+  use {"saadparwaiz1/cmp_luasnip", after = "LuaSnip" }
+  use {"hrsh7th/cmp-nvim-lua", after = "cmp_luasnip" }
+  use {"hrsh7th/cmp-nvim-lsp", after = "cmp-nvim-lua" }
+  use {"hrsh7th/cmp-buffer", after = "cmp-nvim-lsp" }
+  use {"hrsh7th/cmp-path", after = "cmp-buffer" }
+  use {"hrsh7th/cmp-cmdline", after = "cmp-path" }
+
+
+
   use 'navarasu/onedark.nvim'
 
 
-  use {
-    'mildred/vim-bufmru'
+  use { 'mildred/vim-bufmru'
   }
 
-  use {
-    'kyazdani42/nvim-web-devicons'
+  use { 'kyazdani42/nvim-web-devicons'
   }
 
-  use { 
-    'tpope/vim-fugitive',
+  use { 'tpope/vim-fugitive',
     opt = true,
     cmd = {"Git"},
   }
 
-  use {
-    'akinsho/bufferline.nvim',
+  use { 'akinsho/bufferline.nvim',
     tag = "v2.*",
     config = function()
 
@@ -117,15 +273,13 @@ return require('packer').startup(function(use)
     end
   }
 
-  use {
-    "tiagovla/scope.nvim",
+  use { "tiagovla/scope.nvim",
     config = function()
       require("scope").setup()
     end
   }
 
-  use {
-    'nvim-lualine/lualine.nvim',
+  use { 'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
       require('lualine').setup {
@@ -173,8 +327,7 @@ return require('packer').startup(function(use)
     end,
   }
 
-  use {
-    'lukas-reineke/indent-blankline.nvim',
+  use { 'lukas-reineke/indent-blankline.nvim',
     opt = true,
     setup = function()
       require("core.utils").on_file_open "indent-blankline.nvim"
@@ -205,8 +358,7 @@ return require('packer').startup(function(use)
     end,
   }
 
-  use {
-    'nvim-telescope/telescope.nvim', tag = '0.1.0',
+  use { 'nvim-telescope/telescope.nvim', tag = '0.1.0',
     requires = { {'nvim-lua/plenary.nvim'} },
     config = function() 
       local actions = require("telescope.actions")
@@ -313,15 +465,13 @@ return require('packer').startup(function(use)
 
         zindex = 20, -- The Z-index of the context window
         mode = 'topline',  -- Line used to calculate context. Choices: 'cursor', 'topline'
-        separator = '-',
+        separator = "─",
       }
     end,
-    
   }
 
   -- Post-install/update hook with neovim command
-  use { 
-    'nvim-treesitter/nvim-treesitter', 
+  use { 'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     setup = function()
       require("core.utils").on_file_open "nvim-treesitter"
@@ -400,13 +550,15 @@ return require('packer').startup(function(use)
   }
 
   -- Use dependency and run lua function after load
-  use {
-    'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
-    config = function() require('gitsigns').setup() end
+  use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      require('gitsigns').setup({
+        signcolumn = false,
+      })
+    end
   }
 
-  use {
-    'kyazdani42/nvim-tree.lua',
+  use { 'kyazdani42/nvim-tree.lua',
     opt = true,
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     config = function()

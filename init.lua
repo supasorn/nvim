@@ -41,6 +41,7 @@ opt.laststatus = 2
 opt.winblend = 0
 opt.cursorline = true
 opt.cursorlineopt= "number"
+opt.signcolumn = "yes"
 
 local map = require("utils").map
 map("v", "<", "<gv")
