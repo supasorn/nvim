@@ -12,15 +12,51 @@ return require('packer').startup(function(use)
     opt = true,
   }
 
-  --[[
+  use { "kylechui/nvim-surround",
+    require("core.utils").on_file_open "nvim-surround",
+    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+    config = function()
+      require("nvim-surround").setup({
+          -- Configuration here, or leave empty to use defaults
+      })
+    end
+  }
+
+  use { 'numToStr/Comment.nvim',
+    require("core.utils").on_file_open "Comment.nvim",
+    config = function()
+      require('Comment').setup()
+      vim.cmd [[
+      nmap <c-c> gccj
+      vmap <c-c> gc
+      ]]
+    end
+  }
+
+  use {'supasorn/vim-easymotion',
+    opt = true,
+    require("core.utils").on_file_open "vim-easymotion",
+    setup = function()
+      vim.g.EasyMotion_leader_key = '<leader>'
+
+      vim.cmd [[
+      map <c-j> <leader>j
+      vmap <c-j> <leader>j
+      map <c-k> <leader>k
+      vmap <c-k> <leader>k
+
+      nmap <SPACE> <leader>s
+      vmap <SPACE> <leader>s
+      ]]
+    end
+  }
+
   use { "williamboman/mason.nvim",
     config = function()
       require("mason").setup()
-    end,
+  end,
   }
-  --]]
 
-  --[[
   use { 'williamboman/mason-lspconfig.nvim',
     after = {"mason.nvim", 'cmp-nvim-lsp'},
     --requires = {'williamboman/mason.nvim'},
@@ -36,12 +72,9 @@ return require('packer').startup(function(use)
           "sumneko_lua"
         },
         automatic_installation = true
-      })
+     })
     end,
   }
-  --]]
-
-  --[[
   use {'neovim/nvim-lspconfig',
     after = "mason-lspconfig.nvim",
     config = function()
@@ -55,11 +88,10 @@ return require('packer').startup(function(use)
         end
       })
     end
-  }--]]
+  }
 
-  -- use {"rafamadriz/friendly-snippets"}
+  use {"rafamadriz/friendly-snippets"}
 
-  --[[
   use {"hrsh7th/nvim-cmp",
     after = "friendly-snippets",
     config = function()
@@ -157,11 +189,34 @@ return require('packer').startup(function(use)
         })
       })
 
+      cmp.setup.filetype('gitcommit', {
+        sources = cmp.config.sources({
+          { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+        }, {
+          { name = 'buffer' },
+        })
+      })
+
+      -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+      cmp.setup.cmdline('/', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' , max_item_count = 5}
+        }
+      })
+
+      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = 'cmdline', max_item_count = 10 },
+          -- { name = 'path'}
+        })
+      })
+
+
     end,
   }
-  --]]
-
-  --[[
 
   use {"L3MON4D3/LuaSnip",
     after = {"nvim-cmp", "friendly-snippets"},
@@ -178,33 +233,36 @@ return require('packer').startup(function(use)
   use {"hrsh7th/cmp-buffer", after = "cmp-nvim-lsp" }
   use {"hrsh7th/cmp-path", after = "cmp-buffer" }
   use {"hrsh7th/cmp-cmdline", after = "cmp-path" }
-  --]]
 
-
-
-  use 'navarasu/onedark.nvim'
-
+  use 'supasorn/onedark.nvim'
   
-  --use { 'mildred/vim-bufmru' }
-
-  -- use { 'kyazdani42/nvim-web-devicons' }
+  use { 'kyazdani42/nvim-web-devicons' }
   
-  --[[
   use { 'tpope/vim-fugitive',
     opt = true,
     cmd = {"Git"},
   }
-  --]]
 
-  --[[
   use { 'akinsho/bufferline.nvim',
     tag = "v2.*",
     config = function()
 
-
+      local hnormal = {
+        bg = '#31353f',
+        fg = '#8a919d'
+      }
+      local hselected = {
+        fg = '#b7c0d0',
+        bold = false,
+        italic = false,
+      }
+      local hvisible = {
+        bg = '#31353f',
+        fg = '#9299a6',
+      }
       require("bufferline").setup{
         options = {
-          tab_size = 5,
+          tab_size = 15,
           color_icons = false,
           show_buffer_icons = false,
           sort_by = "none", 
@@ -239,56 +297,34 @@ return require('packer').startup(function(use)
 
 
         highlights = {
+          numbers = hnormal,
+          close_button = hnormal,
+          duplicate = hnormal,
+          buffer_selected = hselected,
+          numbers_selected = hselected,
+          close_button_selected = hselected,
+          duplicate_selected = hselected,
+          buffer_visible = hvisible,
+          numbers_visible = hvisible,
+          close_button_visible = hvisible,
+          duplicate_visible = hvisible,
           separator = {
             fg = '#31353f',
             bg = '#31353f'
           },
-          numbers = {
-            bg = 'bg',
-            fg = '#8a919d'
-          },
-          close_button = {
-            bg = 'bg',
-            fg = '#8a919d'
-          },
           background = {
-            bg = 'bg',
+            bg = '#31353f',
             fg = '#8a919d'
-          },
-          buffer_selected =  {
-            fg = '#9299a6',
-            bold = false,
-            italic = false,
-          },
-          numbers_selected = {
-            fg = '#9299a6',
-            bold = false,
-            italic = false
-          },
-          close_button_selected = {
-            fg = '#9299a6',
-          },
-          buffer_visible = {
-            bg = 'bg',
-            fg = '#9299a6',
-          },
-          numbers_visible = {
-            bg = 'bg',
-            fg = '#9299a6',
-          },
-          close_button_visible = {
-            bg = 'bg',
-            fg = '#9299a6',
           },
           fill = {
             bg = '#31353f',
             fg = '#31353f'
           },
+
         }
       }
     end
   }
-  --]]
 
   use { 'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
@@ -299,7 +335,8 @@ return require('packer').startup(function(use)
         icons_enabled = true,
         theme = 'onedark',
         component_separators = { left = '', right = ''},
-        section_separators = { left = '', right = ''},
+        --section_separators = { left = '', right = ''},
+        section_separators = { left = '', right = '' },
         disabled_filetypes = {
           statusline = {},
           winbar = {},
@@ -318,7 +355,7 @@ return require('packer').startup(function(use)
         lualine_b = {'branch'},
         lualine_c = {'filename'},
         lualine_x = {'filetype'},
-        lualine_y = {''},
+        lualine_y = {'lsp_progress'},
         --lualine_z = {'location'}
         lualine_z = {'progress'}
       },
@@ -338,7 +375,6 @@ return require('packer').startup(function(use)
     end,
   }
 
-  --[[
   use { 'lukas-reineke/indent-blankline.nvim',
     opt = true,
     setup = function()
@@ -481,10 +517,8 @@ return require('packer').startup(function(use)
       }
     end,
   }
-  --]]
 
   -- Post-install/update hook with neovim command
-  --[[
   use { 'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     setup = function()
@@ -542,9 +576,7 @@ return require('packer').startup(function(use)
             enable = true,
             set_jumps = true, -- whether to set jumps in the jumplist
             goto_next_start = {
-  --]]
-  --            ["]]"] = "@function.outer",
-  --[[
+              ["]]"] = "@function.outer",
               ["]m"] = "@class.outer",
             },
             goto_next_end = {
@@ -564,10 +596,8 @@ return require('packer').startup(function(use)
       }
     end,
   }
-  --]]
 
   -- Use dependency and run lua function after load
-  --[[
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
     config = function()
       require('gitsigns').setup({
@@ -616,6 +646,5 @@ return require('packer').startup(function(use)
       })
     end,
   }
-  --]]
 
 end)

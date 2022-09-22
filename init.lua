@@ -15,6 +15,9 @@ require 'plugins'
 
 vim.cmd "colorscheme onedark"
 
+  -- Disable Diagnostcs globally
+vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+
 local opt = vim.opt
 opt.termguicolors = true 
 opt.mouse = "a"
