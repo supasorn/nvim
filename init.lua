@@ -53,14 +53,31 @@ local map = require("utils").map
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
--- map("n", "<f4>", ":Telescope oldfiles<cr>")
-map("", "<c-n>", ":NvimTreeToggle %:p:h<cr>")
+vim.cmd [[
+vmap // y/\V<c-r>"<cr>
+vmap /s //<esc>:%s//
 
-map("n", "<leader>gs", ":Git<cr>")
-map("n", "<leader>gc", ':Git commit -m "auto commit"<cr>')
-map("n", "<leader>gp", ":Git push<cr>")
+" targets.vim's argument should really make Ia the default argument
+omap ia Ia
+xmap ia Ia
 
-for i = 1,9 do
-  map("n", "<leader>"..i, ":BufferLineGoToBuffer ".. i .. "<cr>", {silent = true})
-end
+" used with supasorn/targets.vim to repeat ci" in the next / previous text object in insert mode
+imap <c-l> <esc>u@r
+imap <c-h> <esc>g-i
+
+" Swap two words surrouding an operator
+nmap >W WvhdBPli<space><esc>hhvEEldEPxBBB
+" this is used with autocmd InsertLeave, every word under cursor is copy when
+" leaving insert mode and can be pasted with "W
+nmap "W "wsiw
+nmap "P siw
+
+nnoremap =<SPACE> i <ESC>la <ESC>h
+
+command! To2spaces %s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g
+command! To4spaces %s/^\s*/&&/g
+]]
+
+
+
 
