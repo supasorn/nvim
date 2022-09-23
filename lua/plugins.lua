@@ -1,21 +1,198 @@
 vim.cmd [[packadd packer.nvim]]
 
-local has_words_before = function()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
 
 return require('packer').startup(function(use)
   -- Packer can manage itself
   use { 'wbthomason/packer.nvim',
     opt = true,
   }
+  
+  use {'lewis6991/impatient.nvim'
+  }
+
+  use { 'junegunn/fzf', 
+    run = './install --bin'
+  }
+
+  use { 'dstein64/vim-startuptime',
+    opt = true,
+    cmd = "StartupTime"
+  }
+
+  use { 'ibhagwan/fzf-lua',
+    requires = { 'kyazdani42/nvim-web-devicons' },
+    config = function() 
+      require('fzf-lua').setup{
+        winopts = {
+          height = 0.25,
+          width = 1,
+          row = 1,
+          border = 'rounded',
+        },
+        buffers = {
+          previewer = false,
+          fzf_opts = {
+            -- hide tabnr
+            -- ['--delimiter'] = ":",
+            -- ["--with-nth"]  = '1',
+          }
+        },
+        oldfiles = {
+          previewer = false,
+        },
+        fzf_colors = {
+          ["fg"] = { "fg", "Normal" },
+          ["bg"] = { "bg", "Normal" },
+        },
+      }
+
+      vim.cmd [[
+        nmap ? :lua require('fzf-lua').blines({prompt="> "})<cr>
+        nmap <s-r> :lua require('fzf-lua').command_history({prompt="> "})<cr>
+        nmap <f3> :lua require('fzf-lua').buffers({prompt="> "})<cr>
+        nmap <f4> :lua require('fzf-lua').oldfiles({prompt="> "})<cr>
+      ]]
+
+    end,
+  }
+
+  use { 'kshenoy/vim-signature',
+  }
+
+  use { 'tpope/vim-eunuch',
+  }
+
+  use { 'gbprod/substitute.nvim', -- subversive + exchange: quick substitutions and exchange.
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "substitute.nvim"
+    end,
+    config = function() 
+      require("substitute").setup({
+        exchange = {
+          motion = false,
+          use_esc_to_cancel = true,
+        },
+      })
+
+      local map = require("utils").map
+      map("n", "s", "<cmd>lua require('substitute').operator()<cr>", { noremap = true })
+      map("n", "ss", "<cmd>lua require('substitute').line()<cr>", { noremap = true })
+      map("n", "S", "<cmd>lua require('substitute').eol()<cr>", { noremap = true })
+      map("x", "s", "<cmd>lua require('substitute').visual()<cr>", { noremap = true }) 
+
+      map("n", "sx", "<cmd>lua require('substitute.exchange').operator()<cr>", { noremap = true })
+      map("n", "sxx", "<cmd>lua require('substitute.exchange').line()<cr>", { noremap = true })
+      map("x", "X", "<cmd>lua require('substitute.exchange').visual()<cr>", { noremap = true })
+      map("n", "sxc", "<cmd>lua require('substitute.exchange').cancel()<cr>", { noremap = true })
+    end,
+  }
+
+  use { 'wesQ3/vim-windowswap', 
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "vim-windowswap"
+    end,
+  }
+
+  use { 'ojroques/vim-oscyank', 
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "vim-oscyank"
+    end,
+    config = function() 
+      vim.cmd [[
+        vmap \c :OSCYank<cr>
+      ]]
+    end
+  }
+  use { 'svermeulen/vim-yoink', 
+    -- setup = function()
+      -- require("core.utils").on_file_open "vim-yoink"
+    -- end,
+    config = function() 
+      vim.cmd [[
+        nmap <c-p> <plug>(YoinkPostPasteSwapBack)
+        "nmap <c-n> <plug>(YoinkPostPasteSwapjorward)
+        nmap p <plug>(YoinkPaste_p)
+        nmap P <plug>(YoinkPaste_P)
+      ]]
+    end
+  }
+
+
+  use { 'svban/YankAssassin.vim', 
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "YankAssassin.vim"
+    end,
+  }
+
+  use { 'Matt-A-Bennett/vim-surround-funk', 
+    -- opt = true,
+    -- setup = function()
+      -- require("core.utils").on_file_open "vim-surround-funk"
+    -- end,
+    config = function() 
+      vim.cmd [[
+        let g:surround_funk_create_mappings = 0
+        nmap daj di(vafp 
+        xmap <silent> af <Plug>(SelectWholeFUNCTION)
+        omap <silent> af <Plug>(SelectWholeFUNCTION)
+        xmap <silent> iF <Plug>(SelectFunctionName)
+        omap <silent> iF <Plug>(SelectFunctionName)
+        xmap <silent> if <Plug>(SelectFunctionNAME)
+        omap <silent> if <Plug>(SelectFunctionNAME)
+      ]]
+    end
+  }
+
+  use { 'tpope/vim-repeat',
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "vim-repeat"
+    end
+  }
+
+  use { 'PeterRincker/vim-argumentative', 
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "vim-argumentative"
+    end
+  }
+
+  use { 'supasorn/vim-indent-object', 
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "vim-indent-object"
+    end
+  }
+
+  use { 'kana/vim-textobj-user', 
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "vim-textobj-user"
+    end
+  }
+
+  use { 'nvim-treesitter/nvim-treesitter-textobjects', 
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "nvim-treesitter-textobjects"
+    end
+  }
+
+  use { 'supasorn/targets.vim', 
+    opt = true,
+    setup = function()
+      require("core.utils").on_file_open "targets.vim"
+    end
+  }
 
   use { 'supasorn/vim-pythonsense',
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "nvim-surround"
+      require("core.utils").on_file_open "vim-pythonsense"
     end
   }
 
@@ -108,6 +285,10 @@ return require('packer').startup(function(use)
   use {"hrsh7th/nvim-cmp",
     after = "friendly-snippets",
     config = function()
+      local has_words_before = function()
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+      end
       local cmp = require'cmp'
       cmp.setup({
          formatting = {
@@ -265,7 +446,9 @@ return require('packer').startup(function(use)
         fg = '#8a919d'
       }
       local hselected = {
-        fg = '#b7c0d0',
+        -- fg = '#b7c0d0',
+        -- fg = '#98c379',
+        fg = '#73b8f1',
         bold = false,
         italic = false,
       }
@@ -313,14 +496,17 @@ return require('packer').startup(function(use)
           numbers = hnormal,
           close_button = hnormal,
           duplicate = hnormal,
+          modified = hnormal,
           buffer_selected = hselected,
           numbers_selected = hselected,
           close_button_selected = hselected,
           duplicate_selected = hselected,
+          modified_selected = hselected,
           buffer_visible = hvisible,
           numbers_visible = hvisible,
           close_button_visible = hvisible,
           duplicate_visible = hvisible,
+          modified_visible = hvisible,
           separator = {
             fg = '#31353f',
             bg = '#31353f'
@@ -572,6 +758,17 @@ return require('packer').startup(function(use)
           },
         },
         textobjects = {
+          --[[ This doesn't support dot repeat yet as of Sept 2022
+          swap = {
+            enable = true,
+            swap_next = {
+              [">,"] = "@parameter.inner",
+            },
+            swap_previous = {
+              ["<,"] = "@parameter.inner",
+            },
+          },
+          --]]
           select = {
             enable = true,
             -- Automatically jump forward to textobj, similar to targets.vim 

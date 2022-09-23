@@ -11,6 +11,8 @@ if fn.empty(fn.glob(install_path)) > 0 then
   vim.cmd "PackerSync"
 end
 
+require('impatient')
+
 require 'plugins'
 
 vim.cmd "colorscheme onedark"
@@ -51,7 +53,7 @@ local map = require("utils").map
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
-map("n", "<f4>", ":Telescope oldfiles<cr>")
+-- map("n", "<f4>", ":Telescope oldfiles<cr>")
 map("", "<c-n>", ":NvimTreeToggle %:p:h<cr>")
 
 map("n", "<leader>gs", ":Git<cr>")
