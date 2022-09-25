@@ -49,34 +49,14 @@ opt.cursorline = true
 opt.cursorlineopt= "number"
 opt.signcolumn = "yes"
 
+vim.g.python_recommended_style = 0
+vim.g.is_pythonsense_suppress_object_keymaps = 1
+
 local map = require("utils").map
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
-vim.cmd [[
-vmap // y/\V<c-r>"<cr>
-vmap /s //<esc>:%s//
-
-" targets.vim's argument should really make Ia the default argument
-omap ia Ia
-xmap ia Ia
-
-" used with supasorn/targets.vim to repeat ci" in the next / previous text object in insert mode
-imap <c-l> <esc>u@r
-imap <c-h> <esc>g-i
-
-" Swap two words surrouding an operator
-nmap >W WvhdBPli<space><esc>hhvEEldEPxBBB
-" this is used with autocmd InsertLeave, every word under cursor is copy when
-" leaving insert mode and can be pasted with "W
-nmap "W "wsiw
-nmap "P siw
-
-nnoremap =<SPACE> i <ESC>la <ESC>h
-
-command! To2spaces %s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g
-command! To4spaces %s/^\s*/&&/g
-]]
+vim.cmd "source extra.vim"
 
 
 

@@ -220,10 +220,10 @@ return require('packer').startup(function(use)
   }
 
   use { 'kana/vim-textobj-user', 
-    opt = true,
-    setup = function()
-      require("core.utils").on_file_open "vim-textobj-user"
-    end
+    -- opt = true,
+    -- setup = function()
+      -- require("core.utils").on_file_open "vim-textobj-user"
+    -- end
   }
 
   use { 'nvim-treesitter/nvim-treesitter-textobjects', 
