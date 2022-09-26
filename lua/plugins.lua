@@ -958,6 +958,12 @@ return packer.startup(function(use)
           dotfiles = false,
         },
       })
+
+      vim.cmd [[
+      highlight NvimTreeIndentMarker guifg=#58606d gui=nocombine
+      highlight NvimTreeImageFile guifg=#58606d gui=nocombine
+      highlight NvimTreeExecFile guifg=#58606d gui=nocombine
+      ]]
     end,
   }
 
