@@ -1,5 +1,6 @@
 local fn = vim.fn
 local install_path = fn.stdpath "data" .. "/site/pack/packer/opt/packer.nvim"
+local map = require("utils").map
 
 if fn.empty(fn.glob(install_path)) > 0 then
   vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e222a" })
@@ -13,7 +14,6 @@ end
 
 -- require('impatient')
 
-local map = require("utils").map
 require 'plugins'
 
 vim.cmd "colorscheme onedark"
@@ -57,7 +57,7 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 map("v", "//", 'y/\\V<c-r>"<cr>')
-map("v", "/s", '//<esc>:%s//')
+map("v", "/s", '//<esc>:%s//', {remap = true})
 
 map({"o", "x"}, "ia", 'Ia', {remap = true})
 

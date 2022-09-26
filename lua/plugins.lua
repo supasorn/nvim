@@ -1,7 +1,10 @@
 vim.cmd [[packadd packer.nvim]]
 
-
-return require('packer').startup(function(use)
+local packer = require('packer')
+packer.init {
+    max_jobs = 10,
+}
+return packer.startup(function(use)
   -- Packer can manage itself
   use { 'wbthomason/packer.nvim',
     opt = true,
@@ -518,7 +521,8 @@ return require('packer').startup(function(use)
         italic = false,
       }
       local hvisible = {
-        bg = '#31353f',
+        -- bg = '#31353f',
+        bg = '#21242a',
         fg = '#9299a6',
       }
       require("bufferline").setup{
@@ -550,12 +554,12 @@ return require('packer').startup(function(use)
             }
           },
           indicator = {
-            style = 'thin'
+            icon = ' ',
+            style = 'icon'
           },
-          separator_style = "none",
-          -- separator_style = {"", ""},
+          -- separator_style = "slant",
+          separator_style = {"", ""},
         },
-
 
         highlights = {
           numbers = hnormal,
@@ -572,18 +576,43 @@ return require('packer').startup(function(use)
           close_button_visible = hvisible,
           duplicate_visible = hvisible,
           modified_visible = hvisible,
+
+          --[[
           separator = {
             fg = '#31353f',
             bg = '#31353f'
           },
+          separator_selected = {
+            fg = '#31353f',
+            bg = '#31353f'
+          },
+          separator_visible = {
+            fg = '#31353f',
+            bg = '#31353f'
+          },
+          --]]
           background = {
             bg = '#31353f',
+            -- bg = 'yellow',
             fg = '#8a919d'
           },
           fill = {
             bg = '#31353f',
+            -- bg = 'yellow',
             fg = '#31353f'
           },
+            pick_selected = {
+                fg = 'red',
+                bg = 'red',
+                bold = true,
+                italic = true,
+            },
+            pick = {
+                fg = 'red',
+                bg = 'red',
+                bold = true,
+                italic = true,
+            },
 
         }
       }
@@ -795,7 +824,7 @@ return require('packer').startup(function(use)
         context_commentstring = {
           enable = true
         },
-        ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+        ensure_installed = {"c", "python", "css", "cpp", "go", "html", "java", "javascript", "json", "lua", "make", "php", "vim", "typescript"}, 
         ignore_install = {"haskell"}, -- List of parsers to ignore installing
         highlight = {
           enable = true,              -- false will disable the whole extension
@@ -928,5 +957,61 @@ return require('packer').startup(function(use)
       })
     end,
   }
+
+  --[[
+  use { 'noib3/nvim-cokeline',
+    config = function()
+      local get_hex = require('cokeline/utils').get_hex
+
+      local green = vim.g.terminal_color_2
+      local yellow = vim.g.terminal_color_3
+
+      require('cokeline').setup({
+        default_hl = {
+          fg = function(buffer)
+            return
+              buffer.is_focused
+              and get_hex('Normal', 'fg')
+               or get_hex('Comment', 'fg')
+          end,
+          bg = get_hex('ColorColumn', 'bg'),
+        },
+
+        components = {
+          {
+            text = '｜',
+            fg = function(buffer)
+              return
+                buffer.is_modified and yellow or green
+            end
+          },
+          {
+            text = function(buffer) return buffer.devicon.icon .. ' ' end,
+            fg = function(buffer) return buffer.devicon.color end,
+          },
+          {
+            text = function(buffer) return buffer.index .. ': ' end,
+          },
+          {
+            text = function(buffer) return buffer.unique_prefix end,
+            fg = get_hex('Comment', 'fg'),
+            style = 'italic',
+          },
+          {
+            text = function(buffer) return buffer.filename .. ' ' end,
+            style = function(buffer) return buffer.is_focused and 'bold' or nil end,
+          },
+          {
+            text = ' ',
+          },
+          {
+            text = '',
+            delete_buffer_on_left_click = true,
+          },
+        },
+      })
+    end
+  }
+  --]]
 
 end)
