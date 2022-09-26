@@ -2,7 +2,8 @@ if filereadable(expand("~/.vim/vimrc.functions"))
   source ~/.vim/vimrc.functions
 endif
 
-
+let g:fzf_layout = { 'window': {'width': 1, 'height': 0.3, 'yoffset': 1} }
+let $FZF_DEFAULT_OPTS="--layout reverse"
 " Swap two words surrouding an operator
 nmap >W WvhdBPli<space><esc>hhvEEldEPxBBB
 " this is used with autocmd InsertLeave, every word under cursor is copy when

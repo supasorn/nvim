@@ -33,6 +33,15 @@ return packer.startup(function(use)
     end
   }
 
+  use { 'pbogut/fzf-mru.vim',
+    -- opt = true,
+    -- cmd = "FZFMru",
+    config = function()
+      vim.cmd [[nmap <F4> :FZFMru --no-sort<CR>]]
+    end
+  }
+
+
   use { 'ibhagwan/fzf-lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function() 
@@ -64,7 +73,7 @@ return packer.startup(function(use)
         nmap ? :lua require('fzf-lua').blines({prompt="> "})<cr>
         nmap <s-r> :lua require('fzf-lua').command_history({prompt="> "})<cr>
         nmap <f3> :lua require('fzf-lua').buffers({prompt="> "})<cr>
-        nmap <f4> :lua require('fzf-lua').oldfiles({prompt="> "})<cr>
+        " nmap <f4> :lua require('fzf-lua').oldfiles({prompt="> "})<cr>
       ]]
 
     end,
