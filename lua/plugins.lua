@@ -116,7 +116,7 @@ return require('packer').startup(function(use)
   use { 'gbprod/substitute.nvim', -- subversive + exchange: quick substitutions and exchange.
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "substitute.nvim"
+      require("utils").on_file_open "substitute.nvim"
     end,
     config = function() 
       require("substitute").setup({
@@ -142,14 +142,14 @@ return require('packer').startup(function(use)
   use { 'wesQ3/vim-windowswap', 
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "vim-windowswap"
+      require("utils").on_file_open "vim-windowswap"
     end,
   }
 
   use { 'ojroques/vim-oscyank', 
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "vim-oscyank"
+      require("utils").on_file_open "vim-oscyank"
     end,
     config = function() 
       vim.cmd [[
@@ -159,7 +159,7 @@ return require('packer').startup(function(use)
   }
   use { 'svermeulen/vim-yoink', 
     -- setup = function()
-      -- require("core.utils").on_file_open "vim-yoink"
+      -- require("utils").on_file_open "vim-yoink"
     -- end,
     config = function() 
       vim.cmd [[
@@ -175,14 +175,14 @@ return require('packer').startup(function(use)
   use { 'svban/YankAssassin.vim', 
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "YankAssassin.vim"
+      require("utils").on_file_open "YankAssassin.vim"
     end,
   }
 
   use { 'Matt-A-Bennett/vim-surround-funk', 
     -- opt = true,
     -- setup = function()
-      -- require("core.utils").on_file_open "vim-surround-funk"
+      -- require("utils").on_file_open "vim-surround-funk"
     -- end,
     config = function() 
       vim.cmd [[
@@ -201,56 +201,56 @@ return require('packer').startup(function(use)
   use { 'tpope/vim-repeat',
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "vim-repeat"
+      require("utils").on_file_open "vim-repeat"
     end
   }
 
   use { 'PeterRincker/vim-argumentative', 
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "vim-argumentative"
+      require("utils").on_file_open "vim-argumentative"
     end
   }
 
   use { 'supasorn/vim-indent-object', 
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "vim-indent-object"
+      require("utils").on_file_open "vim-indent-object"
     end
   }
 
   use { 'kana/vim-textobj-user', 
     -- opt = true,
     -- setup = function()
-      -- require("core.utils").on_file_open "vim-textobj-user"
+      -- require("utils").on_file_open "vim-textobj-user"
     -- end
   }
 
   use { 'nvim-treesitter/nvim-treesitter-textobjects', 
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "nvim-treesitter-textobjects"
+      require("utils").on_file_open "nvim-treesitter-textobjects"
     end
   }
 
   use { 'supasorn/targets.vim', 
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "targets.vim"
+      require("utils").on_file_open "targets.vim"
     end
   }
 
   use { 'supasorn/vim-pythonsense',
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "vim-pythonsense"
+      require("utils").on_file_open "vim-pythonsense"
     end
   }
 
   use { "kylechui/nvim-surround",
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "nvim-surround"
+      require("utils").on_file_open "nvim-surround"
     end,
     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
     config = function()
@@ -263,7 +263,7 @@ return require('packer').startup(function(use)
   use { 'numToStr/Comment.nvim',
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "Comment.nvim"
+      require("utils").on_file_open "Comment.nvim"
     end,
     config = function()
       require('Comment').setup()
@@ -277,7 +277,7 @@ return require('packer').startup(function(use)
   use {'supasorn/vim-easymotion',
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "vim-easymotion"
+      require("utils").on_file_open "vim-easymotion"
       vim.g.EasyMotion_leader_key = '<leader>'
 
       vim.cmd [[
@@ -638,7 +638,7 @@ return require('packer').startup(function(use)
   use { 'lukas-reineke/indent-blankline.nvim',
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "indent-blankline.nvim"
+      require("utils").on_file_open "indent-blankline.nvim"
     end,
     config = function()
       vim.cmd "highlight IndentBlanklineIndent1 guifg=#707070 gui=nocombine"
@@ -732,7 +732,7 @@ return require('packer').startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter-context',
     opt = true,
     setup = function()
-      require("core.utils").on_file_open "nvim-treesitter-context"
+      require("utils").on_file_open "nvim-treesitter-context"
     end,
     
     config = function()
@@ -782,7 +782,7 @@ return require('packer').startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     setup = function()
-      require("core.utils").on_file_open "nvim-treesitter"
+      require("utils").on_file_open "nvim-treesitter"
     end,
     cmd = {"TSInstall", "TSBufEnable", "TSBufDisable", "TSEnable", "TSDisable", "TSModuleInfo"},
     run = ":TSUpdate",
