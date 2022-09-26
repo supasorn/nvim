@@ -237,7 +237,11 @@ return require('packer').startup(function(use)
     opt = true,
     setup = function()
       require("utils").on_file_open "targets.vim"
-    end
+    end,
+    -- config = function()
+      -- local map = require("utils").map
+      -- map({"o", "x"}, "ia", "Ia", {noremap = false})
+    -- end
   }
 
   use { 'supasorn/vim-pythonsense',

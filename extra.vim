@@ -1,19 +1,7 @@
-
-
 if filereadable(expand("~/.vim/vimrc.functions"))
   source ~/.vim/vimrc.functions
 endif
 
-vmap // y/\V<c-r>"<cr>
-vmap /s //<esc>:%s//
-
-" targets.vim's argument should really make Ia the default argument
-omap ia Ia
-xmap ia Ia
-
-" used with supasorn/targets.vim to repeat ci" in the next / previous text object in insert mode
-imap <c-l> <esc>u@r
-imap <c-h> <esc>g-i
 
 " Swap two words surrouding an operator
 nmap >W WvhdBPli<space><esc>hhvEEldEPxBBB

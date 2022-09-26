@@ -11,8 +11,9 @@ if fn.empty(fn.glob(install_path)) > 0 then
   vim.cmd "PackerSync"
 end
 
-require('impatient')
+-- require('impatient')
 
+local map = require("utils").map
 require 'plugins'
 
 vim.cmd "colorscheme onedark"
@@ -52,11 +53,19 @@ opt.signcolumn = "yes"
 vim.g.python_recommended_style = 0
 vim.g.is_pythonsense_suppress_object_keymaps = 1
 
-local map = require("utils").map
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
-vim.cmd "source extra.vim"
+map("v", "//", 'y/\\V<c-r>"<cr>')
+map("v", "/s", '//<esc>:%s//')
+
+map({"o", "x"}, "ia", 'Ia', {remap = true})
+
+-- used with supasorn/targets.vim to repeat ci" in the next / previous text object in insert mode
+map("i", "<c-l>", '<esc>u@r')
+map("i", "<c-h>", '<esc>g-i')
+
+vim.cmd "source ~/.config/nvim/extra.vim"
 
 
 

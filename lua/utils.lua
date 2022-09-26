@@ -1,12 +1,16 @@
 -- Our lua/utils.lua file
 local M = {}
+local api = vim.api
+local autocmd = vim.api.nvim_create_autocmd
+
 
 function M.map(mode, lhs, rhs, opts)
     local options = { noremap = true }
     if opts then
         options = vim.tbl_extend("force", options, opts)
     end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+    -- print(vim.inspect(options))
+    vim.keymap.set(mode, lhs, rhs, options)
 end
 
 -- require("packer").loader(tb.plugins)
