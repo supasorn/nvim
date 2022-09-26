@@ -12,7 +12,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
   vim.cmd "PackerSync"
 end
 
--- require('impatient')
+require('impatient')
 
 require 'plugins'
 

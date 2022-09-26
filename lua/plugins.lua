@@ -521,9 +521,14 @@ return packer.startup(function(use)
         italic = false,
       }
       local hvisible = {
-        -- bg = '#31353f',
-        bg = '#21242a',
-        fg = '#9299a6',
+        fg = '#7ca8cf',
+        bg = '#31353f',
+        -- bg = '#21242a',
+        -- fg = '#9299a6',
+      }
+      local redv = {
+        bg = 'red',
+        fg = 'red'
       }
       require("bufferline").setup{
         options = {
@@ -554,10 +559,10 @@ return packer.startup(function(use)
             }
           },
           indicator = {
-            icon = ' ',
-            style = 'icon'
+            -- icon = ' ',
+            style = 'none'
           },
-          -- separator_style = "slant",
+          -- separator_style = "thin",
           separator_style = {"", ""},
         },
 
@@ -566,53 +571,29 @@ return packer.startup(function(use)
           close_button = hnormal,
           duplicate = hnormal,
           modified = hnormal,
+          separator = vim.tbl_extend("force", hnormal, {fg = '#73b8f1'}),
           buffer_selected = hselected,
           numbers_selected = hselected,
           close_button_selected = hselected,
           duplicate_selected = hselected,
           modified_selected = hselected,
+          indicator_selected = hselected,
+          separator_selected = vim.tbl_extend("force", hselected, {fg = '#73b8f1'}),
           buffer_visible = hvisible,
           numbers_visible = hvisible,
           close_button_visible = hvisible,
           duplicate_visible = hvisible,
           modified_visible = hvisible,
-
-          --[[
-          separator = {
-            fg = '#31353f',
-            bg = '#31353f'
-          },
-          separator_selected = {
-            fg = '#31353f',
-            bg = '#31353f'
-          },
-          separator_visible = {
-            fg = '#31353f',
-            bg = '#31353f'
-          },
-          --]]
+          indicator_visible = hvisible,
+          separator_visible = vim.tbl_extend("force", hvisible, {fg = '#73b8f1'}),
           background = {
             bg = '#31353f',
-            -- bg = 'yellow',
             fg = '#8a919d'
           },
           fill = {
             bg = '#31353f',
-            -- bg = 'yellow',
             fg = '#31353f'
           },
-            pick_selected = {
-                fg = 'red',
-                bg = 'red',
-                bold = true,
-                italic = true,
-            },
-            pick = {
-                fg = 'red',
-                bg = 'red',
-                bold = true,
-                italic = true,
-            },
 
         }
       }
