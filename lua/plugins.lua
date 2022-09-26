@@ -1,9 +1,9 @@
 vim.cmd [[packadd packer.nvim]]
 
 local packer = require('packer')
-packer.init {
-    max_jobs = 10,
-}
+-- packer.init {
+    -- max_jobs = 10,
+-- }
 return packer.startup(function(use)
   -- Packer can manage itself
   use { 'wbthomason/packer.nvim',
@@ -92,7 +92,17 @@ return packer.startup(function(use)
         -- default 10.
         sign_priority = { lower=10, upper=15, builtin=8, bookmark=20 },
         -- disables mark tracking for specific filetypes. default {}
-        excluded_filetypes = {},
+        excluded_filetypes = {
+          "help",
+          "terminal",
+          "packer",
+          "lspinfo",
+          "TelescopePrompt",
+          "TelescopeResults",
+          "mason",
+          "",
+          "fzf"
+        },
         -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own
         -- sign/virttext. Bookmarks can be used to group together positions and quickly move
         -- across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and
@@ -646,6 +656,9 @@ return packer.startup(function(use)
       inactive_winbar = {},
       extensions = {}
     }
+    local map = require("utils").map
+
+    map({'n', 'i', 'v'}, "<f2>", function() require "telescope".extensions.file_browser.file_browser({path='%:p:h', previewer=false}) end)
     end,
   }
 
@@ -680,14 +693,17 @@ return packer.startup(function(use)
     end,
   }
 
-  use { 'nvim-telescope/telescope.nvim', tag = '0.1.0',
-    requires = { {'nvim-lua/plenary.nvim'} },
+  use { "nvim-telescope/telescope-file-browser.nvim",
+  }
+
+  use { 'nvim-telescope/telescope.nvim', 
+    tag = '0.1.0',
+    requires = { 'nvim-lua/plenary.nvim' },
+
     config = function() 
       local actions = require("telescope.actions")
-      --require("base46").load_highlight"telescope"
-      require("telescope").setup(
-      { 
-          defaults = {
+      require("telescope").setup( { 
+        defaults = {
           vimgrep_arguments = {
           "rg",
           "--color=never",
@@ -734,10 +750,16 @@ return packer.startup(function(use)
         mappings = {
            i = { ["<esc>"] = actions.close, }, 
         },
+        extensions = {
+          file_browser = {
+            theme = "ivy",
+            hijack_netrw = false,
+          },
+        },
       },
-
       extensions_list = { "themes", "terms" },
     })
+    require("telescope").load_extension "file_browser"
     end
   }
 
