@@ -85,7 +85,8 @@ return packer.startup(function(use)
         -- whether to map keybinds or not. default true
         default_mappings = true,
         -- which builtin marks to show. default {}
-        builtin_marks = { ".", "<", ">", "^" },
+        -- builtin_marks = { ".", "<", ">", "^" },
+        builtin_marks = { "." },
         -- whether movements cycle back to the beginning/end of buffer. default true
         cyclic = true,
         -- whether the shada file is updated after modifying uppercase marks. default false
@@ -722,7 +723,7 @@ return packer.startup(function(use)
           "--column",
           "--smart-case",
         },
-        prompt_prefix = "   ",
+        -- prompt_prefix = "   ",
         selection_caret = "  ",
         entry_prefix = "  ",
         initial_mode = "insert",
@@ -742,9 +743,9 @@ return packer.startup(function(use)
           height = 0.80,
           preview_cutoff = 120,
         },
-        file_sorter = require("telescope.sorters").get_fuzzy_file,
+        -- file_sorter = require("telescope.sorters").get_fuzzy_file,
         file_ignore_patterns = { "node_modules" },
-        generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
+        -- generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
         path_display = { "truncate" },
         winblend = 0,
         border = {},
@@ -768,6 +769,36 @@ return packer.startup(function(use)
       },
     })
     require("telescope").load_extension "file_browser"
+    vim.cmd [[
+    highlight TelescopeNormal guibg=#202329
+
+    highlight TelescopeResultsBorder guifg=#202329 guibg=#202329 
+    highlight TelescopeResultsTitle guifg=#61afef guibg=#202329
+
+    highlight TelescopePreviewBorder guifg=#202329 guibg=#202329 
+    highlight TelescopePreviewTitle guifg=#181a1f guibg=#e86671
+
+    highlight TelescopePromptNormal guibg=#1c1f24
+    highlight TelescopePromptBorder guifg=#1c1f24 guibg=#1c1f24 
+    highlight TelescopePromptTitle guifg=#181a1f guibg=#98c379
+
+
+    ]]
+
+    -- fg_bg("TelescopeBorder", darker_black, darker_black)
+    -- fg_bg("TelescopePromptBorder", black2, black2)
+
+    -- fg_bg("TelescopePromptNormal", white, black2)
+    -- fg_bg("TelescopePromptPrefix", red, black2)
+
+    -- bg("TelescopeNormal", darker_black)
+
+    -- fg_bg("TelescopePreviewTitle", black, green)
+    -- fg_bg("TelescopePromptTitle", black, red)
+    -- fg_bg("TelescopeResultsTitle", darker_black, darker_black)
+
+    -- bg("TelescopeSelection", black2)
+
     end
   }
 

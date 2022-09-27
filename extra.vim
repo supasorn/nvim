@@ -42,11 +42,6 @@ hi MatchParen guibg=orange guifg=black
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 autocmd BufWritePost *.cpp,*.h,*.c,*.cc call UpdateTags()
 
-if filereadable(expand("~/.vim/vimrc.functions"))
-  source ~/.vim/vimrc.functions
-endif
-
-
 augroup OpenAllFoldsOnFileOpen
     autocmd!
     autocmd BufRead * normal zR
