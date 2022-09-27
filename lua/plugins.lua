@@ -1,9 +1,14 @@
 vim.cmd [[packadd packer.nvim]]
 
 local packer = require('packer')
--- packer.init {
+packer.init {
     -- max_jobs = 10,
--- }
+  display = {
+    open_fn = function()
+      return require('packer.util').float({ border = 'single' })
+    end
+  }
+}
 return packer.startup(function(use)
   -- Packer can manage itself
   use { 'wbthomason/packer.nvim',
@@ -703,6 +708,10 @@ return packer.startup(function(use)
     end,
   }
 
+  -- use {'nvim-telescope/telescope-fzf-native.nvim',
+    -- run = 'make'
+  -- }
+
   use { "nvim-telescope/telescope-file-browser.nvim",
   }
 
@@ -743,20 +752,16 @@ return packer.startup(function(use)
           height = 0.80,
           preview_cutoff = 120,
         },
-        -- file_sorter = require("telescope.sorters").get_fuzzy_file,
         file_ignore_patterns = { "node_modules" },
+        -- file_sorter = require("telescope.sorters").get_fuzzy_file,
         -- generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
         path_display = { "truncate" },
         winblend = 0,
-        border = {},
+        border = true,
         borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         color_devicons = true,
         set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
-        file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-        grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-        qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-        -- Developer configurations: Not meant for general override
-        buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
+
         mappings = {
            i = { ["<esc>"] = actions.close, }, 
         },
@@ -765,10 +770,19 @@ return packer.startup(function(use)
             theme = "ivy",
             hijack_netrw = false,
           },
+          fzf = {
+            fuzzy = true,                    -- false will only do exact matching
+            override_generic_sorter = true,  -- override the generic sorter
+            override_file_sorter = true,     -- override the file sorter
+            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                             -- the default case_mode is "smart_case"
+          }
         },
       },
     })
     require("telescope").load_extension "file_browser"
+    -- require("telescope").load_extension "fzf"
+
     vim.cmd [[
     highlight TelescopeNormal guibg=#202329
 
@@ -780,7 +794,8 @@ return packer.startup(function(use)
 
     highlight TelescopePromptNormal guibg=#1c1f24
     highlight TelescopePromptBorder guifg=#1c1f24 guibg=#1c1f24 
-    highlight TelescopePromptTitle guifg=#181a1f guibg=#98c379
+    " highlight TelescopePromptTitle guifg=#181a1f guibg=#98c379
+    highlight TelescopePromptTitle guifg=#1c1f24 guibg=#1c1f24 
 
 
     ]]
