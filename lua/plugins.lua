@@ -27,6 +27,13 @@ return packer.startup(function(use)
     cmd = "StartupTime"
   }
 
+  -- use {'liuchengxu/vista.vim', }
+  -- use {'simrat39/symbols-outline.nvim', 
+    -- config = function()
+      -- require("symbols-outline").setup()
+    -- end
+  -- }
+
   use { 'majutsushi/tagbar',
     requires = {'ludovicchabant/vim-gutentags'},
     opt = true,
@@ -305,6 +312,17 @@ return packer.startup(function(use)
       ]]
     end
   }
+
+  --[[
+  use {
+    'phaazon/hop.nvim',
+    branch = 'v2', -- optional but strongly recommended
+    config = function()
+      -- you can configure Hop the way you like here; see :h hop-config
+      require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+    end
+  }
+  --]]
 
   use {'supasorn/vim-easymotion',
     opt = true,
