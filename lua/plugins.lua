@@ -766,7 +766,6 @@ return packer.startup(function(use)
           },
         },
       },
-      extensions_list = { "themes", "terms" },
     })
     require("telescope").load_extension "file_browser"
     end
