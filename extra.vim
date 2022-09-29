@@ -48,3 +48,10 @@ augroup OpenAllFoldsOnFileOpen
     autocmd!
     autocmd BufRead * normal zR
 augroup END
+
+
+" function Func()
+" :TSContextDisable
+" lua require'hop'.hint_char1()
+" :TSContextEnable
+" endfunction

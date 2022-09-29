@@ -65,8 +65,17 @@ map({"o", "x"}, "ia", 'Ia', {remap = true})
 map("i", "<c-l>", '<esc>u@r')
 map("i", "<c-h>", '<esc>g-i')
 
+map("n", "gD", vim.lsp.buf.definition)
+
+vim.cmd "highlight IndentBlanklineIndent1 guifg=#707070 gui=nocombine"
+vim.cmd "highlight IndentBlanklineIndent2 guifg=#444444 gui=nocombine"
+
 vim.cmd "source ~/.config/nvim/extra.vim"
 
 
-
+_G.test = function()
+  vim.cmd ":TSContextDisable"
+  require'hop'.hint_char1()
+  vim.cmd ":TSContextEnable"
+end
 

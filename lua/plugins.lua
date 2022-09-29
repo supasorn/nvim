@@ -313,6 +313,14 @@ return packer.startup(function(use)
     end
   }
 
+  
+  use {
+    'supasorn/hop.nvim',
+    config = function()
+      -- you can configure Hop the way you like here; see :h hop-config
+      require'hop'.setup { keys = 'cvbnmtyghqweruiopasldkfj' }
+    end
+  }
   --[[
   use {
     'phaazon/hop.nvim',
@@ -701,8 +709,6 @@ return packer.startup(function(use)
       require("utils").on_file_open "indent-blankline.nvim"
     end,
     config = function()
-      vim.cmd "highlight IndentBlanklineIndent1 guifg=#707070 gui=nocombine"
-      vim.cmd "highlight IndentBlanklineIndent2 guifg=#444444 gui=nocombine"
       require('indent_blankline').setup({
         filetype_exclude = {
           "help",
