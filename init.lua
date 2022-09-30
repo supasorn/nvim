@@ -72,10 +72,26 @@ vim.cmd "highlight IndentBlanklineIndent2 guifg=#444444 gui=nocombine"
 
 vim.cmd "source ~/.config/nvim/extra.vim"
 
-
-_G.test = function()
-  vim.cmd ":TSContextDisable"
-  require'hop'.hint_char1()
-  vim.cmd ":TSContextEnable"
+local run_without_TSContext = function(f, opts)
+  opts = opts or {}
+  return function()
+    vim.cmd ":TSContextDisable"
+    f(opts)
+    -- require'hop'.hint_char1()
+    vim.cmd ":TSContextEnable"
+    if opts["postcmd"] ~= nil then
+      vim.api.nvim_feedkeys(opts["postcmd"], '', true)
+    end
+  end
 end
+
+map({"n", "v"}, "<c-j>", run_without_TSContext(require'hop'.hint_lines_skip_whitespace, { direction = require'hop.hint'.HintDirection.AFTER_CURSOR }))
+map({"n", "v"}, "<c-k>", run_without_TSContext(require'hop'.hint_lines_skip_whitespace, { direction = require'hop.hint'.HintDirection.BEFORE_CURSOR }))
+
+map({"n", "v"}, "<space>", run_without_TSContext(require'hop'.hint_char1))
+map({"o"}, "p", run_without_TSContext(require'hop'.hint_phrase, {["postcmd"] = "p"}))
+map({"o"}, "l", run_without_TSContext(require'hop'.hint_2lines, {["postcmd"] = "p"}))
+
+
+
 

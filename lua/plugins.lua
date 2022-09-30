@@ -321,34 +321,6 @@ return packer.startup(function(use)
       require'hop'.setup { keys = 'cvbnmtyghqweruiopasldkfj' }
     end
   }
-  --[[
-  use {
-    'phaazon/hop.nvim',
-    branch = 'v2', -- optional but strongly recommended
-    config = function()
-      -- you can configure Hop the way you like here; see :h hop-config
-      require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
-    end
-  }
-  --]]
-
-  use {'supasorn/vim-easymotion',
-    opt = true,
-    setup = function()
-      require("utils").on_file_open "vim-easymotion"
-      vim.g.EasyMotion_leader_key = '<leader>'
-
-      vim.cmd [[
-      map <c-j> <leader>j
-      vmap <c-j> <leader>j
-      map <c-k> <leader>k
-      vmap <c-k> <leader>k
-
-      nmap <SPACE> <leader>s
-      vmap <SPACE> <leader>s
-      ]]
-    end
-  }
 
   use { "williamboman/mason.nvim",
     config = function()
