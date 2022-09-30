@@ -12,7 +12,7 @@ nmap "W "wsiw
 nmap "P siw
 nnoremap =<SPACE> i <ESC>la <ESC>h
 
-nnoremap gr :call RgWithMode(expand("<cword>"))<CR>
+nnoremap gf :call RgWithMode(expand("<cword>"))<CR>
 nnoremap <c-f> :call RgWithMode("")<CR>
 
 nnoremap \m :w<CR>:execute "cd %:p:h \| try \| cd bin \| catch \| try \| cd ../bin \| catch \| endtry \| endtry"<CR>:make %:t:r<CR>

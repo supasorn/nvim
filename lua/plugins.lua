@@ -34,9 +34,23 @@ return packer.startup(function(use)
     -- end
   -- }
 
-  use { 'majutsushi/tagbar',
-    requires = {'ludovicchabant/vim-gutentags'},
+  use {
     opt = true,
+    'rmagatti/goto-preview',
+    keys = {"gp", "gP", "gr"},
+    config = function()
+      local map = require("utils").map
+      map("n", "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>")
+      map("n", "gP", "<cmd>lua require('goto-preview').close_all_win()<CR>")
+      map("n", "gr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>")
+
+      require('goto-preview').setup {}
+    end
+  }
+
+  use { 'majutsushi/tagbar',
+    opt = true,
+    requires = {'ludovicchabant/vim-gutentags'},
     cmd = "TagbarToggle",
     setup = function()
       vim.cmd [[
@@ -176,22 +190,17 @@ return packer.startup(function(use)
 
   use { 'wesQ3/vim-windowswap', 
     opt = true,
-    setup = function()
-      require("utils").on_file_open "vim-windowswap"
-    end,
+    keys = "<leader>ww"
   }
 
   use { 'ojroques/vim-oscyank', 
     opt = true,
-    setup = function()
-      require("utils").on_file_open "vim-oscyank"
-    end,
+    keys = "\\c",
     config = function() 
-      vim.cmd [[
-        vmap \c :OSCYank<cr>
-      ]]
+      vim.cmd "vmap \\c :OSCYank<cr>"
     end
   }
+
   use { 'svermeulen/vim-yoink', 
     -- setup = function()
       -- require("utils").on_file_open "vim-yoink"
@@ -301,9 +310,7 @@ return packer.startup(function(use)
 
   use { 'numToStr/Comment.nvim',
     opt = true,
-    setup = function()
-      require("utils").on_file_open "Comment.nvim"
-    end,
+    keys = "<c-c>",
     config = function()
       require('Comment').setup()
       vim.cmd [[
@@ -325,7 +332,7 @@ return packer.startup(function(use)
   use { "williamboman/mason.nvim",
     config = function()
       require("mason").setup()
-  end,
+    end,
   }
 
   use { 'williamboman/mason-lspconfig.nvim',

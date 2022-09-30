@@ -66,6 +66,7 @@ map("i", "<c-l>", '<esc>u@r')
 map("i", "<c-h>", '<esc>g-i')
 
 map("n", "gD", vim.lsp.buf.definition)
+map("n", "gs", vim.lsp.buf.hover)
 
 vim.cmd "highlight IndentBlanklineIndent1 guifg=#707070 gui=nocombine"
 vim.cmd "highlight IndentBlanklineIndent2 guifg=#444444 gui=nocombine"
