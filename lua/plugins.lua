@@ -98,7 +98,7 @@ return packer.startup(function(use)
         default_mappings = true,
         -- which builtin marks to show. default {}
         -- builtin_marks = { ".", "<", ">", "^" },
-        builtin_marks = { "." },
+        builtin_marks = {},
         -- whether movements cycle back to the beginning/end of buffer. default true
         cyclic = true,
         -- whether the shada file is updated after modifying uppercase marks. default false
@@ -958,6 +958,10 @@ return packer.startup(function(use)
   use { 'lewis6991/gitsigns.nvim', 
     opt = true,
     requires = { 'nvim-lua/plenary.nvim' },
+    setup = function()
+      local map = require("utils").map
+      map("n", "<leader>gg", ":Gitsigns toggle_signs<cr>")
+    end,
     cmd = "Gitsigns",
     config = function()
       require('gitsigns').setup({
