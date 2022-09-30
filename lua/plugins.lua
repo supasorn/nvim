@@ -163,10 +163,10 @@ return packer.startup(function(use)
   }
 
   use { 'gbprod/substitute.nvim', -- subversive + exchange: quick substitutions and exchange.
-    opt = true,
-    setup = function()
-      require("utils").on_file_open "substitute.nvim"
-    end,
+    -- opt = true,
+    -- setup = function()
+      -- require("utils").on_file_open "substitute.nvim"
+    -- end,
     config = function() 
       require("substitute").setup({
         exchange = {
@@ -326,6 +326,15 @@ return packer.startup(function(use)
     config = function()
       -- you can configure Hop the way you like here; see :h hop-config
       require'hop'.setup { keys = 'cvbnmtyghqweruiopasldkfj' }
+      local map = require("utils").map
+      local rwt = require("utils").run_without_TSContext
+
+      map({"n", "v"}, "<c-j>", rwt(require'hop'.hint_lines_skip_whitespace, { direction = require'hop.hint'.HintDirection.AFTER_CURSOR }))
+      map({"n", "v"}, "<c-k>", rwt(require'hop'.hint_lines_skip_whitespace, { direction = require'hop.hint'.HintDirection.BEFORE_CURSOR }))
+
+      map({"n", "v"}, "<space>", rwt(require'hop'.hint_char1))
+      map({"o"}, "p", rwt(require'hop'.hint_phrase, {["postcmd"] = "p"}))
+      map({"o"}, "l", rwt(require'hop'.hint_2lines, {["postcmd"] = "p"}))
     end
   }
 

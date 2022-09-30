@@ -1,6 +1,7 @@
 local fn = vim.fn
 local install_path = fn.stdpath "data" .. "/site/pack/packer/opt/packer.nvim"
 local map = require("utils").map
+local opt = vim.opt
 
 if fn.empty(fn.glob(install_path)) > 0 then
   vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e222a" })
@@ -21,7 +22,6 @@ vim.cmd "colorscheme onedark"
   -- Disable Diagnostcs globally
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 
-local opt = vim.opt
 opt.termguicolors = true 
 opt.mouse = "a"
 opt.eb = false
@@ -68,30 +68,21 @@ map("i", "<c-h>", '<esc>g-i')
 map("n", "gD", vim.lsp.buf.definition)
 map("n", "gs", vim.lsp.buf.hover)
 
+-- this is used with autocmd InsertLeave, every word under cursor is copy when
+-- leaving insert mode and can be pasted with "W
+map("n", '"W', '"wsiw', {remap = true}) 
+map("n", '"P', 'siw', {remap = true}) 
+
+map ("n", "=<space>", "i <ESC>la <ESC>h") 
+-- Swap two words surrouding an operator
+map("n", ">W", "WvhdBPli<space><esc>hhvEEldEPxBBB")
+
 vim.cmd "highlight IndentBlanklineIndent1 guifg=#707070 gui=nocombine"
 vim.cmd "highlight IndentBlanklineIndent2 guifg=#444444 gui=nocombine"
 
 vim.cmd "source ~/.config/nvim/extra.vim"
 
-local run_without_TSContext = function(f, opts)
-  opts = opts or {}
-  return function()
-    vim.cmd ":TSContextDisable"
-    f(opts)
-    -- require'hop'.hint_char1()
-    vim.cmd ":TSContextEnable"
-    if opts["postcmd"] ~= nil then
-      vim.api.nvim_feedkeys(opts["postcmd"], '', true)
-    end
-  end
-end
 
-map({"n", "v"}, "<c-j>", run_without_TSContext(require'hop'.hint_lines_skip_whitespace, { direction = require'hop.hint'.HintDirection.AFTER_CURSOR }))
-map({"n", "v"}, "<c-k>", run_without_TSContext(require'hop'.hint_lines_skip_whitespace, { direction = require'hop.hint'.HintDirection.BEFORE_CURSOR }))
-
-map({"n", "v"}, "<space>", run_without_TSContext(require'hop'.hint_char1))
-map({"o"}, "p", run_without_TSContext(require'hop'.hint_phrase, {["postcmd"] = "p"}))
-map({"o"}, "l", run_without_TSContext(require'hop'.hint_2lines, {["postcmd"] = "p"}))
 
 
 

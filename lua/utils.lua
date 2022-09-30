@@ -56,4 +56,18 @@ M.on_file_open = function(plugin_name)
   }
 end
 
+
+M.run_without_TSContext = function(f, opts)
+  opts = opts or {}
+  return function()
+    vim.cmd ":TSContextDisable"
+    f(opts)
+    -- require'hop'.hint_char1()
+    vim.cmd ":TSContextEnable"
+    if opts["postcmd"] ~= nil then
+      vim.api.nvim_feedkeys(opts["postcmd"], '', true)
+    end
+  end
+end
+
 return M
