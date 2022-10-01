@@ -60,8 +60,9 @@ return packer.startup(function(use)
   }
 
   use { 'pbogut/fzf-mru.vim',
-    -- opt = true,
-    -- cmd = "FZFMru",
+    opt = true,
+    cmd = "FZFMru",
+    keys = "<f4>",
     config = function()
       vim.cmd [[nmap <F4> :FZFMru --no-sort<CR>]]
     end
@@ -687,7 +688,7 @@ return packer.startup(function(use)
     }
     local map = require("utils").map
 
-    map({'n', 'i', 'v'}, "<f2>", function() require "telescope".extensions.file_browser.file_browser({path='%:p:h', previewer=false}) end)
+    map({'n', 'i', 'v'}, "<f2>", function() require "telescope".extensions.file_browser.file_browser({path='%:p:h', previewer=false, hide_parent_dir = true}) end)
     end,
   }
 
@@ -720,9 +721,9 @@ return packer.startup(function(use)
     end,
   }
 
-  -- use {'nvim-telescope/telescope-fzf-native.nvim',
-    -- run = 'make'
-  -- }
+  use {'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'make'
+  }
 
   use { "nvim-telescope/telescope-file-browser.nvim",
   }
@@ -792,8 +793,8 @@ return packer.startup(function(use)
         },
       },
     })
+    require("telescope").load_extension "fzf"
     require("telescope").load_extension "file_browser"
-    -- require("telescope").load_extension "fzf"
 
     vim.cmd [[
     highlight TelescopeNormal guibg=#202329
