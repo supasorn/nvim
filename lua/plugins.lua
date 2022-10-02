@@ -27,7 +27,10 @@ return packer.startup(function(use)
     cmd = "StartupTime"
   }
 
-  -- use {'liuchengxu/vista.vim', }
+  use {'liuchengxu/vista.vim', 
+    opt = true,
+    cmd = "Vista"
+  }
   -- use {'simrat39/symbols-outline.nvim', 
     -- config = function()
       -- require("symbols-outline").setup()
@@ -382,6 +385,7 @@ return packer.startup(function(use)
   use {"hrsh7th/cmp-buffer"}
   use {"hrsh7th/cmp-path"}
   use {"hrsh7th/cmp-cmdline"}
+
   use {"rafamadriz/friendly-snippets"}
   use {"saadparwaiz1/cmp_luasnip"}
   use {"L3MON4D3/LuaSnip",
