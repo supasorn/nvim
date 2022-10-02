@@ -86,10 +86,7 @@ augroup END
 
 vim.cmd "source ~/.config/nvim/extra.vim"
 
-vim.cmd [[
-:PackerLoad onedark.nvim
-colorscheme onedark
-]]
+vim.cmd [[ colorscheme onedark ]]
 
 
 
