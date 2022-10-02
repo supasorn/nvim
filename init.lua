@@ -13,11 +13,10 @@ if fn.empty(fn.glob(install_path)) > 0 then
   vim.cmd "PackerSync"
 end
 
-require('impatient')
+pcall(require, 'impatient')
 
 require 'plugins'
 
-vim.cmd "colorscheme onedark"
 
   -- Disable Diagnostcs globally
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
@@ -77,10 +76,17 @@ map ("n", "=<space>", "i <ESC>la <ESC>h")
 -- Swap two words surrouding an operator
 map("n", ">W", "WvhdBPli<space><esc>hhvEEldEPxBBB")
 
-vim.cmd "highlight IndentBlanklineIndent1 guifg=#707070 gui=nocombine"
-vim.cmd "highlight IndentBlanklineIndent2 guifg=#444444 gui=nocombine"
+vim.cmd [[
+augroup CustomHighlight
+    autocmd!
+    autocmd ColorScheme * highlight IndentBlanklineIndent1 guifg=#707070 gui=nocombine
+                      \ | highlight IndentBlanklineIndent2 guifg=#444444 gui=nocombine
+augroup END
+]]
 
 vim.cmd "source ~/.config/nvim/extra.vim"
+
+vim.cmd "colorscheme onedark"
 
 
 
