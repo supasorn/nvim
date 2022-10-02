@@ -785,6 +785,18 @@ return packer.startup(function(use)
           "IndentBlanklineIndent2",
         },
       })
+      vim.cmd [[
+        function! IndentBlanklineColor()
+          highlight IndentBlanklineIndent1 guifg=#707070 gui=nocombine
+          highlight IndentBlanklineIndent2 guifg=#444444 gui=nocombine
+        endfunction
+
+        augroup IndentBlanklineCustomHighlight
+          autocmd!
+          autocmd ColorScheme * call IndentBlanklineColor()
+        augroup END
+        call IndentBlanklineColor()
+      ]]
     end,
   }
 
@@ -864,19 +876,25 @@ return packer.startup(function(use)
     require("telescope").load_extension "file_browser"
 
     vim.cmd [[
-    highlight TelescopeNormal guibg=#202329
 
-    highlight TelescopeResultsBorder guifg=#202329 guibg=#202329 
-    highlight TelescopeResultsTitle guifg=#61afef guibg=#202329
+    function! TelescopeColor()
+      highlight TelescopeNormal guibg=#202329
+      highlight TelescopeResultsBorder guifg=#202329 guibg=#202329 
+      highlight TelescopeResultsTitle guifg=#61afef guibg=#202329
+      
+      highlight TelescopePreviewBorder guifg=#202329 guibg=#202329 
+      highlight TelescopePreviewTitle guifg=#181a1f guibg=#e86671
+      
+      highlight TelescopePromptNormal guibg=#1c1f24
+      highlight TelescopePromptBorder guifg=#1c1f24 guibg=#1c1f24 
+      highlight TelescopePromptTitle guifg=#1c1f24 guibg=#1c1f24 
+    endfunction
 
-    highlight TelescopePreviewBorder guifg=#202329 guibg=#202329 
-    highlight TelescopePreviewTitle guifg=#181a1f guibg=#e86671
-
-    highlight TelescopePromptNormal guibg=#1c1f24
-    highlight TelescopePromptBorder guifg=#1c1f24 guibg=#1c1f24 
-    " highlight TelescopePromptTitle guifg=#181a1f guibg=#98c379
-    highlight TelescopePromptTitle guifg=#1c1f24 guibg=#1c1f24 
-
+    augroup TelescopeCustomHighlight
+        autocmd!
+        autocmd ColorScheme * call TelescopeColor()
+    augroup END
+    call TelescopeColor()
 
     ]]
 
@@ -1098,9 +1116,17 @@ return packer.startup(function(use)
       })
 
       vim.cmd [[
-      highlight NvimTreeIndentMarker guifg=#58606d gui=nocombine
-      highlight NvimTreeImageFile guifg=#58606d gui=nocombine
-      highlight NvimTreeExecFile guifg=#58606d gui=nocombine
+        function! NvimTreeColor()
+          highlight NvimTreeIndentMarker guifg=#58606d gui=nocombine
+          highlight NvimTreeImageFile guifg=#58606d gui=nocombine
+          highlight NvimTreeExecFile guifg=#58606d gui=nocombine
+        endfunction
+
+        augroup NvimTreeCustomHighlight
+            autocmd!
+            autocmd ColorScheme * call NvimTreeColor() 
+        augroup END
+        call NvimTreeColor() 
       ]]
     end,
   }

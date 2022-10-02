@@ -77,16 +77,9 @@ map ("n", "=<space>", "i <ESC>la <ESC>h")
 map("n", ">W", "WvhdBPli<space><esc>hhvEEldEPxBBB")
 
 vim.cmd [[
-augroup CustomHighlight
-    autocmd!
-    autocmd ColorScheme * highlight IndentBlanklineIndent1 guifg=#707070 gui=nocombine
-                      \ | highlight IndentBlanklineIndent2 guifg=#444444 gui=nocombine
-augroup END
 ]]
 
 vim.cmd "source ~/.config/nvim/extra.vim"
-
--- vim.cmd [[ colorscheme onedark ]]
 
 
 
