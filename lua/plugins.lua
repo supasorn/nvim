@@ -17,6 +17,16 @@ return packer.startup(function(use)
   
   use {'lewis6991/impatient.nvim'
   }
+  
+  -- automatically disable highlights
+  use {'romainl/vim-cool'} 
+
+  use { "folke/which-key.nvim",
+    config = function()
+      require("which-key").setup {
+      }
+    end
+  }
 
   use { 'junegunn/fzf', 
     run = './install --bin'
@@ -552,8 +562,8 @@ return packer.startup(function(use)
     end,
   }
 
-  use {'sainnhe/gruvbox-material',
-  }
+  -- use {'sainnhe/gruvbox-material',
+  -- }
 
   use {'supasorn/onedark.nvim', 
     config = function() 
@@ -1113,6 +1123,11 @@ return packer.startup(function(use)
         filters = {
           dotfiles = false,
         },
+        actions = {
+          open_file = {
+            resize_window = false,
+          }
+        }
       })
 
       vim.cmd [[
