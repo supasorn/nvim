@@ -86,7 +86,7 @@ augroup END
 
 vim.cmd "source ~/.config/nvim/extra.vim"
 
-vim.cmd [[ colorscheme onedark ]]
+-- vim.cmd [[ colorscheme onedark ]]
 
 
 

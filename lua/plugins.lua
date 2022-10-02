@@ -591,6 +591,7 @@ return packer.startup(function(use)
             background = true,    -- use background color for virtual text
         }, 
       }
+      vim.cmd [[ colorscheme onedark ]]
     end
   }
   
