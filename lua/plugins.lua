@@ -279,10 +279,10 @@ return packer.startup(function(use)
   }
 
   use { 'supasorn/targets.vim', 
-    opt = true,
-    setup = function()
-      require("utils").on_file_open "targets.vim"
-    end,
+    -- opt = true,
+    -- setup = function()
+      -- require("utils").on_file_open "targets.vim"
+    -- end,
     -- config = function()
       -- local map = require("utils").map
       -- map({"o", "x"}, "ia", "Ia", {noremap = false})
@@ -377,11 +377,23 @@ return packer.startup(function(use)
       })
     end
   }
-
+  use {"hrsh7th/cmp-nvim-lua"}
+  use {"hrsh7th/cmp-nvim-lsp"}
+  use {"hrsh7th/cmp-buffer"}
+  use {"hrsh7th/cmp-path"}
+  use {"hrsh7th/cmp-cmdline"}
   use {"rafamadriz/friendly-snippets"}
-
+  use {"saadparwaiz1/cmp_luasnip"}
+  use {"L3MON4D3/LuaSnip",
+    -- after = {"nvim-cmp", "friendly-snippets"},
+    config = function()
+      require("luasnip.loaders.from_vscode").lazy_load()
+      vim.keymap.set({ "i", "s" }, "<c-n>", function() require'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
+      vim.keymap.set({ "i", "s" }, "<c-p>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
+    end,
+  }
   use {"hrsh7th/nvim-cmp",
-    after = "friendly-snippets",
+    -- after = "friendly-snippets",
     config = function()
       local has_words_before = function()
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -509,22 +521,6 @@ return packer.startup(function(use)
 
     end,
   }
-
-  use {"L3MON4D3/LuaSnip",
-    after = {"nvim-cmp", "friendly-snippets"},
-    config = function()
-      require("luasnip.loaders.from_vscode").lazy_load()
-      vim.keymap.set({ "i", "s" }, "<c-n>", function() require'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
-      vim.keymap.set({ "i", "s" }, "<c-p>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
-    end,
-  }
-
-  use {"saadparwaiz1/cmp_luasnip", after = "LuaSnip" }
-  use {"hrsh7th/cmp-nvim-lua", after = "cmp_luasnip" }
-  use {"hrsh7th/cmp-nvim-lsp", after = "cmp-nvim-lua" }
-  use {"hrsh7th/cmp-buffer", after = "cmp-nvim-lsp" }
-  use {"hrsh7th/cmp-path", after = "cmp-buffer" }
-  use {"hrsh7th/cmp-cmdline", after = "cmp-path" }
 
   use 'supasorn/onedark.nvim'
   
@@ -725,7 +721,7 @@ return packer.startup(function(use)
     run = 'make'
   }
 
-  use { "nvim-telescope/telescope-file-browser.nvim",
+  use { "supasorn/telescope-file-browser.nvim",
   }
 
   use { 'nvim-telescope/telescope.nvim', 
@@ -1092,6 +1088,18 @@ return packer.startup(function(use)
       })
     end
   }
+
+  use {"jose-elias-alvarez/null-ls.nvim",
+    config = function()
+      require("null-ls").setup({
+        sources = {
+          require("null-ls").builtins.formatting.stylua,
+          require("null-ls").builtins.formatting.black,
+        },
+      })
+    end
+  }
+
   --]]
 
 end)
