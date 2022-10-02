@@ -268,10 +268,36 @@ return packer.startup(function(use)
   }
 
   use { 'kana/vim-textobj-user', 
-    -- opt = true,
-    -- setup = function()
-      -- require("utils").on_file_open "vim-textobj-user"
-    -- end
+    config = function()
+      vim.cmd [[
+        function! AfterEquationObject()
+          normal! $F=w
+          let head_pos = getpos('.')
+          normal! $
+          let tail_pos = getpos('.')
+          echom head_pos
+          return ['v', head_pos, tail_pos]
+        endfunction 
+
+        function! BeforeEquationObject()
+          normal! ^
+          let head_pos = getpos('.')
+          normal! f=ge
+          let tail_pos = getpos('.')
+          return ['v', head_pos, tail_pos]
+        endfunction 
+
+        call textobj#user#plugin('function', {
+        \   'equation': {
+        \     'select-i-function': 'AfterEquationObject',
+        \     'select-i': '=',
+        \     'select-a-function': 'BeforeEquationObject',
+        \     'select-a': 'i=',
+        \   },
+        \ })
+      ]]
+
+    end
   }
 
   use { 'nvim-treesitter/nvim-treesitter-textobjects', 
