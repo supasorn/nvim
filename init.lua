@@ -77,6 +77,16 @@ map ("n", "=<space>", "i <ESC>la <ESC>h")
 map("n", ">W", "WvhdBPli<space><esc>hhvEEldEPxBBB")
 
 vim.cmd [[
+function! CustomHighlight()
+  " hi clear CursorLineNr
+  " hi CursorLineNr guifg=#e5c07b
+endfunction
+
+augroup CustomHighlightGroup
+  autocmd!
+  autocmd ColorScheme * call CustomHighlight()
+augroup END
+call CustomHighlight()
 ]]
 
 vim.cmd "source ~/.config/nvim/extra.vim"
