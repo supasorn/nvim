@@ -29,13 +29,6 @@ return packer.startup(function(use)
   -- automatically disable highlights
   use {'romainl/vim-cool'} 
 
-  use { "folke/which-key.nvim",
-    config = function()
-      require("which-key").setup {
-      }
-    end
-  }
-
   use { 'junegunn/fzf', 
     run = './install --bin'
   }
@@ -1208,17 +1201,24 @@ return packer.startup(function(use)
       })
     end
   }
-
-  use {"jose-elias-alvarez/null-ls.nvim",
-    config = function()
-      require("null-ls").setup({
-        sources = {
-          require("null-ls").builtins.formatting.stylua,
-          require("null-ls").builtins.formatting.black,
-        },
-      })
-    end
-  }
   --]]
+
+  -- use {"jose-elias-alvarez/null-ls.nvim",
+    -- config = function()
+      -- require("null-ls").setup({
+        -- sources = {
+          -- require("null-ls").builtins.formatting.stylua,
+          -- require("null-ls").builtins.formatting.black,
+        -- },
+      -- })
+    -- end
+  -- }
+  -- use { "folke/which-key.nvim",
+    -- config = function()
+      -- require("which-key").setup {
+      -- }
+    -- end
+  -- }
+
 
 end)
