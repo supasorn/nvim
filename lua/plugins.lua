@@ -953,7 +953,6 @@ return packer.startup(function(use)
     setup = function()
       require("utils").on_file_open "nvim-treesitter-context"
     end,
-
     config = function()
       require 'treesitter-context'.setup {
         enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
@@ -1000,10 +999,10 @@ return packer.startup(function(use)
   -- Post-install/update hook with neovim command
   use { 'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
-    setup = function()
-      require("utils").on_file_open "nvim-treesitter"
-    end,
-    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSEnable", "TSDisable", "TSModuleInfo" },
+    -- setup = function()
+      -- require("utils").on_file_open "nvim-treesitter"
+    -- end,
+    -- cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSEnable", "TSDisable", "TSModuleInfo" },
     config = function()
       require 'nvim-treesitter.configs'.setup {
         context_commentstring = {
