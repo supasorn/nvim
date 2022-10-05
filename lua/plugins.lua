@@ -2,7 +2,7 @@ vim.cmd [[packadd packer.nvim]]
 
 local packer = require('packer')
 packer.init {
-    -- max_jobs = 10,
+  -- max_jobs = 10,
   display = {
     open_fn = function()
       return require('packer.util').float({ border = 'single' })
@@ -14,22 +14,38 @@ return packer.startup(function(use)
   use { 'wbthomason/packer.nvim',
     opt = true,
   }
-  
-  use {'lewis6991/impatient.nvim'
+
+  use { 'lewis6991/impatient.nvim'
   }
-  
-  use {'DarwinSenior/nvim-colorizer.lua',
+
+  use { "jose-elias-alvarez/null-ls.nvim",
+    opt = true,
+    keys = { { "n", "<leader>f" }, { "v", "<leader>f" } },
     config = function()
-      require'colorizer'.setup({'lua', 'css', 'javascript', 'html'}, {
+      local map = require("utils").map
+      map({ "n", "v" }, "<leader>f", vim.lsp.buf.format)
+
+      require("null-ls").setup({
+        sources = {
+          require("null-ls").builtins.formatting.black,
+        },
+      })
+    end
+  }
+
+
+  use { 'DarwinSenior/nvim-colorizer.lua',
+    config = function()
+      require 'colorizer'.setup({ 'lua', 'css', 'javascript', 'html' }, {
         mode = "virtualtext"
       })
     end
   }
 
   -- automatically disable highlights
-  use {'romainl/vim-cool'} 
+  use { 'romainl/vim-cool' }
 
-  use { 'junegunn/fzf', 
+  use { 'junegunn/fzf',
     run = './install --bin'
   }
 
@@ -38,20 +54,20 @@ return packer.startup(function(use)
     cmd = "StartupTime"
   }
 
-  use {'liuchengxu/vista.vim', 
+  use { 'liuchengxu/vista.vim',
     opt = true,
     cmd = "Vista"
   }
-  -- use {'simrat39/symbols-outline.nvim', 
-    -- config = function()
-      -- require("symbols-outline").setup()
-    -- end
+  -- use {'simrat39/symbols-outline.nvim',
+  -- config = function()
+  -- require("symbols-outline").setup()
+  -- end
   -- }
 
   use {
     opt = true,
     'rmagatti/goto-preview',
-    keys = {"gp", "gP", "gr"},
+    keys = { "gp", "gP", "gr" },
     config = function()
       local map = require("utils").map
       map("n", "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>")
@@ -64,7 +80,7 @@ return packer.startup(function(use)
 
   use { 'majutsushi/tagbar',
     opt = true,
-    requires = {'ludovicchabant/vim-gutentags'},
+    requires = { 'ludovicchabant/vim-gutentags' },
     cmd = "TagbarToggle",
     setup = function()
       vim.cmd [[
@@ -85,8 +101,8 @@ return packer.startup(function(use)
 
   use { 'ibhagwan/fzf-lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
-    config = function() 
-      require('fzf-lua').setup{
+    config = function()
+      require('fzf-lua').setup {
         winopts = {
           height = 0.25,
           width = 1,
@@ -122,7 +138,7 @@ return packer.startup(function(use)
 
   use { 'chentoast/marks.nvim',
     config = function()
-      require'marks'.setup {
+      require 'marks'.setup {
         -- whether to map keybinds or not. default true
         default_mappings = true,
         -- which builtin marks to show. default {}
@@ -132,8 +148,8 @@ return packer.startup(function(use)
         cyclic = true,
         -- whether the shada file is updated after modifying uppercase marks. default false
         force_write_shada = true,
-        -- how often (in ms) to redraw signs/recompute mark positions. 
-        -- higher values will have better performance but may cause visual lag, 
+        -- how often (in ms) to redraw signs/recompute mark positions.
+        -- higher values will have better performance but may cause visual lag,
         -- while lower values may cause performance penalties. default 150.
         refresh_interval = 250,
         -- sign priorities for each type of mark - builtin marks, uppercase marks, lowercase
@@ -141,7 +157,7 @@ return packer.startup(function(use)
         -- can be either a table with all/none of the keys, or a single number, in which case
         -- the priority applies to all marks.
         -- default 10.
-        sign_priority = { lower=10, upper=15, builtin=8, bookmark=20 },
+        sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
         -- disables mark tracking for specific filetypes. default {}
         excluded_filetypes = {
           "help",
@@ -180,9 +196,9 @@ return packer.startup(function(use)
   use { 'gbprod/substitute.nvim', -- subversive + exchange: quick substitutions and exchange.
     -- opt = true,
     -- setup = function()
-      -- require("utils").on_file_open "substitute.nvim"
+    -- require("utils").on_file_open "substitute.nvim"
     -- end,
-    config = function() 
+    config = function()
       require("substitute").setup({
         exchange = {
           motion = false,
@@ -194,7 +210,7 @@ return packer.startup(function(use)
       map("n", "s", "<cmd>lua require('substitute').operator()<cr>", { noremap = true })
       map("n", "ss", "<cmd>lua require('substitute').line()<cr>", { noremap = true })
       map("n", "S", "<cmd>lua require('substitute').eol()<cr>", { noremap = true })
-      map("x", "s", "<cmd>lua require('substitute').visual()<cr>", { noremap = true }) 
+      map("x", "s", "<cmd>lua require('substitute').visual()<cr>", { noremap = true })
 
       map("n", "sx", "<cmd>lua require('substitute.exchange').operator()<cr>", { noremap = true })
       map("n", "sxx", "<cmd>lua require('substitute.exchange').line()<cr>", { noremap = true })
@@ -203,24 +219,24 @@ return packer.startup(function(use)
     end,
   }
 
-  use { 'wesQ3/vim-windowswap', 
+  use { 'wesQ3/vim-windowswap',
     opt = true,
     keys = "<leader>ww"
   }
 
-  use { 'ojroques/vim-oscyank', 
+  use { 'ojroques/vim-oscyank',
     opt = true,
     keys = "\\c",
-    config = function() 
+    config = function()
       vim.cmd "vmap \\c :OSCYank<cr>"
     end
   }
 
-  use { 'svermeulen/vim-yoink', 
+  use { 'svermeulen/vim-yoink',
     -- setup = function()
-      -- require("utils").on_file_open "vim-yoink"
+    -- require("utils").on_file_open "vim-yoink"
     -- end,
-    config = function() 
+    config = function()
       vim.cmd [[
         nmap <c-p> <plug>(YoinkPostPasteSwapBack)
         "nmap <c-n> <plug>(YoinkPostPasteSwapjorward)
@@ -231,19 +247,19 @@ return packer.startup(function(use)
   }
 
 
-  use { 'svban/YankAssassin.vim', 
+  use { 'svban/YankAssassin.vim',
     opt = true,
     setup = function()
       require("utils").on_file_open "YankAssassin.vim"
     end,
   }
 
-  use { 'Matt-A-Bennett/vim-surround-funk', 
+  use { 'Matt-A-Bennett/vim-surround-funk',
     -- opt = true,
     -- setup = function()
-      -- require("utils").on_file_open "vim-surround-funk"
+    -- require("utils").on_file_open "vim-surround-funk"
     -- end,
-    config = function() 
+    config = function()
       vim.cmd [[
         let g:surround_funk_create_mappings = 0
         nmap daj di(vafp 
@@ -264,21 +280,21 @@ return packer.startup(function(use)
     end
   }
 
-  use { 'PeterRincker/vim-argumentative', 
+  use { 'PeterRincker/vim-argumentative',
     opt = true,
     setup = function()
       require("utils").on_file_open "vim-argumentative"
     end
   }
 
-  use { 'supasorn/vim-indent-object', 
+  use { 'supasorn/vim-indent-object',
     opt = true,
     setup = function()
       require("utils").on_file_open "vim-indent-object"
     end
   }
 
-  use { 'kana/vim-textobj-user', 
+  use { 'kana/vim-textobj-user',
     config = function()
       vim.cmd [[
         function! AfterEquationObject()
@@ -311,21 +327,21 @@ return packer.startup(function(use)
     end
   }
 
-  use { 'nvim-treesitter/nvim-treesitter-textobjects', 
+  use { 'nvim-treesitter/nvim-treesitter-textobjects',
     opt = true,
     setup = function()
       require("utils").on_file_open "nvim-treesitter-textobjects"
     end
   }
 
-  use { 'supasorn/targets.vim', 
+  use { 'supasorn/targets.vim',
     -- opt = true,
     -- setup = function()
-      -- require("utils").on_file_open "targets.vim"
+    -- require("utils").on_file_open "targets.vim"
     -- end,
     -- config = function()
-      -- local map = require("utils").map
-      -- map({"o", "x"}, "ia", "Ia", {noremap = false})
+    -- local map = require("utils").map
+    -- map({"o", "x"}, "ia", "Ia", {noremap = false})
     -- end
   }
 
@@ -344,7 +360,7 @@ return packer.startup(function(use)
     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
     config = function()
       require("nvim-surround").setup({
-          -- Configuration here, or leave empty to use defaults
+        -- Configuration here, or leave empty to use defaults
       })
     end
   }
@@ -361,21 +377,23 @@ return packer.startup(function(use)
     end
   }
 
-  
+
   use {
     'supasorn/hop.nvim',
     config = function()
       -- you can configure Hop the way you like here; see :h hop-config
-      require'hop'.setup { keys = 'cvbnmtyghqweruiopasldkfj' }
+      require 'hop'.setup { keys = 'cvbnmtyghqweruiopasldkfj' }
       local map = require("utils").map
       local rwt = require("utils").run_without_TSContext
 
-      map({"n", "v"}, "<c-j>", rwt(require'hop'.hint_lines_skip_whitespace, { direction = require'hop.hint'.HintDirection.AFTER_CURSOR }))
-      map({"n", "v"}, "<c-k>", rwt(require'hop'.hint_lines_skip_whitespace, { direction = require'hop.hint'.HintDirection.BEFORE_CURSOR }))
+      map({ "n", "v" }, "<c-j>",
+        rwt(require 'hop'.hint_lines_skip_whitespace, { direction = require 'hop.hint'.HintDirection.AFTER_CURSOR }))
+      map({ "n", "v" }, "<c-k>",
+        rwt(require 'hop'.hint_lines_skip_whitespace, { direction = require 'hop.hint'.HintDirection.BEFORE_CURSOR }))
 
-      map({"n", "v"}, "<space>", rwt(require'hop'.hint_char1))
-      map({"o"}, "p", rwt(require'hop'.hint_phrase, {["postcmd"] = "p"}))
-      map({"o"}, "l", rwt(require'hop'.hint_2lines, {["postcmd"] = "p"}))
+      map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
+      map({ "o" }, "p", rwt(require 'hop'.hint_phrase, { ["postcmd"] = "p" }))
+      map({ "o" }, "l", rwt(require 'hop'.hint_2lines, { ["postcmd"] = "p" }))
     end
   }
 
@@ -386,7 +404,7 @@ return packer.startup(function(use)
   }
 
   use { 'williamboman/mason-lspconfig.nvim',
-    after = {"mason.nvim", 'cmp-nvim-lsp'},
+    after = { "mason.nvim", 'cmp-nvim-lsp' },
     --requires = {'williamboman/mason.nvim'},
     config = function()
       local mason_lspconfig = require("mason-lspconfig")
@@ -400,16 +418,16 @@ return packer.startup(function(use)
           "sumneko_lua"
         },
         automatic_installation = true
-     })
+      })
     end,
   }
-  use {'neovim/nvim-lspconfig',
+  use { 'neovim/nvim-lspconfig',
     after = "mason-lspconfig.nvim",
     config = function()
       local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
       local mason_lspconfig = require("mason-lspconfig")
       mason_lspconfig.setup_handlers({
-        function (server_name)
+        function(server_name)
           require("lspconfig")[server_name].setup {
             capabilities = capabilities,
           }
@@ -417,32 +435,32 @@ return packer.startup(function(use)
       })
     end
   }
-  use {"hrsh7th/cmp-nvim-lua"}
-  use {"hrsh7th/cmp-nvim-lsp"}
-  use {"hrsh7th/cmp-buffer"}
-  use {"hrsh7th/cmp-path"}
-  use {"hrsh7th/cmp-cmdline"}
+  use { "hrsh7th/cmp-nvim-lua" }
+  use { "hrsh7th/cmp-nvim-lsp" }
+  use { "hrsh7th/cmp-buffer" }
+  use { "hrsh7th/cmp-path" }
+  use { "hrsh7th/cmp-cmdline" }
 
-  use {"rafamadriz/friendly-snippets"}
-  use {"saadparwaiz1/cmp_luasnip"}
-  use {"L3MON4D3/LuaSnip",
+  use { "rafamadriz/friendly-snippets" }
+  use { "saadparwaiz1/cmp_luasnip" }
+  use { "L3MON4D3/LuaSnip",
     -- after = {"nvim-cmp", "friendly-snippets"},
     config = function()
       require("luasnip.loaders.from_vscode").lazy_load()
-      vim.keymap.set({ "i", "s" }, "<c-n>", function() require'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
-      vim.keymap.set({ "i", "s" }, "<c-p>", function() require'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
+      vim.keymap.set({ "i", "s" }, "<c-n>", function() require 'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
+      vim.keymap.set({ "i", "s" }, "<c-p>", function() require 'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
     end,
   }
-  use {"hrsh7th/nvim-cmp",
+  use { "hrsh7th/nvim-cmp",
     -- after = "friendly-snippets",
     config = function()
       local has_words_before = function()
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
       end
-      local cmp = require'cmp'
+      local cmp = require 'cmp'
       cmp.setup({
-         formatting = {
+        formatting = {
           format = function(entry, vim_item)
             local kind_icons = {
               Text = "",
@@ -495,7 +513,7 @@ return packer.startup(function(use)
           documentation = cmp.config.window.bordered(),
         },
         mapping = {
-          ["<cr>"] = cmp.mapping.confirm({select = false}),
+          ["<cr>"] = cmp.mapping.confirm({ select = false }),
           -- ["<s-tab>"] = cmp.mapping.select_prev_item(),
           -- ["<tab>"] = cmp.mapping.select_next_item(),
           ["<Tab>"] = cmp.mapping(function(fallback)
@@ -527,10 +545,10 @@ return packer.startup(function(use)
           }),
         },
         sources = cmp.config.sources({
-          { name = 'nvim_lsp', max_item_count = 15},
-          { name = 'buffer' , max_item_count = 15},
+          { name = 'nvim_lsp', max_item_count = 15 },
+          { name = 'buffer', max_item_count = 15 },
           { name = 'luasnip' },
-          { name = 'path'},
+          { name = 'path' },
         })
       })
 
@@ -546,7 +564,7 @@ return packer.startup(function(use)
       cmp.setup.cmdline('/', {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
-          { name = 'buffer' , max_item_count = 5}
+          { name = 'buffer', max_item_count = 5 }
         }
       })
 
@@ -566,29 +584,29 @@ return packer.startup(function(use)
   -- use {'sainnhe/gruvbox-material',
   -- }
 
-  use {'supasorn/onedark.nvim', 
-    config = function() 
+  use { 'supasorn/onedark.nvim',
+    config = function()
       require('onedark').setup {
-       -- Main options --
+        -- Main options --
         style = 'dark', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
-        transparent = false,  -- Show/hide background
+        transparent = false, -- Show/hide background
         term_colors = true, -- Change terminal color as per the selected theme style
         ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
         cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
         -- toggle theme style ---
         toggle_style_key = "<leader>s", -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
-        toggle_style_list = {'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light'}, -- List of styles to toggle between
+        toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
 
         -- Change code style ---
         -- Options are italic, bold, underline, none
         -- You can configure multiple style with comma seperated, For e.g., keywords = 'italic,bold'
         code_style = {
-            comments = 'italic',
-            keywords = 'none',
-            functions = 'none',
-            strings = 'none',
-            variables = 'none'
+          comments = 'italic',
+          keywords = 'none',
+          functions = 'none',
+          strings = 'none',
+          variables = 'none'
         },
 
         -- Custom Highlights --
@@ -597,17 +615,17 @@ return packer.startup(function(use)
 
         -- Plugins Config --
         diagnostics = {
-            darker = true, -- darker colors for diagnostic
-            undercurl = true,   -- use undercurl instead of underline for diagnostics
-            background = true,    -- use background color for virtual text
-        }, 
+          darker = true, -- darker colors for diagnostic
+          undercurl = true, -- use undercurl instead of underline for diagnostics
+          background = true, -- use background color for virtual text
+        },
       }
       vim.cmd [[ colorscheme onedark ]]
     end
   }
-  
+
   use { 'kyazdani42/nvim-web-devicons' }
-  
+
   use { 'tpope/vim-fugitive',
     opt = true,
     setup = function()
@@ -616,15 +634,15 @@ return packer.startup(function(use)
       map("n", "<leader>gc", ':Git commit -m "auto commit"<cr>')
       map("n", "<leader>gp", ":Git push<cr>")
     end,
-    cmd = {"Git"},
+    cmd = { "Git" },
   }
 
   use { 'akinsho/bufferline.nvim',
     tag = "v2.*",
     config = function()
       local map = require("utils").map
-      for i = 1,9 do
-        map("n", "<leader>"..i, ":BufferLineGoToBuffer ".. i .. "<cr>", {silent = true})
+      for i = 1, 9 do
+        map("n", "<leader>" .. i, ":BufferLineGoToBuffer " .. i .. "<cr>", { silent = true })
       end
 
       local hnormal = {
@@ -648,21 +666,21 @@ return packer.startup(function(use)
         bg = 'red',
         fg = 'red'
       }
-      require("bufferline").setup{
+      require("bufferline").setup {
         options = {
           tab_size = 15,
           color_icons = false,
           show_buffer_icons = false,
-          sort_by = "none", 
+          sort_by = "none",
           -- sort_by = function(buffer_a, buffer_b)
-            -- for _, buffer in ipairs(vim.fn.BufMRUList()) do
-              -- if buffer == buffer_a.id then
-                -- return true
-              -- elseif buffer == buffer_b.id then
-                -- return false
-              -- end
-            -- end
-            -- return false
+          -- for _, buffer in ipairs(vim.fn.BufMRUList()) do
+          -- if buffer == buffer_a.id then
+          -- return true
+          -- elseif buffer == buffer_b.id then
+          -- return false
+          -- end
+          -- end
+          -- return false
           -- end,
           numbers = function(opts)
             return string.format('%s.', opts.ordinal)
@@ -681,7 +699,7 @@ return packer.startup(function(use)
             style = 'none'
           },
           -- separator_style = "thin",
-          separator_style = {"", ""},
+          separator_style = { "", "" },
         },
 
         highlights = {
@@ -689,21 +707,21 @@ return packer.startup(function(use)
           close_button = hnormal,
           duplicate = hnormal,
           modified = hnormal,
-          separator = vim.tbl_extend("force", hnormal, {fg = '#73b8f1'}),
+          separator = vim.tbl_extend("force", hnormal, { fg = '#73b8f1' }),
           buffer_selected = hselected,
           numbers_selected = hselected,
           close_button_selected = hselected,
           duplicate_selected = hselected,
           modified_selected = hselected,
           indicator_selected = hselected,
-          separator_selected = vim.tbl_extend("force", hselected, {fg = '#73b8f1'}),
+          separator_selected = vim.tbl_extend("force", hselected, { fg = '#73b8f1' }),
           buffer_visible = hvisible,
           numbers_visible = hvisible,
           close_button_visible = hvisible,
           duplicate_visible = hvisible,
           modified_visible = hvisible,
           indicator_visible = hvisible,
-          separator_visible = vim.tbl_extend("force", hvisible, {fg = '#73b8f1'}),
+          separator_visible = vim.tbl_extend("force", hvisible, { fg = '#73b8f1' }),
           background = {
             bg = '#31353f',
             fg = '#8a919d'
@@ -723,50 +741,52 @@ return packer.startup(function(use)
     config = function()
       require('lualine').setup {
 
-      options = {
-        icons_enabled = true,
-        theme = 'onedark',
-        component_separators = { left = '', right = ''},
-        --section_separators = { left = '', right = ''},
-        section_separators = { left = '', right = '' },
-        disabled_filetypes = {
-          statusline = {},
-          winbar = {},
+        options = {
+          icons_enabled = true,
+          theme = 'onedark',
+          component_separators = { left = '', right = '' },
+          --section_separators = { left = '', right = ''},
+          section_separators = { left = '', right = '' },
+          disabled_filetypes = {
+            statusline = {},
+            winbar = {},
+          },
+          ignore_focus = {},
+          always_divide_middle = true,
+          globalstatus = false,
+          refresh = {
+            statusline = 1000,
+            tabline = 1000,
+            winbar = 1000,
+          }
         },
-        ignore_focus = {},
-        always_divide_middle = true,
-        globalstatus = false,
-        refresh = {
-          statusline = 1000,
-          tabline = 1000,
-          winbar = 1000,
-        }
-      },
-      sections = {
-        lualine_a = {'mode'},
-        lualine_b = {'branch'},
-        lualine_c = {'filename'},
-        lualine_x = {'filetype'},
-        lualine_y = {'lsp_progress'},
-        --lualine_z = {'location'}
-        lualine_z = {'progress'}
-      },
-      inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = {'filename'},
-        lualine_x = {'location'},
-        lualine_y = {},
-        lualine_z = {}
-      },
-      tabline = {},
-      winbar = {},
-      inactive_winbar = {},
-      extensions = {}
-    }
-    local map = require("utils").map
+        sections = {
+          lualine_a = { 'mode' },
+          lualine_b = { 'branch' },
+          lualine_c = { 'filename' },
+          lualine_x = { 'filetype' },
+          lualine_y = { 'lsp_progress' },
+          --lualine_z = {'location'}
+          lualine_z = { 'progress' }
+        },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = { 'filename' },
+          lualine_x = { 'location' },
+          lualine_y = {},
+          lualine_z = {}
+        },
+        tabline = {},
+        winbar = {},
+        inactive_winbar = {},
+        extensions = {}
+      }
+      local map = require("utils").map
 
-    map({'n', 'i', 'v'}, "<f2>", function() require "telescope".extensions.file_browser.file_browser({path='%:p:h', previewer=false, hide_parent_dir = true}) end)
+      map({ 'n', 'i', 'v' }, "<f2>",
+        function() require "telescope".extensions.file_browser.file_browser({ path = '%:p:h', previewer = false,
+          hide_parent_dir = true }) end)
     end,
   }
 
@@ -811,82 +831,82 @@ return packer.startup(function(use)
     end,
   }
 
-  use {'nvim-telescope/telescope-fzf-native.nvim',
+  use { 'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make'
   }
 
   use { "supasorn/telescope-file-browser.nvim",
   }
 
-  use { 'nvim-telescope/telescope.nvim', 
+  use { 'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
     requires = { 'nvim-lua/plenary.nvim' },
 
-    config = function() 
+    config = function()
       local actions = require("telescope.actions")
-      require("telescope").setup( { 
+      require("telescope").setup({
         defaults = {
           vimgrep_arguments = {
-          "rg",
-          "--color=never",
-          "--no-heading",
-          "--with-filename",
-          "--line-number",
-          "--column",
-          "--smart-case",
-        },
-        -- prompt_prefix = "   ",
-        selection_caret = "  ",
-        entry_prefix = "  ",
-        initial_mode = "insert",
-        selection_strategy = "reset",
-        sorting_strategy = "ascending",
-        layout_strategy = "horizontal",
-        layout_config = {
-          horizontal = {
-            prompt_position = "top",
-            preview_width = 0.55,
-            results_width = 0.8,
+            "rg",
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--smart-case",
           },
-          vertical = {
-            mirror = false,
+          -- prompt_prefix = "   ",
+          selection_caret = "  ",
+          entry_prefix = "  ",
+          initial_mode = "insert",
+          selection_strategy = "reset",
+          sorting_strategy = "ascending",
+          layout_strategy = "horizontal",
+          layout_config = {
+            horizontal = {
+              prompt_position = "top",
+              preview_width = 0.55,
+              results_width = 0.8,
+            },
+            vertical = {
+              mirror = false,
+            },
+            width = 0.87,
+            height = 0.80,
+            preview_cutoff = 120,
           },
-          width = 0.87,
-          height = 0.80,
-          preview_cutoff = 120,
-        },
-        file_ignore_patterns = { "node_modules" },
-        -- file_sorter = require("telescope.sorters").get_fuzzy_file,
-        -- generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-        path_display = { "truncate" },
-        winblend = 0,
-        border = true,
-        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-        color_devicons = true,
-        set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
+          file_ignore_patterns = { "node_modules" },
+          -- file_sorter = require("telescope.sorters").get_fuzzy_file,
+          -- generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
+          path_display = { "truncate" },
+          winblend = 0,
+          border = true,
+          borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+          color_devicons = true,
+          set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
 
-        mappings = {
-           i = { ["<esc>"] = actions.close, }, 
-        },
-        extensions = {
-          file_browser = {
-            theme = "ivy",
-            hijack_netrw = false,
+          mappings = {
+            i = { ["<esc>"] = actions.close, },
           },
-          fzf = {
-            fuzzy = true,                    -- false will only do exact matching
-            override_generic_sorter = true,  -- override the generic sorter
-            override_file_sorter = true,     -- override the file sorter
-            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-                                             -- the default case_mode is "smart_case"
-          }
+          extensions = {
+            file_browser = {
+              theme = "ivy",
+              hijack_netrw = false,
+            },
+            fzf = {
+              fuzzy = true, -- false will only do exact matching
+              override_generic_sorter = true, -- override the generic sorter
+              override_file_sorter = true, -- override the file sorter
+              case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+              -- the default case_mode is "smart_case"
+            }
+          },
         },
-      },
-    })
-    require("telescope").load_extension "fzf"
-    require("telescope").load_extension "file_browser"
+      })
+      require("telescope").load_extension "fzf"
+      require("telescope").load_extension "file_browser"
 
-    vim.cmd [[
+      vim.cmd [[
 
     function! TelescopeColor()
       highlight TelescopeNormal guibg=#202329
@@ -909,69 +929,69 @@ return packer.startup(function(use)
 
     ]]
 
-    -- fg_bg("TelescopeBorder", darker_black, darker_black)
-    -- fg_bg("TelescopePromptBorder", black2, black2)
+      -- fg_bg("TelescopeBorder", darker_black, darker_black)
+      -- fg_bg("TelescopePromptBorder", black2, black2)
 
-    -- fg_bg("TelescopePromptNormal", white, black2)
-    -- fg_bg("TelescopePromptPrefix", red, black2)
+      -- fg_bg("TelescopePromptNormal", white, black2)
+      -- fg_bg("TelescopePromptPrefix", red, black2)
 
-    -- bg("TelescopeNormal", darker_black)
+      -- bg("TelescopeNormal", darker_black)
 
-    -- fg_bg("TelescopePreviewTitle", black, green)
-    -- fg_bg("TelescopePromptTitle", black, red)
-    -- fg_bg("TelescopeResultsTitle", darker_black, darker_black)
+      -- fg_bg("TelescopePreviewTitle", black, green)
+      -- fg_bg("TelescopePromptTitle", black, red)
+      -- fg_bg("TelescopeResultsTitle", darker_black, darker_black)
 
-    -- bg("TelescopeSelection", black2)
+      -- bg("TelescopeSelection", black2)
 
     end
   }
 
-  
-  
+
+
   use { 'nvim-treesitter/nvim-treesitter-context',
     opt = true,
     setup = function()
       require("utils").on_file_open "nvim-treesitter-context"
     end,
-    
+
     config = function()
-      require'treesitter-context'.setup {
+      require 'treesitter-context'.setup {
         enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
         max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
         trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
         patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-            -- For all filetypes
-            -- Note that setting an entry here replaces all other patterns for this entry.
-            -- By setting the 'default' entry below, you can control which nodes you want to
-            -- appear in the context window.
-            default = {
-                'class',
-                'function',
-                'method',
-                -- 'for', -- These won't appear in the context
-                -- 'while',
-                -- 'if',
-                -- 'switch',
-                -- 'case',
-            },
-            -- Example for a specific filetype.
-            -- If a pattern is missing, *open a PR* so everyone can benefit.
-            --   rust = {
-            --       'impl_item',
-            --   },
+          -- For all filetypes
+          -- Note that setting an entry here replaces all other patterns for this entry.
+          -- By setting the 'default' entry below, you can control which nodes you want to
+          -- appear in the context window.
+          default = {
+            'class',
+            'function',
+            'method',
+            -- 'for', -- These won't appear in the context
+            -- 'while',
+            -- 'if',
+            -- 'switch',
+            -- 'case',
+          },
+          -- Example for a specific filetype.
+          -- If a pattern is missing, *open a PR* so everyone can benefit.
+          --   rust = {
+          --       'impl_item',
+          --   },
         },
         exact_patterns = {
-            -- Example for a specific filetype with Lua patterns
-            -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
-            -- exactly match "impl_item" only)
-            -- rust = true,
+          -- Example for a specific filetype with Lua patterns
+          -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
+          -- exactly match "impl_item" only)
+          -- rust = true,
         },
 
         -- [!] The options below are exposed but shouldn't require your attention,
         --     you can safely ignore them.
 
         zindex = 20, -- The Z-index of the context window
-        mode = 'topline',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+        mode = 'topline', -- Line used to calculate context. Choices: 'cursor', 'topline'
         separator = "─",
       }
     end,
@@ -983,18 +1003,18 @@ return packer.startup(function(use)
     setup = function()
       require("utils").on_file_open "nvim-treesitter"
     end,
-    cmd = {"TSInstall", "TSBufEnable", "TSBufDisable", "TSEnable", "TSDisable", "TSModuleInfo"},
-    run = ":TSUpdate",
+    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSEnable", "TSDisable", "TSModuleInfo" },
     config = function()
-      require'nvim-treesitter.configs'.setup {
+      require 'nvim-treesitter.configs'.setup {
         context_commentstring = {
           enable = true
         },
-        ensure_installed = {"c", "python", "css", "cpp", "go", "html", "java", "javascript", "json", "lua", "make", "php", "vim", "typescript"}, 
-        ignore_install = {"haskell"}, -- List of parsers to ignore installing
+        ensure_installed = { "c", "python", "css", "cpp", "go", "html", "java", "javascript", "json", "lua", "make",
+          "php", "vim", "typescript" },
+        ignore_install = { "haskell" }, -- List of parsers to ignore installing
         highlight = {
-          enable = true,              -- false will disable the whole extension
-          disable = { },  -- list of language that will be disabled
+          enable = true, -- false will disable the whole extension
+          disable = {}, -- list of language that will be disabled
           -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
           -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
           -- Using this option may slow down your editor, and you may see some duplicate highlights.
@@ -1031,7 +1051,7 @@ return packer.startup(function(use)
           --]]
           select = {
             enable = true,
-            -- Automatically jump forward to textobj, similar to targets.vim 
+            -- Automatically jump forward to textobj, similar to targets.vim
             lookahead = true,
 
             keymaps = {
@@ -1068,7 +1088,7 @@ return packer.startup(function(use)
   }
 
   -- Use dependency and run lua function after load
-  use { 'lewis6991/gitsigns.nvim', 
+  use { 'lewis6991/gitsigns.nvim',
     opt = true,
     requires = { 'nvim-lua/plenary.nvim' },
     setup = function()
@@ -1091,7 +1111,7 @@ return packer.startup(function(use)
     end,
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     config = function()
-      require'nvim-tree'.setup({
+      require 'nvim-tree'.setup({
         sort_by = "case_sensitive",
         view = {
           adaptive_size = false,
@@ -1203,21 +1223,59 @@ return packer.startup(function(use)
   }
   --]]
 
-  -- use {"jose-elias-alvarez/null-ls.nvim",
-    -- config = function()
-      -- require("null-ls").setup({
-        -- sources = {
-          -- require("null-ls").builtins.formatting.stylua,
-          -- require("null-ls").builtins.formatting.black,
-        -- },
-      -- })
-    -- end
-  -- }
+
   -- use { "folke/which-key.nvim",
-    -- config = function()
-      -- require("which-key").setup {
-      -- }
-    -- end
+  -- config = function()
+  -- require("which-key").setup {
+  -- }
+  -- end
+  -- }
+  --
+  -- use {'mhartington/formatter.nvim',
+  --   opt = true,
+  --   setup = function()
+  --     local map = require("utils").map
+  --     map("v", "<leader>f", ":Format<cr>")
+  --   end,
+  --   cmd = "Format",
+  --   config = function()
+  --     -- Utilities for creating configurations
+  --     local util = require "formatter.util"
+  --
+  --     -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
+  --     require("formatter").setup {
+  --       -- Enable or disable logging
+  --       logging = true,
+  --       -- Set the log level
+  --       log_level = vim.log.levels.WARN,
+  --       -- All formatter configurations are opt-in
+  --       filetype = {
+  --         -- Formatter configurations for filetype "lua" go here
+  --         -- and will be executed in order
+  --         lua = {
+  --           -- "formatter.filetypes.lua" defines default configurations for the
+  --           -- "lua" filetype
+  --           require("formatter.filetypes.lua").stylua,
+  --         },
+  --         python = {
+  --           require("formatter.filetypes.python").autopep8,
+  --           -- {
+  --             -- exe = "autopep8",
+  --             -- args = { "-" },
+  --             -- stdin = 1,
+  --           -- }
+  --         },
+  --
+  --         -- Use the special "*" filetype for defining formatter configurations on
+  --         -- any filetype
+  --         ["*"] = {
+  --           -- "formatter.filetypes.any" defines default configurations for any
+  --           -- filetype
+  --           require("formatter.filetypes.any").remove_trailing_whitespace
+  --         }
+  --       }
+  --     }
+  --   end,
   -- }
 
 
