@@ -33,6 +33,22 @@ return packer.startup(function(use)
     end
   }
 
+  use { 'anuvyklack/pretty-fold.nvim',
+    config = function()
+      require('pretty-fold').setup()
+      require('pretty-fold').ft_setup('lua', {
+        matchup_patterns = {
+          { '^%s*do$', 'end' }, -- do ... end blocks
+          { '^%s*if', 'end' },  -- if ... end
+          { '^%s*for', 'end' }, -- for
+          { 'function%s*%(', 'end' }, -- 'function( or 'function (''
+          {  '{', '}' },
+          { '%(', ')' }, -- % to escape lua pattern char
+          { '%[', ']' }, -- % to escape lua pattern char
+       },
+	})
+    end
+  }
 
   use { 'DarwinSenior/nvim-colorizer.lua',
     config = function()
@@ -41,7 +57,6 @@ return packer.startup(function(use)
       })
     end
   }
-
   -- automatically disable highlights
   use { 'romainl/vim-cool' }
 
@@ -91,7 +106,6 @@ return packer.startup(function(use)
       vim.cmd [[nmap <F4> :FZFMru --no-sort<CR>]]
     end
   }
-
 
   use { 'ibhagwan/fzf-lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
@@ -179,10 +193,6 @@ return packer.startup(function(use)
       }
     end
   }
-
-
-  -- use { 'kshenoy/vim-signature',
-  -- }
 
   use { 'tpope/vim-eunuch',
   }

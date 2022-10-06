@@ -48,6 +48,9 @@ opt.winblend = 0
 opt.cursorline = true
 opt.cursorlineopt= "number"
 opt.signcolumn = "yes"
+opt.foldmethod = "expr"
+opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldlevel=20
 
 vim.g.python_recommended_style = 0
 -- vim.g.is_pythonsense_suppress_object_keymaps = 1

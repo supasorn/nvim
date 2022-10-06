@@ -26,10 +26,11 @@ hi MatchParen guibg=orange guifg=black
 " This beauty remembers where you were the last time you edited the file, and returns to the same position.
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
-augroup OpenAllFoldsOnFileOpen
-    autocmd!
-    autocmd BufRead * normal zR
-augroup END
+" augroup OpenAllFoldsOnFileOpen
+    " autocmd!
+    " autocmd BufWinEnter * normal zR
+    " echom "yes"
+" augroup END
 
 
 
