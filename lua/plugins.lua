@@ -58,15 +58,9 @@ return packer.startup(function(use)
     opt = true,
     cmd = "Vista"
   }
-  -- use {'simrat39/symbols-outline.nvim',
-  -- config = function()
-  -- require("symbols-outline").setup()
-  -- end
-  -- }
 
-  use {
+  use { 'rmagatti/goto-preview',
     opt = true,
-    'rmagatti/goto-preview',
     keys = { "gp", "gP", "gr" },
     config = function()
       local map = require("utils").map
@@ -327,12 +321,6 @@ return packer.startup(function(use)
     end
   }
 
-  use { 'nvim-treesitter/nvim-treesitter-textobjects',
-    opt = true,
-    setup = function()
-      require("utils").on_file_open "nvim-treesitter-textobjects"
-    end
-  }
 
   use { 'supasorn/targets.vim',
     -- opt = true,
@@ -343,13 +331,6 @@ return packer.startup(function(use)
     -- local map = require("utils").map
     -- map({"o", "x"}, "ia", "Ia", {noremap = false})
     -- end
-  }
-
-  use { 'supasorn/vim-pythonsense',
-    opt = true,
-    setup = function()
-      require("utils").on_file_open "vim-pythonsense"
-    end
   }
 
   use { "kylechui/nvim-surround",
@@ -393,7 +374,7 @@ return packer.startup(function(use)
 
       map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
       map({ "o" }, "p", rwt(require 'hop'.hint_phrase, { ["postcmd"] = "p" }))
-      map({ "o" }, "l", rwt(require 'hop'.hint_2lines, { ["postcmd"] = "p" }))
+      map({ "o", "v" }, "l", rwt(require 'hop'.hint_2lines))
     end
   }
 
@@ -786,7 +767,8 @@ return packer.startup(function(use)
 
       map({ 'n', 'i', 'v' }, "<f2>",
         function() require "telescope".extensions.file_browser.file_browser({ path = '%:p:h', previewer = false,
-          hide_parent_dir = true }) end)
+            hide_parent_dir = true })
+        end)
     end,
   }
 
@@ -996,11 +978,13 @@ return packer.startup(function(use)
     end,
   }
 
+  use { 'nvim-treesitter/nvim-treesitter-textobjects' }
+
   -- Post-install/update hook with neovim command
   use { 'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     -- setup = function()
-      -- require("utils").on_file_open "nvim-treesitter"
+    -- require("utils").on_file_open "nvim-treesitter"
     -- end,
     -- cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSEnable", "TSDisable", "TSModuleInfo" },
     config = function()
@@ -1276,6 +1260,14 @@ return packer.startup(function(use)
   --     }
   --   end,
   -- }
+  --
+  -- use { 'supasorn/vim-pythonsense',
+  -- opt = true,
+  -- setup = function()
+  -- require("utils").on_file_open "vim-pythonsense"
+  -- end
+  -- }
+
 
 
 end)

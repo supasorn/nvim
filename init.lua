@@ -50,7 +50,7 @@ opt.cursorlineopt= "number"
 opt.signcolumn = "yes"
 
 vim.g.python_recommended_style = 0
-vim.g.is_pythonsense_suppress_object_keymaps = 1
+-- vim.g.is_pythonsense_suppress_object_keymaps = 1
 
 map("v", "<", "<gv")
 map("v", ">", ">gv")
