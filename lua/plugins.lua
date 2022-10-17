@@ -415,7 +415,7 @@ return packer.startup(function(use)
   use { 'neovim/nvim-lspconfig',
     after = "mason-lspconfig.nvim",
     config = function()
-      local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
       local mason_lspconfig = require("mason-lspconfig")
       mason_lspconfig.setup_handlers({
         function(server_name)
