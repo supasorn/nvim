@@ -1,8 +1,8 @@
 let g:fzf_layout = { 'window': {'width': 1, 'height': 0.3, 'yoffset': 1} }
 let $FZF_DEFAULT_OPTS="--layout reverse"
 
-nnoremap gf :call RgWithMode(expand("<cword>"))<CR>
-nnoremap <c-f> :call RgWithMode("")<CR>
+nnoremap gf :call RgWithPath(expand("<cword>"))<CR>
+nnoremap <c-f> :call RgWithPath("")<CR>
 
 nmap <F6> :call FilesAtGitRoot()<cr>
 imap <F6> <esc>:call FilesAtGitRoot()<cr>
@@ -32,40 +32,54 @@ au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|
     " echom "yes"
 " augroup END
 
-
-
-" ----------- Utility functions --------------
-function! RgModeFZF()
-  let path = system('cd '.shellescape(expand('%:p:h')).' && git rev-parse --show-toplevel 2> /dev/null')[:-2]
-  call fzf#run({'source': [
-        \"1) Rg current buffer         [" . expand("%:p:h") . "]",
-        \"2) Rg current buffer depth 1 [" . expand("%:p:h") . "]",
-        \"3) Rg pwd                    [" . getcwd() . "]",
-        \"4) Rg git root               [" . path . "]"],
-        \'sink':'SetRgModeC', 'window': {'width': 1, 'height': 8, 'yoffset': 1}})
+function! GetParents(dir)
+  let dir = fnamemodify(a:dir, ':p:h')
+  let arr = [dir]
+  while 1
+    let par = fnamemodify(dir, ':h')
+    if par == dir
+      break
+    endif
+    let arr =  arr + [par]
+    let dir = par
+  endwhile
+  return arr
 endfunction
 
-function! RgWithMode(query)
-  if !exists("g:rgmode")
-   let g:rgmode = 4
-  endif
+function! SetRgPath(...)
+  let st = substitute(a:1, "'", '', 'g')
+  let path = matchstr(st, '\v\[([^]]*)')
+  let g:rgmode_path = path[1:]
+  call RgWithPath("")
+endfunction
+command! -nargs=* SetRgPathC call SetRgPath(shellescape(<q-args>))
 
+function! RgModeFZF()
+  let gitpath = system('cd '.shellescape(expand('%:p:h')).' && git rev-parse --show-toplevel 2> /dev/null')[:-2]
+  let file = expand("%")
+
+  let folders = GetParents(file)
+
+  let list = [" 0:a) git [" . gitpath . "]"]
+  let counter = 1
+  for i in folders
+    let ts = string(counter)
+    if counter < 10
+      let ts = ' ' . ts
+    endif
+    let list = list + [ts . ':'. nr2char(char2nr('a') + counter) . ')     [' . i . ']']
+    let counter += 1
+  endfor
+
+  call fzf#run({'source': list,
+        \'sink':'SetRgPathC', 'window': {'width': 1, 'height': counter + 4, 'yoffset': 1}, 'options': "--query \"':\" --no-sort"})
+endfunction
+
+" ----------- Utility functions --------------
+function! RgWithPath(query)
   let g:rgmode_query = a:query
   let g:rgmode_rgopt = "-g '!tags' --column --line-number --no-heading --color=always --smart-case"
-  if g:rgmode == 0
-    let g:rgmode_path = expand("%:p:h")
-  elseif g:rgmode == 1
-    let g:rgmode_path = expand("%:p:h")
-    let g:rgmode_rgopt = g:rgmode_rgopt . " --max-depth=1"
-  elseif g:rgmode == 2
-    let g:rgmode_path = getcwd()
-  else
-    let g:rgmode_path = system('cd '.shellescape(expand('%:p:h')).' && git rev-parse --show-toplevel 2> /dev/null')[:-2]
-    if g:rgmode_path == ''
-      let g:rgmode_path = expand("%:p:h")
-    endif
-    " call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ''", 1, fzf#vim#with_preview({'dir': system('cd '.shellescape(expand('%:p:h')).' && git rev-parse --show-toplevel 2> /dev/null')[:-2]}), 0)
-  endif
+
   lua require'fzf-lua'.grep({rg_opts=vim.g.rgmode_rgopt, cwd=vim.g.rgmode_path, search=vim.g.rgmode_query, fzf_cli_args = '--nth 3.. -d :'}) 
   
 endfunction
