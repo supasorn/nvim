@@ -60,19 +60,28 @@ function! RgModeFZF()
 
   let folders = GetParents(file)
 
-  let list = [" 0:a) git [" . gitpath . "]"]
+  " let list = [" 0:a) git [" . gitpath . "]"]
+  let list = []
   let counter = 1
   for i in folders
     let ts = string(counter)
     if counter < 10
       let ts = ' ' . ts
     endif
-    let list = list + [ts . ':'. nr2char(char2nr('a') + counter) . ')     [' . i . ']']
+    let alias =  '     '
+    if i == gitpath
+      let alias = 'git  '
+    elseif i == expand('~')
+      let alias = 'home '
+    endif
+
+
+    let list = list + [ts . ':'. nr2char(char2nr('a') + counter - 1) . ') ' . alias . ' [' . i . ']']
     let counter += 1
   endfor
 
   call fzf#run({'source': list,
-        \'sink':'SetRgPathC', 'window': {'width': 1, 'height': counter + 4, 'yoffset': 1}, 'options': "--query \"':\" --no-sort"})
+        \'sink':'SetRgPathC', 'window': {'width': 1, 'height': counter + 3, 'yoffset': 1}, 'options': "--query \"':\" --no-sort"})
 endfunction
 
 " ----------- Utility functions --------------

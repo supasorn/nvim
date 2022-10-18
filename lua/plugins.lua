@@ -657,6 +657,10 @@ return packer.startup(function(use)
         bg = 'red',
         fg = 'red'
       }
+      local separator = {
+        fg = '#21242a',
+        bg = '#21242a',
+      }
       require("bufferline").setup {
         options = {
           tab_size = 15,
@@ -689,8 +693,8 @@ return packer.startup(function(use)
             -- icon = ' ',
             style = 'none'
           },
-          -- separator_style = "thin",
-          separator_style = { "", "" },
+          separator_style = "thin",
+          -- separator_style = { "", "" },
         },
 
         highlights = {
@@ -698,21 +702,21 @@ return packer.startup(function(use)
           close_button = hnormal,
           duplicate = hnormal,
           modified = hnormal,
-          separator = vim.tbl_extend("force", hnormal, { fg = '#73b8f1' }),
+          separator = separator,
           buffer_selected = hselected,
           numbers_selected = hselected,
           close_button_selected = hselected,
           duplicate_selected = hselected,
           modified_selected = hselected,
           indicator_selected = hselected,
-          separator_selected = vim.tbl_extend("force", hselected, { fg = '#73b8f1' }),
+          separator_selected = separator,
           buffer_visible = hvisible,
           numbers_visible = hvisible,
           close_button_visible = hvisible,
           duplicate_visible = hvisible,
           modified_visible = hvisible,
           indicator_visible = hvisible,
-          separator_visible = vim.tbl_extend("force", hvisible, { fg = '#73b8f1' }),
+          separator_visible = separator,
           background = {
             bg = '#31353f',
             fg = '#8a919d'
