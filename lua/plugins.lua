@@ -483,13 +483,14 @@ return packer.startup(function(use)
             -- Kind icons
             vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
             -- Source
-            vim_item.menu = ({
-              buffer = "[Buffer]",
-              nvim_lsp = "[LSP]",
-              luasnip = "[LuaSnip]",
-              nvim_lua = "[Lua]",
-              latex_symbols = "[LaTeX]",
-            })[entry.source.name]
+            -- vim_item.menu = ({
+              -- buffer = "[Buffer]",
+              -- nvim_lsp = "[LSP]",
+              -- luasnip = "[LuaSnip]",
+              -- nvim_lua = "[Lua]",
+              -- latex_symbols = "[LaTeX]",
+            -- })[entry.source.name]
+            vim_item.menu = ""
             return vim_item
           end
         },
@@ -781,7 +782,7 @@ return packer.startup(function(use)
 
       map({ 'n', 'i', 'v' }, "<f2>",
         function() require "telescope".extensions.file_browser.file_browser({ path = '%:p:h', previewer = false,
-            hide_parent_dir = true })
+            hide_parent_dir = true, grouped = true})
         end)
     end,
   }
