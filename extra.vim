@@ -6,8 +6,7 @@ nnoremap <c-f> :call RgWithPath("")<CR>
 
 nmap <F6> :call FilesAtGitRoot()<cr>
 imap <F6> <esc>:call FilesAtGitRoot()<cr>
-" nmap <silent> <F7>  :call IterateRgMode()<CR>
-" imap <silent> <F7> <esc>:call IterateRgMode()<CR>
+
 nmap <silent> <F7>  :call RgModeFZF()<CR>
 imap <silent> <F7> <esc>:call RgModeFZF()<CR>
 
