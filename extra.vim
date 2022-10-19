@@ -1,3 +1,5 @@
+" Rule: tmux send -t 2 ls Enter
+" Rule: tmux send -t 2 '!!' Enter Enter
 let g:fzf_layout = { 'window': {'width': 1, 'height': 0.3, 'yoffset': 1} }
 let $FZF_DEFAULT_OPTS="--layout reverse"
 
@@ -17,6 +19,8 @@ command! To4spaces %s/^\s*/&&/g
 nmap <silent> ( :call JumpThroughParameter(-1)<CR>
 nmap <silent> ) :call JumpThroughParameter(1)<CR>
 
+nnoremap \r :call FirstLineCompile()<CR>
+
 autocmd InsertLeave * call CopyWordUnderCursor()
 
 " hi MatchParen guibg=NONE gui=underline
@@ -30,6 +34,20 @@ au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|
     " autocmd BufWinEnter * normal zR
     " echom "yes"
 " augroup END
+"
+function! FirstLineCompile() 
+  if !empty(matchstr(getline(1), ':'))
+    let l:s = split(getline(1) , ':')
+  else
+    let l:s = ''
+  endif
+  " echom l:s
+  if !empty(matchstr(l:s[0], 'Rule'))
+    let l:command = l:s[1]
+    let l:out = system(l:command)
+    " echo l:out
+  endif
+endfunction 
 
 function! GetParents(dir)
   let dir = fnamemodify(a:dir, ':p:h')
