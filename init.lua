@@ -79,6 +79,9 @@ map ("n", "=<space>", "i <ESC>la <ESC>h")
 -- Swap two words surrouding an operator
 map("n", ">W", "WvhdBPli<space><esc>hhvEEldEPxBBB")
 
+map("n", "\\[", ":cp<cr>")
+map("n", "\\]", ":cn<cr>")
+
 vim.cmd [[
 function! CustomHighlight()
   " hi clear CursorLineNr

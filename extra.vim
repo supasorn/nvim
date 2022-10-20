@@ -19,7 +19,7 @@ command! To4spaces %s/^\s*/&&/g
 nmap <silent> ( :call JumpThroughParameter(-1)<CR>
 nmap <silent> ) :call JumpThroughParameter(1)<CR>
 
-nnoremap \r :call FirstLineCompile()<CR>
+nnoremap \m :call FirstLineCompile()<CR>
 
 autocmd InsertLeave * call CopyWordUnderCursor()
 
