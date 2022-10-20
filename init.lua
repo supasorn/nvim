@@ -83,6 +83,17 @@ map("n", "\\[", ":cp<cr>")
 map("n", "\\]", ":cn<cr>")
 
 vim.cmd [[
+hi MatchParen guibg=orange guifg=black
+
+command! To2spaces %s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g
+command! To4spaces %s/^\s*/&&/g
+
+let g:fzf_layout = { 'window': {'width': 1, 'height': 0.3, 'yoffset': 1} }
+let $FZF_DEFAULT_OPTS="--layout reverse"
+
+" This beauty remembers where you were the last time you edited the file, and returns to the same position.
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+
 function! CustomHighlight()
   " hi clear CursorLineNr
   " hi CursorLineNr guifg=#e5c07b
