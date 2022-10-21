@@ -501,8 +501,8 @@ return packer.startup(function(use)
           end,
         },
         window = {
-          -- completion = cmp.config.window.bordered(),
-          -- documentation = cmp.config.window.bordered(),
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
         },
         mapping = {
           ["<cr>"] = cmp.mapping.confirm({ select = false }),
