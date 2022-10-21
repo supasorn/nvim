@@ -39,14 +39,14 @@ return packer.startup(function(use)
       require('pretty-fold').ft_setup('lua', {
         matchup_patterns = {
           { '^%s*do$', 'end' }, -- do ... end blocks
-          { '^%s*if', 'end' },  -- if ... end
+          { '^%s*if', 'end' }, -- if ... end
           { '^%s*for', 'end' }, -- for
           { 'function%s*%(', 'end' }, -- 'function( or 'function (''
-          {  '{', '}' },
+          { '{', '}' },
           { '%(', ')' }, -- % to escape lua pattern char
           { '%[', ']' }, -- % to escape lua pattern char
-       },
-	})
+        },
+      })
     end
   }
 
@@ -484,11 +484,11 @@ return packer.startup(function(use)
             vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
             -- Source
             -- vim_item.menu = ({
-              -- buffer = "[Buffer]",
-              -- nvim_lsp = "[LSP]",
-              -- luasnip = "[LuaSnip]",
-              -- nvim_lua = "[Lua]",
-              -- latex_symbols = "[LaTeX]",
+            -- buffer = "[Buffer]",
+            -- nvim_lsp = "[LSP]",
+            -- luasnip = "[LuaSnip]",
+            -- nvim_lua = "[Lua]",
+            -- latex_symbols = "[LaTeX]",
             -- })[entry.source.name]
             vim_item.menu = ""
             return vim_item
@@ -501,8 +501,8 @@ return packer.startup(function(use)
           end,
         },
         window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
+          -- completion = cmp.config.window.bordered(),
+          -- documentation = cmp.config.window.bordered(),
         },
         mapping = {
           ["<cr>"] = cmp.mapping.confirm({ select = false }),
@@ -782,7 +782,7 @@ return packer.startup(function(use)
 
       map({ 'n', 'i', 'v' }, "<f2>",
         function() require "telescope".extensions.file_browser.file_browser({ path = '%:p:h', previewer = false,
-            hide_parent_dir = true, grouped = true})
+            hide_parent_dir = true, grouped = true })
         end)
     end,
   }
