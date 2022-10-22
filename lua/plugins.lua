@@ -33,19 +33,42 @@ return packer.startup(function(use)
     end
   }
 
-  use { 'anuvyklack/pretty-fold.nvim',
+  use { 'kevinhwang91/nvim-ufo',
+    requires = 'kevinhwang91/promise-async',
     config = function()
-      require('pretty-fold').setup()
-      require('pretty-fold').ft_setup('lua', {
-        matchup_patterns = {
-          { '^%s*do$', 'end' }, -- do ... end blocks
-          { '^%s*if', 'end' }, -- if ... end
-          { '^%s*for', 'end' }, -- for
-          { 'function%s*%(', 'end' }, -- 'function( or 'function (''
-          { '{', '}' },
-          { '%(', ')' }, -- % to escape lua pattern char
-          { '%[', ']' }, -- % to escape lua pattern char
-        },
+      local handler = function(virtText, lnum, endLnum, width, truncate)
+        local newVirtText = {}
+        local suffix = ('  %d '):format(endLnum - lnum)
+        local sufWidth = vim.fn.strdisplaywidth(suffix)
+        local targetWidth = width - sufWidth
+        local curWidth = 0
+        for _, chunk in ipairs(virtText) do
+          local chunkText = chunk[1]
+          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+          if targetWidth > curWidth + chunkWidth then
+            table.insert(newVirtText, chunk)
+          else
+            chunkText = truncate(chunkText, targetWidth - curWidth)
+            local hlGroup = chunk[2]
+            table.insert(newVirtText, { chunkText, hlGroup })
+            chunkWidth = vim.fn.strdisplaywidth(chunkText)
+            -- str width returned from truncate() may less than 2nd argument, need padding
+            if curWidth + chunkWidth < targetWidth then
+              suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+            end
+            break
+          end
+          curWidth = curWidth + chunkWidth
+        end
+        table.insert(newVirtText, { suffix, 'MoreMsg' })
+        return newVirtText
+      end
+
+      require('ufo').setup({
+        provider_selector = function(bufnr, filetype, buftype)
+          return { 'treesitter', 'indent' }
+        end,
+        fold_virt_text_handler = handler
       })
     end
   }
@@ -58,7 +81,8 @@ return packer.startup(function(use)
     end
   }
   -- automatically disable highlights
-  use { 'romainl/vim-cool' }
+  use { 'romainl/vim-cool' 
+  }
 
   use { 'junegunn/fzf',
     run = './install --bin'
@@ -184,7 +208,7 @@ return packer.startup(function(use)
         -- default virt_text is "".
         bookmark_0 = {
           sign = "⚑",
-          virt_text = "hello world",
+          virt_text = "<<<<<<<<",
           -- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
           -- defaults to false.
           annotate = false,
