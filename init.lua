@@ -87,7 +87,6 @@ map("n", ">W", "WvhdBPli<space><esc>hhvEEldEPxBBB")
 map("n", "\\[", ":cp<cr>")
 map("n", "\\]", ":cn<cr>")
 
-map("n", "\\p", require('neoclip.fzf')) -- show yank registers
 
 vim.cmd [[
 hi MatchParen guibg=orange guifg=black
