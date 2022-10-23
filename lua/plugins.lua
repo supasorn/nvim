@@ -22,6 +22,9 @@ return packer.startup(function(use)
     "AckslD/nvim-neoclip.lua",
     config = function()
       require('neoclip').setup()
+      local map = require("utils").map
+      map("n", "\\p", require('neoclip.fzf')) -- show yank registers
+
     end,
   }
 
