@@ -14,12 +14,11 @@ return packer.startup(function(use)
   use { 'wbthomason/packer.nvim',
     opt = true,
   }
-
+  -- Load plugins faster by caching
   use { 'lewis6991/impatient.nvim'
   }
-
-  use {
-    "AckslD/nvim-neoclip.lua",
+  -- \p shows yank registers with fzf
+  use { "AckslD/nvim-neoclip.lua",
     config = function()
       require('neoclip').setup()
       local map = require("utils").map
@@ -27,7 +26,7 @@ return packer.startup(function(use)
 
     end,
   }
-
+  -- For adding format() to lsp, etc
   use { "jose-elias-alvarez/null-ls.nvim",
     opt = true,
     keys = { { "n", "<leader>f" }, { "v", "<leader>f" } },
@@ -42,7 +41,7 @@ return packer.startup(function(use)
       })
     end
   }
-
+  -- for modern folds
   use { 'kevinhwang91/nvim-ufo',
     requires = 'kevinhwang91/promise-async',
     config = function()
@@ -82,7 +81,7 @@ return packer.startup(function(use)
       })
     end
   }
-
+  -- Shows color blocks when see hex code
   use { 'DarwinSenior/nvim-colorizer.lua',
     config = function()
       require 'colorizer'.setup({ 'lua', 'css', 'javascript', 'html' }, {
@@ -90,24 +89,19 @@ return packer.startup(function(use)
       })
     end
   }
-  -- automatically disable highlights
+  -- Automatically disable highlights when search
   use { 'romainl/vim-cool'
   }
-
+  -- fzf!
   use { 'junegunn/fzf',
     run = './install --bin'
   }
-
+  -- Profiles startup time
   use { 'dstein64/vim-startuptime',
     opt = true,
     cmd = "StartupTime"
   }
-
-  use { 'liuchengxu/vista.vim',
-    opt = true,
-    cmd = "Vista"
-  }
-
+  -- Goto preview with nested!
   use { 'rmagatti/goto-preview',
     opt = true,
     keys = { "gp", "gP", "gr" },
@@ -120,7 +114,7 @@ return packer.startup(function(use)
       require('goto-preview').setup {}
     end
   }
-
+  -- Tagbar! Show code tags
   use { 'majutsushi/tagbar',
     opt = true,
     requires = { 'ludovicchabant/vim-gutentags' },
@@ -131,7 +125,7 @@ return packer.startup(function(use)
       ]]
     end
   }
-
+  -- F4 fzf MRU
   use { 'pbogut/fzf-mru.vim',
     opt = true,
     cmd = "FZFMru",
@@ -140,7 +134,7 @@ return packer.startup(function(use)
       vim.cmd [[nmap <F4> :FZFMru --no-sort<CR>]]
     end
   }
-
+  -- fzf with native preview, etc
   use { 'ibhagwan/fzf-lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function()
@@ -177,7 +171,7 @@ return packer.startup(function(use)
 
     end,
   }
-
+  -- show mark column
   use { 'chentoast/marks.nvim',
     config = function()
       require 'marks'.setup {
@@ -227,11 +221,11 @@ return packer.startup(function(use)
       }
     end
   }
-
+  -- :Rename :Delete :SudoWrite
   use { 'tpope/vim-eunuch',
   }
-
-  use { 'gbprod/substitute.nvim', -- subversive + exchange: quick substitutions and exchange.
+  -- subversive + exchange: quick substitutions and exchange.
+  use { 'gbprod/substitute.nvim', 
     -- opt = true,
     -- setup = function()
     -- require("utils").on_file_open "substitute.nvim"
@@ -256,12 +250,12 @@ return packer.startup(function(use)
       map("n", "sxc", "<cmd>lua require('substitute.exchange').cancel()<cr>", { noremap = true })
     end,
   }
-
+  -- \ww swap two windows
   use { 'wesQ3/vim-windowswap',
     opt = true,
     keys = "<leader>ww"
   }
-
+  -- \c to copy to system's clipboard. works inside tmux inside ssh
   use { 'ojroques/vim-oscyank',
     opt = true,
     keys = "\\c",
@@ -269,7 +263,7 @@ return packer.startup(function(use)
       vim.cmd "vmap \\c :OSCYank<cr>"
     end
   }
-
+  -- <c-p> to cycle through previous yank register
   use { 'svermeulen/vim-yoink',
     -- setup = function()
     -- require("utils").on_file_open "vim-yoink"
@@ -283,15 +277,14 @@ return packer.startup(function(use)
       ]]
     end
   }
-
-
+  -- make the cursor not move when yank
   use { 'svban/YankAssassin.vim',
     opt = true,
     setup = function()
       require("utils").on_file_open "YankAssassin.vim"
     end,
   }
-
+  -- af, if function objects
   use { 'Matt-A-Bennett/vim-surround-funk',
     -- opt = true,
     -- setup = function()
@@ -310,28 +303,28 @@ return packer.startup(function(use)
       ]]
     end
   }
-
+  -- expanding dot repeat for more functions
   use { 'tpope/vim-repeat',
     opt = true,
     setup = function()
       require("utils").on_file_open "vim-repeat"
     end
   }
-
+  -- argument textobject, and swapping
   use { 'PeterRincker/vim-argumentative',
     opt = true,
     setup = function()
       require("utils").on_file_open "vim-argumentative"
     end
   }
-
+  -- indent object
   use { 'supasorn/vim-indent-object',
     opt = true,
     setup = function()
       require("utils").on_file_open "vim-indent-object"
     end
   }
-
+  -- Custom textobject. = i=
   use { 'kana/vim-textobj-user',
     config = function()
       vim.cmd [[
@@ -364,19 +357,10 @@ return packer.startup(function(use)
 
     end
   }
-
-
+  -- Many more textobjects
   use { 'supasorn/targets.vim',
-    -- opt = true,
-    -- setup = function()
-    -- require("utils").on_file_open "targets.vim"
-    -- end,
-    -- config = function()
-    -- local map = require("utils").map
-    -- map({"o", "x"}, "ia", "Ia", {noremap = false})
-    -- end
   }
-
+  -- Changes surrounding quote, e.g.
   use { "kylechui/nvim-surround",
     opt = true,
     setup = function()
@@ -389,7 +373,7 @@ return packer.startup(function(use)
       })
     end
   }
-
+  -- <c-c> to comment line
   use { 'numToStr/Comment.nvim',
     opt = true,
     keys = "<c-c>",
@@ -401,10 +385,8 @@ return packer.startup(function(use)
       ]]
     end
   }
-
-
-  use {
-    'supasorn/hop.nvim',
+  -- My hop with yank phrase, yank line
+  use { 'supasorn/hop.nvim',
     config = function()
       -- you can configure Hop the way you like here; see :h hop-config
       require 'hop'.setup { keys = 'cvbnmtyghqweruiopasldkfj' }
@@ -421,13 +403,13 @@ return packer.startup(function(use)
       map({ "o", "v" }, "l", rwt(require 'hop'.hint_2lines))
     end
   }
-
+  -- Lsp Installer
   use { "williamboman/mason.nvim",
     config = function()
       require("mason").setup()
     end,
   }
-
+  -- Mason-Lsp interface
   use { 'williamboman/mason-lspconfig.nvim',
     after = { "mason.nvim", 'cmp-nvim-lsp' },
     --requires = {'williamboman/mason.nvim'},
@@ -446,6 +428,7 @@ return packer.startup(function(use)
       })
     end,
   }
+  -- Lspconfig
   use { 'neovim/nvim-lspconfig',
     after = "mason-lspconfig.nvim",
     config = function()
@@ -460,12 +443,13 @@ return packer.startup(function(use)
       })
     end
   }
+
+  -- All things cmp-related (autocomplete)
   use { "hrsh7th/cmp-nvim-lua" }
   use { "hrsh7th/cmp-nvim-lsp" }
   use { "hrsh7th/cmp-buffer" }
   use { "hrsh7th/cmp-path" }
   use { "hrsh7th/cmp-cmdline" }
-
   use { "rafamadriz/friendly-snippets" }
   use { "saadparwaiz1/cmp_luasnip" }
   use { "L3MON4D3/LuaSnip",
@@ -607,9 +591,7 @@ return packer.startup(function(use)
     end,
   }
 
-  -- use {'sainnhe/gruvbox-material',
-  -- }
-
+  -- Colorscheme
   use { 'supasorn/onedark.nvim',
     config = function()
       require('onedark').setup {
@@ -649,9 +631,9 @@ return packer.startup(function(use)
       vim.cmd [[ colorscheme onedark ]]
     end
   }
-
+  -- Icons!
   use { 'kyazdani42/nvim-web-devicons' }
-
+  -- For git
   use { 'tpope/vim-fugitive',
     opt = true,
     setup = function()
@@ -662,7 +644,7 @@ return packer.startup(function(use)
     end,
     cmd = { "Git" },
   }
-
+  -- Bufferline
   use { 'akinsho/bufferline.nvim',
     tag = "v2.*",
     config = function()
@@ -765,7 +747,7 @@ return packer.startup(function(use)
       }
     end
   }
-
+  -- Statusline
   use { 'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
@@ -820,7 +802,7 @@ return packer.startup(function(use)
         end)
     end,
   }
-
+  -- Indent guideline
   use { 'lukas-reineke/indent-blankline.nvim',
     opt = true,
     setup = function()
@@ -861,14 +843,14 @@ return packer.startup(function(use)
       ]]
     end,
   }
-
+  -- Fzf for telescope
   use { 'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make'
   }
-
+  -- Telescope's file browser
   use { "supasorn/telescope-file-browser.nvim",
   }
-
+  -- Telescope
   use { 'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
     requires = { 'nvim-lua/plenary.nvim' },
@@ -976,9 +958,7 @@ return packer.startup(function(use)
 
     end
   }
-
-
-
+  -- Show context at the top. Cool!
   use { 'nvim-treesitter/nvim-treesitter-context',
     opt = true,
     setup = function()
@@ -1027,12 +1007,12 @@ return packer.startup(function(use)
       }
     end,
   }
-
+  -- for im, am textobject. (Around method's)
   use { 'nvim-treesitter/nvim-treesitter-textobjects' }
-
-  -- Post-install/update hook with neovim command
+  -- Neovim's Treesitter
   use { 'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
+    -- Post-install/update hook with neovim command
     -- setup = function()
     -- require("utils").on_file_open "nvim-treesitter"
     -- end,
@@ -1119,8 +1099,7 @@ return packer.startup(function(use)
       }
     end,
   }
-
-  -- Use dependency and run lua function after load
+  -- Show git diff, etc.
   use { 'lewis6991/gitsigns.nvim',
     opt = true,
     requires = { 'nvim-lua/plenary.nvim' },
@@ -1135,7 +1114,7 @@ return packer.startup(function(use)
       })
     end
   }
-
+  -- Directory browser
   use { 'kyazdani42/nvim-tree.lua',
     opt = true,
     setup = function()
@@ -1199,125 +1178,5 @@ return packer.startup(function(use)
       ]]
     end,
   }
-
-  --[[
-  use { 'noib3/nvim-cokeline',
-    config = function()
-      local get_hex = require('cokeline/utils').get_hex
-
-      local green = vim.g.terminal_color_2
-      local yellow = vim.g.terminal_color_3
-
-      require('cokeline').setup({
-        default_hl = {
-          fg = function(buffer)
-            return
-              buffer.is_focused
-              and get_hex('Normal', 'fg')
-               or get_hex('Comment', 'fg')
-          end,
-          bg = get_hex('ColorColumn', 'bg'),
-        },
-
-        components = {
-          {
-            text = '｜',
-            fg = function(buffer)
-              return
-                buffer.is_modified and yellow or green
-            end
-          },
-          {
-            text = function(buffer) return buffer.devicon.icon .. ' ' end,
-            fg = function(buffer) return buffer.devicon.color end,
-          },
-          {
-            text = function(buffer) return buffer.index .. ': ' end,
-          },
-          {
-            text = function(buffer) return buffer.unique_prefix end,
-            fg = get_hex('Comment', 'fg'),
-            style = 'italic',
-          },
-          {
-            text = function(buffer) return buffer.filename .. ' ' end,
-            style = function(buffer) return buffer.is_focused and 'bold' or nil end,
-          },
-          {
-            text = ' ',
-          },
-          {
-            text = '',
-            delete_buffer_on_left_click = true,
-          },
-        },
-      })
-    end
-  }
-  --]]
-
-
-  -- use { "folke/which-key.nvim",
-  -- config = function()
-  -- require("which-key").setup {
-  -- }
-  -- end
-  -- }
-  --
-  -- use {'mhartington/formatter.nvim',
-  --   opt = true,
-  --   setup = function()
-  --     local map = require("utils").map
-  --     map("v", "<leader>f", ":Format<cr>")
-  --   end,
-  --   cmd = "Format",
-  --   config = function()
-  --     -- Utilities for creating configurations
-  --     local util = require "formatter.util"
-  --
-  --     -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
-  --     require("formatter").setup {
-  --       -- Enable or disable logging
-  --       logging = true,
-  --       -- Set the log level
-  --       log_level = vim.log.levels.WARN,
-  --       -- All formatter configurations are opt-in
-  --       filetype = {
-  --         -- Formatter configurations for filetype "lua" go here
-  --         -- and will be executed in order
-  --         lua = {
-  --           -- "formatter.filetypes.lua" defines default configurations for the
-  --           -- "lua" filetype
-  --           require("formatter.filetypes.lua").stylua,
-  --         },
-  --         python = {
-  --           require("formatter.filetypes.python").autopep8,
-  --           -- {
-  --             -- exe = "autopep8",
-  --             -- args = { "-" },
-  --             -- stdin = 1,
-  --           -- }
-  --         },
-  --
-  --         -- Use the special "*" filetype for defining formatter configurations on
-  --         -- any filetype
-  --         ["*"] = {
-  --           -- "formatter.filetypes.any" defines default configurations for any
-  --           -- filetype
-  --           require("formatter.filetypes.any").remove_trailing_whitespace
-  --         }
-  --       }
-  --     }
-  --   end,
-  -- }
-  --
-  -- use { 'supasorn/vim-pythonsense',
-  -- opt = true,
-  -- setup = function()
-  -- require("utils").on_file_open "vim-pythonsense"
-  -- end
-  -- }
-
-
 
 end)
