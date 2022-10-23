@@ -1089,7 +1089,7 @@ return packer.startup(function(use)
   use { 'tpope/vim-eunuch',
   }
   -- subversive + exchange: quick substitutions and exchange.
-  use { 'gbprod/substitute.nvim', 
+  use { 'gbprod/substitute.nvim',
     -- opt = true,
     -- setup = function()
     -- require("utils").on_file_open "substitute.nvim"
