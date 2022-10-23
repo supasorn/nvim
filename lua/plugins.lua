@@ -18,6 +18,13 @@ return packer.startup(function(use)
   use { 'lewis6991/impatient.nvim'
   }
 
+  use {
+    "AckslD/nvim-neoclip.lua",
+    config = function()
+      require('neoclip').setup()
+    end,
+  }
+
   use { "jose-elias-alvarez/null-ls.nvim",
     opt = true,
     keys = { { "n", "<leader>f" }, { "v", "<leader>f" } },
@@ -81,7 +88,7 @@ return packer.startup(function(use)
     end
   }
   -- automatically disable highlights
-  use { 'romainl/vim-cool' 
+  use { 'romainl/vim-cool'
   }
 
   use { 'junegunn/fzf',
