@@ -18,10 +18,10 @@ pcall(require, 'impatient')
 require 'plugins'
 
 
-  -- Disable Diagnostcs globally
+-- Disable Diagnostcs globally
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 
-opt.termguicolors = true 
+opt.termguicolors = true
 opt.mouse = "a"
 opt.eb = false
 opt.swapfile = false
@@ -46,7 +46,7 @@ opt.encoding = "utf-8"
 opt.laststatus = 2
 opt.winblend = 0
 opt.cursorline = true
-opt.cursorlineopt= "number"
+opt.cursorlineopt = "number"
 opt.signcolumn = "yes"
 vim.g.python_recommended_style = 0
 
@@ -64,9 +64,9 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 map("v", "//", 'y/\\V<c-r>"<cr>')
-map("v", "/s", '//<esc>:%s//', {remap = true})
+map("v", "/s", '//<esc>:%s//', { remap = true })
 
-map({"o", "x"}, "ia", 'Ia', {remap = true})
+map({ "o", "x" }, "ia", 'Ia', { remap = true })
 
 -- used with supasorn/targets.vim to repeat ci" in the next / previous text object in insert mode
 map("i", "<c-l>", '<esc>u@r')
@@ -77,10 +77,10 @@ map("n", "gs", vim.lsp.buf.hover)
 
 -- this is used with autocmd InsertLeave, every word under cursor is copy when
 -- leaving insert mode and can be pasted with "W
-map("n", '"W', '"wsiw', {remap = true}) 
-map("n", '"P', 'siw', {remap = true}) 
+map("n", '"W', '"wsiw', { remap = true })
+map("n", '"P', 'siw', { remap = true })
 
-map ("n", "=<space>", "i <ESC>la <ESC>h") 
+map("n", "=<space>", "i <ESC>la <ESC>h")
 -- Swap two words surrouding an operator
 map("n", ">W", "WvhdBPli<space><esc>hhvEEldEPxBBB")
 
@@ -113,9 +113,3 @@ call CustomHighlight()
 ]]
 
 vim.cmd "source ~/.config/nvim/extra.vim"
-
-
-
-
-
-
