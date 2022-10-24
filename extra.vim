@@ -4,11 +4,13 @@
 nnoremap gf :call RgWithPath(expand("<cword>"))<CR>
 nnoremap <c-f> :call RgWithPath("")<CR>
 
-nmap <F6> :call FilesAtGitRoot()<cr>
-imap <F6> <esc>:call FilesAtGitRoot()<cr>
+" nmap <F6> :call FilesAtGitRoot()<cr>
+" imap <F6> <esc>:call FilesAtGitRoot()<cr>
+nmap <F6> :call FilesWithPath()<cr>
+imap <F6> <esc>:call FilesWithPath()<cr>
 
-nmap <silent> <F7>  :call RgModeFZF()<CR>
-imap <silent> <F7> <esc>:call RgModeFZF()<CR>
+nmap <F7> :call RgModeFZF()<CR>
+imap <F7> <esc>:call RgModeFZF()<CR>
 
 nmap <silent> ( :call JumpThroughParameter(-1)<CR>
 nmap <silent> ) :call JumpThroughParameter(1)<CR>
@@ -55,8 +57,11 @@ function! SetRgPath(...)
   let st = substitute(a:1, "'", '', 'g')
   let path = matchstr(st, '\v\[([^]]*)')
   let g:rgmode_path = path[1:]
-  call RgWithPath("")
+  exe 'cd' g:rgmode_path 
+  echom 'Set cwd to ' . g:rgmode_path
+  " call RgWithPath("")
 endfunction
+
 command! -nargs=* SetRgPathC call SetRgPath(shellescape(<q-args>))
 
 function! RgModeFZF()
@@ -65,8 +70,8 @@ function! RgModeFZF()
 
   let folders = GetParents(file)
 
-  " let list = [" 0:a) git [" . gitpath . "]"]
-  let list = []
+  let list = [" 0:G) git   [" . gitpath . "]"]
+  " let list = []
   let counter = 1
   for i in folders
     let ts = string(counter)
@@ -90,12 +95,16 @@ function! RgModeFZF()
 endfunction
 
 " ----------- Utility functions --------------
+function! FilesWithPath()
+  let g:rgmode_rgopt = "-g '!tags' --column --line-number --no-heading --color=always --smart-case"
+  lua require'fzf-lua'.files({cwd=vim.g.rgmode_path}) 
+endfunction
+
 function! RgWithPath(query)
   let g:rgmode_query = a:query
   let g:rgmode_rgopt = "-g '!tags' --column --line-number --no-heading --color=always --smart-case"
 
   lua require'fzf-lua'.grep({rg_opts=vim.g.rgmode_rgopt, cwd=vim.g.rgmode_path, search=vim.g.rgmode_query, fzf_cli_args = '--nth 3.. -d :'}) 
-  
 endfunction
 
 
