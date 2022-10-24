@@ -46,7 +46,7 @@ return packer.startup(function(use)
 
         -- Custom Highlights --
         colors = {}, -- Override default colors
-        highlights = {}, -- Override highlight groups
+        highlights = {}, -- Override highlight groupscluster pixels into segments
 
         -- Plugins Config --
         diagnostics = {
@@ -133,6 +133,84 @@ return packer.startup(function(use)
   }
   -- for im, am textobject. (Around method's)
   use { 'nvim-treesitter/nvim-treesitter-textobjects' }
+
+  -- ### Text edit / motion
+  -- subversive + exchange: quick substitutions and exchange.
+  use { 'gbprod/substitute.nvim',
+    -- opt = true,
+    -- setup = function()
+    -- require("utils").on_file_open "substitute.nvim"
+    -- end,
+    config = function()
+      require("substitute").setup({
+        exchange = {
+          motion = false,
+          use_esc_to_cancel = true,
+        },
+      })
+
+      local map = require("utils").map
+      map("n", "s", "<cmd>lua require('substitute').operator()<cr>", { noremap = true })
+      map("n", "ss", "<cmd>lua require('substitute').line()<cr>", { noremap = true })
+      map("n", "S", "<cmd>lua require('substitute').eol()<cr>", { noremap = true })
+      map("x", "s", "<cmd>lua require('substitute').visual()<cr>", { noremap = true })
+
+      map("n", "sx", "<cmd>lua require('substitute.exchange').operator()<cr>", { noremap = true })
+      map("n", "sxx", "<cmd>lua require('substitute.exchange').line()<cr>", { noremap = true })
+      map("x", "X", "<cmd>lua require('substitute.exchange').visual()<cr>", { noremap = true })
+      map("n", "sxc", "<cmd>lua require('substitute.exchange').cancel()<cr>", { noremap = true })
+    end,
+  }
+  -- expanding dot repeat for more functions
+  use { 'tpope/vim-repeat',
+    opt = true,
+    setup = function()
+      require("utils").on_file_open "vim-repeat"
+    end
+  }
+  -- Changes surrounding quote, e.g.
+  use { "kylechui/nvim-surround",
+    opt = true,
+    setup = function()
+      require("utils").on_file_open "nvim-surround"
+    end,
+    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  }
+  -- <c-c> to comment line
+  use { 'numToStr/Comment.nvim',
+    opt = true,
+    keys = "<c-c>",
+    config = function()
+      require('Comment').setup()
+      vim.cmd [[
+      nmap <c-c> gccj
+      vmap <c-c> gc
+      ]]
+    end
+  }
+  -- My hop with yank phrase, yank line
+  use { 'supasorn/hop.nvim',
+    config = function()
+      -- you can configure Hop the way you like here; see :h hop-config
+      require 'hop'.setup { keys = 'cvbnmtyghqweruiopasldkfj' }
+      local map = require("utils").map
+      local rwt = require("utils").run_without_TSContext
+
+      map({ "n", "v" }, "<c-j>",
+        rwt(require 'hop'.hint_lines_skip_whitespace, { direction = require 'hop.hint'.HintDirection.AFTER_CURSOR }))
+      map({ "n", "v" }, "<c-k>",
+        rwt(require 'hop'.hint_lines_skip_whitespace, { direction = require 'hop.hint'.HintDirection.BEFORE_CURSOR }))
+
+      map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
+      map({ "o" }, "p", rwt(require 'hop'.hint_phrase, { ["postcmd"] = "p" }))
+      map({ "o", "v" }, "l", rwt(require 'hop'.hint_2lines))
+    end
+  }
 
   -- ### Yank Paste plugins
   -- \p shows yank registers with fzf
@@ -1088,86 +1166,10 @@ return packer.startup(function(use)
   -- :Rename :Delete :SudoWrite
   use { 'tpope/vim-eunuch',
   }
-  -- subversive + exchange: quick substitutions and exchange.
-  use { 'gbprod/substitute.nvim',
-    -- opt = true,
-    -- setup = function()
-    -- require("utils").on_file_open "substitute.nvim"
-    -- end,
-    config = function()
-      require("substitute").setup({
-        exchange = {
-          motion = false,
-          use_esc_to_cancel = true,
-        },
-      })
-
-      local map = require("utils").map
-      map("n", "s", "<cmd>lua require('substitute').operator()<cr>", { noremap = true })
-      map("n", "ss", "<cmd>lua require('substitute').line()<cr>", { noremap = true })
-      map("n", "S", "<cmd>lua require('substitute').eol()<cr>", { noremap = true })
-      map("x", "s", "<cmd>lua require('substitute').visual()<cr>", { noremap = true })
-
-      map("n", "sx", "<cmd>lua require('substitute.exchange').operator()<cr>", { noremap = true })
-      map("n", "sxx", "<cmd>lua require('substitute.exchange').line()<cr>", { noremap = true })
-      map("x", "X", "<cmd>lua require('substitute.exchange').visual()<cr>", { noremap = true })
-      map("n", "sxc", "<cmd>lua require('substitute.exchange').cancel()<cr>", { noremap = true })
-    end,
-  }
   -- \ww swap two windows
   use { 'wesQ3/vim-windowswap',
     opt = true,
     keys = "<leader>ww"
-  }
-  -- expanding dot repeat for more functions
-  use { 'tpope/vim-repeat',
-    opt = true,
-    setup = function()
-      require("utils").on_file_open "vim-repeat"
-    end
-  }
-  -- Changes surrounding quote, e.g.
-  use { "kylechui/nvim-surround",
-    opt = true,
-    setup = function()
-      require("utils").on_file_open "nvim-surround"
-    end,
-    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-    config = function()
-      require("nvim-surround").setup({
-        -- Configuration here, or leave empty to use defaults
-      })
-    end
-  }
-  -- <c-c> to comment line
-  use { 'numToStr/Comment.nvim',
-    opt = true,
-    keys = "<c-c>",
-    config = function()
-      require('Comment').setup()
-      vim.cmd [[
-      nmap <c-c> gccj
-      vmap <c-c> gc
-      ]]
-    end
-  }
-  -- My hop with yank phrase, yank line
-  use { 'supasorn/hop.nvim',
-    config = function()
-      -- you can configure Hop the way you like here; see :h hop-config
-      require 'hop'.setup { keys = 'cvbnmtyghqweruiopasldkfj' }
-      local map = require("utils").map
-      local rwt = require("utils").run_without_TSContext
-
-      map({ "n", "v" }, "<c-j>",
-        rwt(require 'hop'.hint_lines_skip_whitespace, { direction = require 'hop.hint'.HintDirection.AFTER_CURSOR }))
-      map({ "n", "v" }, "<c-k>",
-        rwt(require 'hop'.hint_lines_skip_whitespace, { direction = require 'hop.hint'.HintDirection.BEFORE_CURSOR }))
-
-      map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
-      map({ "o" }, "p", rwt(require 'hop'.hint_phrase, { ["postcmd"] = "p" }))
-      map({ "o", "v" }, "l", rwt(require 'hop'.hint_2lines))
-    end
   }
   -- For git
   use { 'tpope/vim-fugitive',
