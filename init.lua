@@ -97,6 +97,8 @@ command! To4spaces %s/^\s*/&&/g
 let g:fzf_layout = { 'window': {'width': 1, 'height': 0.3, 'yoffset': 1} }
 let $FZF_DEFAULT_OPTS="--layout reverse"
 
+" Fold all "use { }" in plugins.lua
+au BufReadPost plugins.lua :%g/\(use\_.\{-}\)\@<={/ normal! f{zf%
 " This beauty remembers where you were the last time you edited the file, and returns to the same position.
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
