@@ -89,7 +89,6 @@ map("n", "\\]", ":cn<cr>")
 
 
 vim.cmd [[
-hi MatchParen guibg=orange guifg=black
 
 command! To2spaces %s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g
 command! To4spaces %s/^\s*/&&/g
@@ -105,6 +104,7 @@ au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|
 function! CustomHighlight()
   " hi clear CursorLineNr
   " hi CursorLineNr guifg=#e5c07b
+  hi MatchParen guibg=orange guifg=black
 endfunction
 
 augroup CustomHighlightGroup
