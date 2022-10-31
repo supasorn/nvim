@@ -206,9 +206,16 @@ return packer.startup(function(use)
       map({ "n", "v" }, "<c-k>",
         rwt(require 'hop'.hint_lines_skip_whitespace, { direction = require 'hop.hint'.HintDirection.BEFORE_CURSOR }))
 
-      map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
       map({ "o" }, "p", rwt(require 'hop'.hint_phrase, { ["postcmd"] = "p" }))
       map({ "o", "v" }, "l", rwt(require 'hop'.hint_2lines))
+      -- map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
+    end
+  }
+
+  use { 'ggandor/leap.nvim',
+    config = function()
+      local map = require("utils").map
+      map({ "n", "v" }, "<space>", ":lua require('leap').leap { target_windows = { vim.fn.win_getid() } }<cr>")
     end
   }
 
