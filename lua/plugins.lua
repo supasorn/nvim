@@ -1205,4 +1205,6 @@ return packer.startup(function(use)
     end
   }
 
+  -- svart!
+  -- use { 'http://gitlab.com/madyanov/svart.nvim', }
 end)
