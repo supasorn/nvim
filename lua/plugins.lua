@@ -1023,7 +1023,7 @@ return packer.startup(function(use)
   use { "hrsh7th/cmp-buffer" }
   use { "hrsh7th/cmp-path" }
   use { "hrsh7th/cmp-cmdline" }
-  use { "rafamadriz/friendly-snippets" }
+  use { "supasorn/friendly-snippets" }
   use { "saadparwaiz1/cmp_luasnip" }
   use { "L3MON4D3/LuaSnip",
     -- after = {"nvim-cmp", "friendly-snippets"},
