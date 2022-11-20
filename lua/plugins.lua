@@ -614,6 +614,17 @@ return packer.startup(function(use)
         end)
     end,
   }
+  -- Notification window
+  use {'rcarriga/nvim-notify',
+    config = function()
+      local notify = require("notify")
+      notify.setup {
+        top_down = false,
+        render = "minimal"
+      }
+      vim.notify = notify 
+    end
+  }
 
   -- ### File browser, FZF, Telescope
   -- Directory browser
