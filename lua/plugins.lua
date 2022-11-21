@@ -619,8 +619,8 @@ return packer.startup(function(use)
     config = function()
       local notify = require("notify")
       notify.setup {
-        top_down = false,
-        render = "minimal"
+        -- top_down = false,
+        -- render = "minimal"
       }
       vim.notify = notify 
     end

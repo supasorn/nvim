@@ -59,7 +59,7 @@ function! SetRgPath(...)
   let g:rgmode_path = path[1:]
   exe 'cd' g:rgmode_path 
   echom 'Set cwd to ' . g:rgmode_path
-  lua vim.notify('Set cwd to ' .. vim.g.rgmode_path)
+  lua vim.notify(' ' .. vim.g.rgmode_path, vim.log.levels.INFO, {title="Find Path Cwd"})
   " call RgWithPath("")
 endfunction
 
