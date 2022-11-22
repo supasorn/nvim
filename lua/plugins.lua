@@ -450,7 +450,7 @@ return packer.startup(function(use)
         zindex = 20, -- The Z-index of the context window
         mode = 'topline', -- Line used to calculate context. Choices: 'cursor', 'topline'
         -- separator = "─",
-        separator = "-",
+        -- separator = "-",
       }
     end,
   }
@@ -622,7 +622,7 @@ return packer.startup(function(use)
         -- top_down = false,
         -- render = "minimal"
       }
-      vim.notify = notify 
+      vim.notify = notify
     end
   }
 
