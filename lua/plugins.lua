@@ -314,6 +314,31 @@ return packer.startup(function(use)
   -- Automatically disable highlights when search
   use { 'romainl/vim-cool'
   }
+  -- Animate search highlight
+  use { 'edluffy/specs.nvim',
+    config = function()
+      require('specs').setup {
+        show_jumps       = true,
+        min_jump         = 30,
+        popup            = {
+          delay_ms = 0, -- delay before popup displays
+          inc_ms = 10, -- time increments used for fade/resize effects
+          blend = 10, -- starting blend, between 0-100 (fully transparent), see :h winblend
+          width = 10,
+          winhl = "Search",
+          fader = require('specs').empty_fader,
+          resizer = require('specs').shrink_resizer
+        },
+        ignore_filetypes = {},
+        ignore_buftypes  = {
+          nofile = true,
+        },
+      }
+      local map = require("utils").map
+      map('n', 'n', 'n:lua require("specs").show_specs()<CR>', {silent = true })
+      map('n', 'N', 'N:lua require("specs").show_specs()<CR>', {silent = true })
+    end
+  }
   -- show mark column
   use { 'chentoast/marks.nvim',
     config = function()
@@ -427,9 +452,9 @@ return packer.startup(function(use)
             'method',
             'for', -- These won't appear in the context
             'while',
-            'if',
-            'switch',
-            'case',
+            -- 'if',
+            -- 'switch',
+            -- 'case',
           },
           -- Example for a specific filetype.
           -- If a pattern is missing, *open a PR* so everyone can benefit.
@@ -615,7 +640,7 @@ return packer.startup(function(use)
     end,
   }
   -- Notification window
-  use {'rcarriga/nvim-notify',
+  use { 'rcarriga/nvim-notify',
     config = function()
       local notify = require("notify")
       notify.setup {
