@@ -207,7 +207,7 @@ return packer.startup(function(use)
         rwt(require 'hop'.hint_lines_skip_whitespace, { direction = require 'hop.hint'.HintDirection.BEFORE_CURSOR }))
 
       map({ "o" }, "p", rwt(require 'hop'.hint_phrase, { ["postcmd"] = "p" }))
-      map({ "o", "v" }, "l", rwt(require 'hop'.hint_2lines))
+      map({ "o", "v" }, "L", rwt(require 'hop'.hint_2lines))
       -- map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
     end
   }
@@ -634,8 +634,12 @@ return packer.startup(function(use)
       local map = require("utils").map
 
       map({ 'n', 'i', 'v' }, "<f2>",
-        function() require "telescope".extensions.file_browser.file_browser({ path = '%:p:h', previewer = false,
-            hide_parent_dir = true, grouped = true })
+        function() require "telescope".extensions.file_browser.file_browser({
+            path = '%:p:h',
+            previewer = false,
+            hidden = true,
+            hide_parent_dir = true, grouped = true
+          })
         end)
     end,
   }

@@ -72,6 +72,8 @@ map({ "o", "x" }, "ia", 'Ia', { remap = true })
 map("i", "<c-l>", '<esc>u@r')
 map("i", "<c-h>", '<esc>g-i')
 
+map("n", "<c-q>", ':q<CR>')
+
 map("n", "gD", vim.lsp.buf.definition)
 map("n", "gs", vim.lsp.buf.hover)
 
