@@ -335,8 +335,8 @@ return packer.startup(function(use)
         },
       }
       local map = require("utils").map
-      map('n', 'n', 'n:lua require("specs").show_specs()<CR>', {silent = true })
-      map('n', 'N', 'N:lua require("specs").show_specs()<CR>', {silent = true })
+      map('n', 'n', 'n:lua require("specs").show_specs()<CR>', { silent = true })
+      map('n', 'N', 'N:lua require("specs").show_specs()<CR>', { silent = true })
     end
   }
   -- show mark column
@@ -980,7 +980,13 @@ return packer.startup(function(use)
         ignore_install = { "haskell" }, -- List of parsers to ignore installing
         highlight = {
           enable = true, -- false will disable the whole extension
-          disable = {}, -- list of language that will be disabled
+          disable = function(lang, bufnr)
+            if vim.api.nvim_buf_line_count(0) > 5000 then
+              return true
+            end
+            return false
+          end,
+          -- disable = {}, -- list of language that will be disabled
           -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
           -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
           -- Using this option may slow down your editor, and you may see some duplicate highlights.
