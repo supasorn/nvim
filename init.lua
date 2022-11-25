@@ -55,7 +55,6 @@ opt.foldlevelstart = 99
 opt.foldenable = true
 -- opt.foldmethod = "expr"
 -- opt.foldexpr = "nvim_treesitter#foldexpr()"
--- opt.foldlevel=20
 
 -- vim.g.is_pythonsense_suppress_object_keymaps = 1
 
