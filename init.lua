@@ -17,7 +17,6 @@ pcall(require, 'impatient')
 
 require 'plugins'
 
-
 -- Disable Diagnostcs globally
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 
