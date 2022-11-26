@@ -479,6 +479,24 @@ return packer.startup(function(use)
       }
     end,
   }
+  -- Scrollbar
+  use {'dstein64/nvim-scrollview',
+    config = function()
+    require('scrollview').setup({
+      excluded_filetypes = {'nerdtree'},
+      current_only = true,
+      winblend = 10,
+      base = 'right',
+      column = 1
+    })
+    end
+  }
+  --[[
+  use {'petertriho/nvim-scrollbar',
+    config = function()
+      require("scrollbar").setup()
+    end,
+  }--]]
 
   -- ### UI Interface
   -- Bufferline
