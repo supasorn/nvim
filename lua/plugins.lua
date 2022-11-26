@@ -482,13 +482,24 @@ return packer.startup(function(use)
   -- Scrollbar
   use {'dstein64/nvim-scrollview',
     config = function()
-    require('scrollview').setup({
-      excluded_filetypes = {'nerdtree'},
-      current_only = true,
-      winblend = 10,
-      base = 'right',
-      column = 1
-    })
+      require('scrollview').setup({
+        excluded_filetypes = {'nerdtree'},
+        current_only = true,
+        winblend = 90,
+        base = 'right',
+        column = 1
+      })
+      vim.cmd [[
+        function! ScrollViewColor()
+          highlight ScrollView ctermbg=159 guibg=LightCyan
+        endfunction
+
+        augroup ScrollViewCustomHighlight
+            autocmd!
+            autocmd ColorScheme * call ScrollViewColor() 
+        augroup END
+        call ScrollViewColor() 
+      ]]
     end
   }
   --[[
