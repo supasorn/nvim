@@ -222,6 +222,9 @@ return packer.startup(function(use)
   -- ### Yank Paste plugins
   -- \p shows yank registers with fzf
   use { "AckslD/nvim-neoclip.lua",
+    opt = true,
+    require = "fzf-lua",
+    keys = {{"n", "\\p"}},
     config = function()
       require('neoclip').setup()
       local map = require("utils").map
@@ -262,6 +265,10 @@ return packer.startup(function(use)
   -- ### Text Interface
   -- for modern folds
   use { 'kevinhwang91/nvim-ufo',
+    opts = true,
+    setup = function()
+      require("utils").on_file_open "nvim-ufo"
+    end,
     requires = 'kevinhwang91/promise-async',
     config = function()
       local handler = function(virtText, lnum, endLnum, width, truncate)
@@ -764,6 +771,9 @@ return packer.startup(function(use)
   }
   -- fzf with native preview, etc
   use { 'ibhagwan/fzf-lua',
+    opt = true,
+    cmd = {"FzfLua"},
+    keys = { { "n", "<f6>" }, { "n", "?" }, { "n", "<s-r>" }, { "n", "<f3>" }},
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function()
       require('fzf-lua').setup {
