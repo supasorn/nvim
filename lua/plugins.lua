@@ -771,9 +771,9 @@ return packer.startup(function(use)
   }
   -- fzf with native preview, etc
   use { 'ibhagwan/fzf-lua',
-    opt = true,
-    cmd = {"FzfLua"},
-    keys = { { "n", "<f6>" }, { "n", "?" }, { "n", "<s-r>" }, { "n", "<f3>" }},
+    -- opt = true,
+    -- cmd = {"FzfLua"},
+    -- keys = { { "n", "<f6>" }, { "n", "?" }, { "n", "<s-r>" }, { "n", "<f3>" }},
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function()
       require('fzf-lua').setup {
