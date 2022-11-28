@@ -206,7 +206,8 @@ return packer.startup(function(use)
       map({ "n", "v" }, "<c-k>",
         rwt(require 'hop'.hint_lines_skip_whitespace, { direction = require 'hop.hint'.HintDirection.BEFORE_CURSOR }))
 
-      map({ "o" }, "p", rwt(require 'hop'.hint_phrase, { ["postcmd"] = "p" }))
+      -- map({ "o" }, "p", rwt(require 'hop'.hint_phrase, { ["postcmd"] = "p" }))
+      map({ "o" }, "p", rwt(require 'hop'.hint_phrase))
       map({ "o", "v" }, "L", rwt(require 'hop'.hint_2lines))
       -- map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
     end
