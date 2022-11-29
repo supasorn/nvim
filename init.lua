@@ -105,7 +105,7 @@ function! CustomHighlight()
   " hi CursorLineNr guifg=#e5c07b
   hi MatchParen guibg=orange guifg=black
   hi TreesitterContextBottom gui=underline guisp=Grey
-  hi HighlightCurrentSearch guibg=red guifg=black
+  hi HighlightCurrentSearch guibg=#ed2334 guifg=black
 endfunction
 
 augroup CustomHighlightGroup
