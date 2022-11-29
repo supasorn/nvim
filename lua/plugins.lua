@@ -320,15 +320,13 @@ return packer.startup(function(use)
     end
   }
   -- Automatically disable highlights when search
-  use { 'supasorn/vim-cool'
-  }
+  use { 'romainl/vim-cool'}
   -- Highlight current search text differently
   use { 'airblade/vim-current-search-match',
     config = function()
       vim.g.current_search_match  = 'HighlightCurrentSearch'
     end
   }
-
   -- show mark column
   use { 'chentoast/marks.nvim',
     config = function()
