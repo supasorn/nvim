@@ -89,7 +89,6 @@ map("n", "\\]", ":cn<cr>")
 
 
 vim.cmd [[
-
 command! To2spaces %s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g
 command! To4spaces %s/^\s*/&&/g
 
@@ -106,6 +105,7 @@ function! CustomHighlight()
   " hi CursorLineNr guifg=#e5c07b
   hi MatchParen guibg=orange guifg=black
   hi TreesitterContextBottom gui=underline guisp=Grey
+  hi HighlightCurrentSearch guibg=red guifg=black
 endfunction
 
 augroup CustomHighlightGroup
@@ -113,6 +113,17 @@ augroup CustomHighlightGroup
   autocmd ColorScheme * call CustomHighlight()
 augroup END
 call CustomHighlight()
+
+augroup procsearch
+  autocmd!
+  au CmdLineLeave * let b:cmdtype = expand('<afile>') | if (b:cmdtype == '/' || b:cmdtype == '?') | call timer_start(200, 'ProcessSearch') | endif
+augroup END
+
+function! ProcessSearch(timerid)
+    let l:patt = '\%#' . @/
+    if &ic | let l:patt = '\c' . l:patt | endif
+    exe 'match HighlightCurrentSearch /' . l:patt . '/'
+endfunc
 ]]
 
 vim.cmd "source ~/.config/nvim/extra.vim"
