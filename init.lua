@@ -61,7 +61,7 @@ opt.foldenable = true
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
-map("v", "//", 'y/\\V<c-r>"<cr>')
+-- vnoremap // y/\V<c-r>=escape(@",'/\')<cr><cr>
 map("v", "/s", '//<esc>:%s//', { remap = true })
 
 map({ "o", "x" }, "ia", 'Ia', { remap = true })
@@ -89,6 +89,9 @@ map("n", "\\]", ":cn<cr>")
 
 
 vim.cmd [[
+vnoremap // y/\V<c-r>=escape(@",'/\')<cr><cr>
+nnoremap gy /\V<c-r>=escape(@",'/\')<cr><cr>
+
 command! To2spaces %s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g
 command! To4spaces %s/^\s*/&&/g
 
