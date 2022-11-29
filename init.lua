@@ -114,16 +114,6 @@ augroup CustomHighlightGroup
 augroup END
 call CustomHighlight()
 
-augroup procsearch
-  autocmd!
-  au CmdLineLeave * let b:cmdtype = expand('<afile>') | if (b:cmdtype == '/' || b:cmdtype == '?') | call timer_start(200, 'ProcessSearch') | endif
-augroup END
-
-function! ProcessSearch(timerid)
-    let l:patt = '\%#' . @/
-    if &ic | let l:patt = '\c' . l:patt | endif
-    exe 'match HighlightCurrentSearch /' . l:patt . '/'
-endfunc
 ]]
 
 vim.cmd "source ~/.config/nvim/extra.vim"
