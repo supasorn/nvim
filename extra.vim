@@ -6,6 +6,10 @@ nnoremap <c-f> :call RgWithPath("")<CR>
 
 " nmap <F6> :call FilesAtGitRoot()<cr>
 " imap <F6> <esc>:call FilesAtGitRoot()<cr>
+
+nmap <F5> :FzfLua grep<cr>
+imap <F5> <esc>:FzfLua grep<cr>
+
 nmap <F6> :call FilesWithPath()<cr>
 imap <F6> <esc>:call FilesWithPath()<cr>
 
@@ -97,7 +101,6 @@ endfunction
 
 " ----------- Utility functions --------------
 function! FilesWithPath()
-  let g:rgmode_rgopt = "-g '!tags' --column --line-number --no-heading --color=always --smart-case"
   lua require'fzf-lua'.files({cwd=vim.g.rgmode_path}) 
 endfunction
 

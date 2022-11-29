@@ -774,6 +774,9 @@ return packer.startup(function(use)
           ["fg"] = { "fg", "Normal" },
           ["bg"] = { "bg", "Normal" },
         },
+        grep = {
+          rg_opts = "-g '!tags' --column --line-number --no-heading --color=always --smart-case",
+        },
       }
 
       vim.cmd [[
