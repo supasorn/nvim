@@ -212,7 +212,7 @@ return packer.startup(function(use)
       -- map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
     end
   }
-
+  -- Experimenting..
   use { 'ggandor/leap.nvim',
     config = function()
       local map = require("utils").map
@@ -1274,6 +1274,8 @@ return packer.startup(function(use)
     end
   }
 
+  -- Tree climber
+  -- use { 'drybalka/tree-climber.nvim'}
   -- svart!
   -- use { 'http://gitlab.com/madyanov/svart.nvim', }
   -- Animate search highlight
