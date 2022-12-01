@@ -96,7 +96,7 @@ command! To2spaces %s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g
 command! To4spaces %s/^\s*/&&/g
 
 let g:fzf_layout = { 'window': {'width': 1, 'height': 0.3, 'yoffset': 1} }
-let $FZF_DEFAULT_OPTS="--layout reverse"
+let $FZF_DEFAULT_OPTS="--layout reverse --info inline"
 
 " Fold all "use { }" in plugins.lua
 au BufReadPost plugins.lua :%g/\(use\_.\{-}\)\@<={/ normal! f{zf%
