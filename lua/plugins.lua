@@ -490,12 +490,6 @@ return packer.startup(function(use)
       ]]
     end
   }
-  --[[
-  use {'petertriho/nvim-scrollbar',
-    config = function()
-      require("scrollbar").setup()
-    end,
-  }--]]
 
   -- ### UI Interface
   -- Bufferline
@@ -648,16 +642,6 @@ return packer.startup(function(use)
         inactive_winbar = {},
         extensions = {}
       }
-      local map = require("utils").map
-
-      map({ 'n', 'i', 'v' }, "<f2>",
-        function() require "telescope".extensions.file_browser.file_browser({
-            path = '%:p:h',
-            previewer = false,
-            hidden = true,
-            hide_parent_dir = true, grouped = true
-          })
-        end)
     end,
   }
   -- Notification window
@@ -799,6 +783,18 @@ return packer.startup(function(use)
   }
   -- Telescope's file browser
   use { "supasorn/telescope-file-browser.nvim",
+    config = function()
+      local map = require("utils").map
+
+      map({ 'n', 'i', 'v' }, "<f2>",
+        function() require "telescope".extensions.file_browser.file_browser({
+            path = '%:p:h',
+            -- previewer = true,
+            hidden = true,
+            hide_parent_dir = true, grouped = true
+          })
+        end)
+    end,
   }
   -- Telescope
   use { 'nvim-telescope/telescope.nvim',
