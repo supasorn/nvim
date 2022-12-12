@@ -225,7 +225,7 @@ return packer.startup(function(use)
   use { "AckslD/nvim-neoclip.lua",
     opt = true,
     require = "fzf-lua",
-    keys = {{"n", "\\p"}},
+    keys = { { "n", "\\p" } },
     config = function()
       require('neoclip').setup()
       local map = require("utils").map
@@ -319,12 +319,16 @@ return packer.startup(function(use)
       })
     end
   }
+  -- Color picker
+  use { 'uga-rosa/ccc.nvim',
+    cmd = { "CccPick", "CccHighlighterToggle", "CccHighlighterEnable", "CccHighlighterDisable" }
+  }
   -- Automatically disable highlights when search
-  use { 'romainl/vim-cool'}
+  use { 'romainl/vim-cool' }
   -- Highlight current search text differently
   use { 'airblade/vim-current-search-match',
     config = function()
-      vim.g.current_search_match  = 'HighlightCurrentSearch'
+      vim.g.current_search_match = 'HighlightCurrentSearch'
     end
   }
   -- show mark column
@@ -468,10 +472,10 @@ return packer.startup(function(use)
     end,
   }
   -- Scrollbar
-  use {'dstein64/nvim-scrollview',
+  use { 'dstein64/nvim-scrollview',
     config = function()
       require('scrollview').setup({
-        excluded_filetypes = {'nerdtree'},
+        excluded_filetypes = { 'nerdtree' },
         current_only = true,
         winblend = 90,
         base = 'right',
@@ -777,29 +781,18 @@ return packer.startup(function(use)
 
     end,
   }
-  -- Fzf for telescope
-  use { 'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'make'
-  }
-  -- Telescope's file browser
-  use { "supasorn/telescope-file-browser.nvim",
-    config = function()
-      local map = require("utils").map
-
-      map({ 'n', 'i', 'v' }, "<f2>",
-        function() require "telescope".extensions.file_browser.file_browser({
-            path = '%:p:h',
-            -- previewer = true,
-            hidden = true,
-            hide_parent_dir = true, grouped = true
-          })
-        end)
-    end,
-  }
   -- Telescope
   use { 'nvim-telescope/telescope.nvim',
-    tag = '0.1.0',
-    requires = { 'nvim-lua/plenary.nvim' },
+    requires = {
+      { 'nvim-lua/plenary.nvim' },
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        run = 'make'
+      },
+      { 'supasorn/telescope-file-browser.nvim' }
+    },
+    cmd = { "Telescope" },
+    keys = { "<f2>", "gr" },
 
     config = function()
       local actions = require("telescope.actions")
@@ -864,6 +857,16 @@ return packer.startup(function(use)
       })
       require("telescope").load_extension "fzf"
       require("telescope").load_extension "file_browser"
+
+      local map = require("utils").map
+      map({ 'n', 'i', 'v' }, "<f2>",
+        function() require "telescope".extensions.file_browser.file_browser({
+            path = '%:p:h',
+            -- previewer = true,
+            hidden = true,
+            hide_parent_dir = true, grouped = true
+          })
+        end)
 
       vim.cmd [[
 
@@ -1276,27 +1279,27 @@ return packer.startup(function(use)
   -- use { 'http://gitlab.com/madyanov/svart.nvim', }
   -- Animate search highlight
   -- use { 'edluffy/specs.nvim',
-    -- config = function()
-      -- require('specs').setup {
-        -- show_jumps       = true,
-        -- min_jump         = 30,
-        -- popup            = {
-          -- delay_ms = 0, -- delay before popup displays
-          -- inc_ms = 10, -- time increments used for fade/resize effects
-          -- blend = 10, -- starting blend, between 0-100 (fully transparent), see :h winblend
-          -- width = 8,
-          -- winhl = "Search",
-          -- fader = require('specs').empty_fader,
-          -- resizer = require('specs').shrink_resizer
-        -- },
-        -- ignore_filetypes = {},
-        -- ignore_buftypes  = {
-          -- nofile = true,
-        -- },
-      -- }
-      -- local map = require("utils").map
-      -- map('n', 'n', 'n:lua require("specs").show_specs()<CR>', { silent = true })
-      -- map('n', 'N', 'N:lua require("specs").show_specs()<CR>', { silent = true })
-    -- end
+  -- config = function()
+  -- require('specs').setup {
+  -- show_jumps       = true,
+  -- min_jump         = 30,
+  -- popup            = {
+  -- delay_ms = 0, -- delay before popup displays
+  -- inc_ms = 10, -- time increments used for fade/resize effects
+  -- blend = 10, -- starting blend, between 0-100 (fully transparent), see :h winblend
+  -- width = 8,
+  -- winhl = "Search",
+  -- fader = require('specs').empty_fader,
+  -- resizer = require('specs').shrink_resizer
+  -- },
+  -- ignore_filetypes = {},
+  -- ignore_buftypes  = {
+  -- nofile = true,
+  -- },
+  -- }
+  -- local map = require("utils").map
+  -- map('n', 'n', 'n:lua require("specs").show_specs()<CR>', { silent = true })
+  -- map('n', 'N', 'N:lua require("specs").show_specs()<CR>', { silent = true })
+  -- end
   -- }
 end)
