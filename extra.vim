@@ -39,7 +39,13 @@ function! FirstLineCompile()
   if !empty(matchstr(l:s[0], 'Rule'))
     let l:command = l:s[1]
     let l:out = system(l:command)
-    " echo l:out
+    try
+      cexpr l:out 
+    catch
+      "echo l:out
+    endtry
+    botright cwindow 8
+    echo l:out
   endif
 endfunction 
 
