@@ -992,7 +992,7 @@ return packer.startup(function(use)
   }
   -- Neovim's Treesitter
   use { 'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
+    run = function() require("nvim-treesitter.install").update { with_sync = true } end,
     -- Post-install/update hook with neovim command
     -- setup = function()
     -- require("utils").on_file_open "nvim-treesitter"
