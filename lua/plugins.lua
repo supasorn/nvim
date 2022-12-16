@@ -1086,6 +1086,10 @@ return packer.startup(function(use)
       }
     end,
   }
+  -- Treesitter playground
+  use { 'nvim-treesitter/playground', 
+    cmd = {"TSPlaygroundToggle", "TSHighlightCapturesUnderCursor"}
+  }
 
   -- ### All things cmp-related (autocomplete)
   -- use { "hrsh7th/cmp-nvim-lua" }
