@@ -132,7 +132,9 @@ return packer.startup(function(use)
   use { 'supasorn/targets.vim',
   }
   -- for im, am textobject. (Around method's)
-  use { 'nvim-treesitter/nvim-treesitter-textobjects' }
+  use { 'nvim-treesitter/nvim-treesitter-textobjects',
+    after = {'nvim-treesitter'}
+  }
 
   -- ### Text edit / motion
   -- subversive + exchange: quick substitutions and exchange.
