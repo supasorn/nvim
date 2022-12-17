@@ -269,10 +269,11 @@ return packer.startup(function(use)
   -- for modern folds
   use { 'kevinhwang91/nvim-ufo',
     opts = true,
+    requires = 'kevinhwang91/promise-async',
     setup = function()
       require("utils").on_file_open "nvim-ufo"
     end,
-    requires = 'kevinhwang91/promise-async',
+    cmd = { "this_prevents_lazy_load_bug" },
     config = function()
       local handler = function(virtText, lnum, endLnum, width, truncate)
         local newVirtText = {}
