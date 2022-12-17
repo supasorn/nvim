@@ -133,7 +133,7 @@ return packer.startup(function(use)
   }
   -- for im, am textobject. (Around method's)
   use { 'nvim-treesitter/nvim-treesitter-textobjects',
-    after = {'nvim-treesitter'}
+    after = { 'nvim-treesitter' }
   }
 
   -- ### Text edit / motion
@@ -743,8 +743,9 @@ return packer.startup(function(use)
   -- fzf with native preview, etc
   use { 'ibhagwan/fzf-lua',
     -- opt = true,
-    -- cmd = {"FzfLua"},
-    -- keys = { { "n", "<f6>" }, { "n", "?" }, { "n", "<s-r>" }, { "n", "<f3>" }},
+    module = 'fzf-lua',
+    cmd = {"FzfLua"},
+    keys = { { "n", "?" }, { "n", "<s-r>" }, { "n", "<f3>" }},
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function()
       require('fzf-lua').setup {
@@ -779,6 +780,9 @@ return packer.startup(function(use)
         nmap <s-r> :lua require('fzf-lua').command_history({prompt="> "})<cr>
         nmap <f3> :lua require('fzf-lua').buffers({prompt="> "})<cr>
         " nmap <f4> :lua require('fzf-lua').oldfiles({prompt="> "})<cr>
+
+        " nmap <F6> :call FilesWithPath()<cr>
+        " imap <F6> <esc>:call FilesWithPath()<cr>
       ]]
 
     end,
@@ -1087,28 +1091,40 @@ return packer.startup(function(use)
     end,
   }
   -- Treesitter playground
-  use { 'nvim-treesitter/playground', 
-    cmd = {"TSPlaygroundToggle", "TSHighlightCapturesUnderCursor"}
+  use { 'nvim-treesitter/playground',
+    cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" }
   }
 
   -- ### All things cmp-related (autocomplete)
-  -- use { "hrsh7th/cmp-nvim-lua" }
-  use { "hrsh7th/cmp-nvim-lsp" }
-  use { "hrsh7th/cmp-buffer" }
-  use { "hrsh7th/cmp-path" }
-  use { "hrsh7th/cmp-cmdline" }
-  use { "supasorn/friendly-snippets" }
-  use { "saadparwaiz1/cmp_luasnip" }
+
+  use { "rafamadriz/friendly-snippets",
+    event = {"InsertEnter", "CmdlineEnter"}
+  }
   use { "L3MON4D3/LuaSnip",
-    -- after = {"nvim-cmp", "friendly-snippets"},
+    after = "friendly-snippets",
     config = function()
       require("luasnip.loaders.from_vscode").lazy_load()
       vim.keymap.set({ "i", "s" }, "<c-n>", function() require 'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
       vim.keymap.set({ "i", "s" }, "<c-p>", function() require 'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
     end,
   }
+  use { "saadparwaiz1/cmp_luasnip",
+    after = "LuaSnip",
+  }
+  use { "hrsh7th/cmp-nvim-lsp",
+    after = "cmp_luasnip",
+  }
+  use { "hrsh7th/cmp-buffer",
+    after = "cmp-nvim-lsp",
+  }
+  use { "hrsh7th/cmp-path",
+    after = "cmp-buffer"
+  }
+  use { "hrsh7th/cmp-cmdline",
+    after = "cmp-path"
+  }
   use { "hrsh7th/nvim-cmp",
-    -- after = "friendly-snippets",
+    after = "cmp-cmdline",
     config = function()
       local has_words_before = function()
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))

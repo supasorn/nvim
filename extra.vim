@@ -10,8 +10,8 @@ nnoremap <c-f> :call RgWithPath("")<CR>
 nmap <F5> :FzfLua grep<cr>
 imap <F5> <esc>:FzfLua grep<cr>
 
-nmap <F6> :call FilesWithPath()<cr>
-imap <F6> <esc>:call FilesWithPath()<cr>
+nnoremap <F6> :call FilesWithPath()<cr>
+inoremap <F6> <esc>:call FilesWithPath()<cr>
 
 nmap <F7> :call RgModeFZF()<CR>
 imap <F7> <esc>:call RgModeFZF()<CR>

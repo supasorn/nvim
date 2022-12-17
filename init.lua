@@ -101,8 +101,8 @@ let $FZF_DEFAULT_OPTS="--layout reverse --info inline"
 
 " Fold all "use { }" in plugins.lua
 au BufReadPost plugins.lua :%g/\(use\_.\{-}\)\@<={/ normal! f{zf%
-" This beauty remembers where you were the last time you edited the file, and returns to the same position.
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+" " This beauty remembers where you were the last time you edited the file, and returns to the same position.
+" au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
 function! CustomHighlight()
   " hi clear CursorLineNr
