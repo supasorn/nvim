@@ -1108,23 +1108,23 @@ return packer.startup(function(use)
       vim.keymap.set({ "i", "s" }, "<c-p>", function() require 'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
     end,
   }
-  use { "saadparwaiz1/cmp_luasnip",
-    after = "LuaSnip",
-  }
   use { "hrsh7th/cmp-nvim-lsp",
-    after = "cmp_luasnip",
-  }
-  use { "hrsh7th/cmp-buffer",
-    after = "cmp-nvim-lsp",
+    after = "nvim-cmp",
   }
   use { "hrsh7th/cmp-path",
-    after = "cmp-buffer"
+    after = "nvim-cmp"
   }
   use { "hrsh7th/cmp-cmdline",
-    after = "cmp-path"
+    after = "nvim-cmp"
+  }
+  use { "saadparwaiz1/cmp_luasnip",
+    after = "nvim-cmp",
+  }
+  use { "hrsh7th/cmp-buffer",
+    after = "nvim-cmp",
   }
   use { "hrsh7th/nvim-cmp",
-    after = "cmp-cmdline",
+    after = "LuaSnip",
     config = function()
       local has_words_before = function()
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
