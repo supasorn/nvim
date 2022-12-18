@@ -941,6 +941,7 @@ return packer.startup(function(use)
   -- Goto preview with nested!
   use { 'rmagatti/goto-preview',
     opt = true,
+    after = "telescope.nvim",
     keys = { "gp", "gP", "gr" },
     config = function()
       local map = require("utils").map
@@ -960,7 +961,7 @@ return packer.startup(function(use)
   }
   -- Mason-Lsp interface
   use { 'williamboman/mason-lspconfig.nvim',
-    after = { "mason.nvim", 'cmp-nvim-lsp' },
+    after = { 'cmp-nvim-lsp' },
     --requires = {'williamboman/mason.nvim'},
     config = function()
       local mason_lspconfig = require("mason-lspconfig")
