@@ -1010,7 +1010,7 @@ return packer.startup(function(use)
           enable = true
         },
         ensure_installed = { "c", "python", "css", "cpp", "go", "html", "java", "javascript", "json", "lua", "make",
-          "php", "vim", "typescript" },
+          "php", "vim", "typescript" , "help"},
         ignore_install = { "haskell" }, -- List of parsers to ignore installing
         highlight = {
           enable = true, -- false will disable the whole extension
