@@ -634,7 +634,14 @@ return packer.startup(function(use)
           lualine_x = { 'filetype' },
           lualine_y = { 'lsp_progress' },
           --lualine_z = {'location'}
-          lualine_z = { 'progress' }
+          -- lualine_z = { 'progress' }
+          lualine_z = { function() 
+            local hn = vim.loop.os_gethostname()
+            if hn == 'Supasorns-MacBook-Pro.local' then
+              return 'MBP'
+            end
+            return hn
+          end }
         },
         inactive_sections = {
           lualine_a = {},
