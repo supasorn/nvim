@@ -640,7 +640,7 @@ return packer.startup(function(use)
             if hn == 'Supasorns-MacBook-Pro.local' then
               return 'MBP'
             end
-            return hn
+            return hn:gsub("vision", "v")
           end }
         },
         inactive_sections = {
