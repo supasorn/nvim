@@ -954,7 +954,7 @@ return packer.startup(function(use)
   }
   -- Lsp Installer
   use { "williamboman/mason.nvim",
-    cmd = {"Mason", "MasonLog", "MasonInstall", "MasonUninstall"},
+    -- cmd = {"Mason", "MasonLog", "MasonInstall", "MasonUninstall"},
     config = function()
       require("mason").setup()
     end,
