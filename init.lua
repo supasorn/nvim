@@ -69,7 +69,7 @@ map({ "o", "x" }, "ia", 'Ia', { remap = true })
 -- used with supasorn/targets.vim to repeat ci" in the next / previous text object in insert mode
 map("i", "<c-l>", '<esc>u@r')
 map("i", "<c-h>", '<esc>g-i')
-map("n", "cina", 'cIna', { remap = true})
+map("n", "cina", 'cIna', { remap = true })
 
 map("n", "<c-q>", ':q<CR>')
 
@@ -117,6 +117,11 @@ augroup CustomHighlightGroup
   autocmd ColorScheme * call CustomHighlight()
 augroup END
 call CustomHighlight()
+
+augroup highlight_yank
+  autocmd!
+  au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=1000 }
+augroup END
 
 ]]
 

@@ -447,7 +447,7 @@ return packer.startup(function(use)
             'method',
             'for', -- These won't appear in the context
             'while',
-            -- 'if',
+            'if',
             -- 'switch',
             -- 'case',
           },
