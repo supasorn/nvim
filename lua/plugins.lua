@@ -227,7 +227,10 @@ return packer.startup(function(use)
   use { "AckslD/nvim-neoclip.lua",
     opt = true,
     require = "fzf-lua",
-    keys = { { "n", "\\p" } },
+    -- keys = { { "n", "\\p" } },
+    setup = function()
+      require("utils").on_file_open "nvim-neoclip.lua"
+    end,
     config = function()
       require('neoclip').setup()
       local map = require("utils").map
@@ -1106,7 +1109,6 @@ return packer.startup(function(use)
   }
 
   -- ### All things cmp-related (autocomplete)
-
   use { "rafamadriz/friendly-snippets",
     event = {"InsertEnter", "CmdlineEnter"}
   }
