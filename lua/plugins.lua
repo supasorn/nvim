@@ -327,7 +327,17 @@ return packer.startup(function(use)
   }
   -- Color picker
   use { 'uga-rosa/ccc.nvim',
-    cmd = { "CccPick", "CccHighlighterToggle", "CccHighlighterEnable", "CccHighlighterDisable" }
+    keys = { { "i", "<c-c>" } },
+    cmd = { "CccPick", "CccHighlighterToggle", "CccHighlighterEnable", "CccHighlighterDisable" },
+    config = function()
+      require('ccc').setup {
+        inputs = {
+          require('ccc_multiple_color')
+        }
+      }
+      local map = require("utils").map
+      map('i', '<c-c>', '<Plug>(ccc-insert)')
+    end
   }
   -- Automatically disable highlights when search
   use { 'romainl/vim-cool' }
@@ -638,7 +648,7 @@ return packer.startup(function(use)
           lualine_y = { 'lsp_progress' },
           --lualine_z = {'location'}
           -- lualine_z = { 'progress' }
-          lualine_z = { function() 
+          lualine_z = { function()
             local hn = vim.loop.os_gethostname()
             if hn == 'Supasorns-MacBook-Pro.local' then
               return 'MBP'
@@ -755,8 +765,8 @@ return packer.startup(function(use)
   use { 'ibhagwan/fzf-lua',
     -- opt = true,
     module = 'fzf-lua',
-    cmd = {"FzfLua"},
-    keys = { { "n", "?" }, { "n", "<s-r>" }, { "n", "<f3>" }},
+    cmd = { "FzfLua" },
+    keys = { { "n", "?" }, { "n", "<s-r>" }, { "n", "<f3>" } },
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function()
       require('fzf-lua').setup {
@@ -1021,7 +1031,7 @@ return packer.startup(function(use)
           enable = true
         },
         ensure_installed = { "c", "python", "css", "cpp", "go", "html", "java", "javascript", "json", "lua", "make",
-          "php", "vim", "typescript" , "help"},
+          "php", "vim", "typescript", "help" },
         ignore_install = { "haskell" }, -- List of parsers to ignore installing
         highlight = {
           enable = true, -- false will disable the whole extension
@@ -1110,7 +1120,7 @@ return packer.startup(function(use)
 
   -- ### All things cmp-related (autocomplete)
   use { "rafamadriz/friendly-snippets",
-    event = {"InsertEnter", "CmdlineEnter"}
+    event = { "InsertEnter", "CmdlineEnter" }
   }
   use { "L3MON4D3/LuaSnip",
     after = "friendly-snippets",
