@@ -816,10 +816,11 @@ return packer.startup(function(use)
         'nvim-telescope/telescope-fzf-native.nvim',
         run = 'make'
       },
-      { 'supasorn/telescope-file-browser.nvim' }
+      { 'supasorn/telescope-file-browser.nvim' },
+      { 'marcuscaisey/olddirs.nvim' },
     },
     cmd = { "Telescope" },
-    keys = { "<f2>", "gr" },
+    keys = { "<f2>", "gr", "<leader>od" },
 
     config = function()
       local actions = require("telescope.actions")
@@ -878,12 +879,16 @@ return packer.startup(function(use)
               override_file_sorter = true, -- override the file sorter
               case_mode = "smart_case", -- or "ignore_case" or "respect_case"
               -- the default case_mode is "smart_case"
+            },
+            olddirs = {
+              selected_dir_callback = vim.cmd.lcd,
             }
           },
         },
       })
       require("telescope").load_extension "fzf"
       require("telescope").load_extension "file_browser"
+      require("telescope").load_extension "olddirs"
 
       local map = require("utils").map
       map({ 'n', 'i', 'v' }, "<f2>",
@@ -894,6 +899,7 @@ return packer.startup(function(use)
             hide_parent_dir = true, grouped = true
           })
         end)
+      map({ 'n' }, "<leader>od", require "telescope".extensions.olddirs.picker)
 
       vim.cmd [[
 
