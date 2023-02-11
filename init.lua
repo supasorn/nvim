@@ -1,25 +1,36 @@
 local fn = vim.fn
-local install_path = fn.stdpath "data" .. "/site/pack/packer/opt/packer.nvim"
+-- local install_path = fn.stdpath "data" .. "/site/pack/packer/opt/packer.nvim"
 local map = require("utils").map
 local opt = vim.opt
 
-if fn.empty(fn.glob(install_path)) > 0 then
-  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e222a" })
-  print "Cloning packer .."
-  fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
+-- if fn.empty(fn.glob(install_path)) > 0 then
+  -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e222a" })
+  -- print "Cloning packer .."
+  -- fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
+--
+  -- vim.cmd "packadd packer.nvim"
+  -- require "plugins"
+  -- vim.cmd "PackerSync"
+-- end
+-- pcall(require, 'impatient')
 
-  vim.cmd "packadd packer.nvim"
-  require "plugins"
-  vim.cmd "PackerSync"
+-- require 'plugins'
+
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-pcall(require, 'impatient')
-
-require 'plugins'
 
 -- Disable Diagnostcs globally
-vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
-
 opt.termguicolors = true
 opt.mouse = "a"
 opt.eb = false
@@ -57,6 +68,9 @@ opt.foldenable = true
 -- opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- vim.g.is_pythonsense_suppress_object_keymaps = 1
+
+require("lazy").setup("plugins2")
+vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 
 map("v", "<", "<gv")
 map("v", ">", ">gv")
