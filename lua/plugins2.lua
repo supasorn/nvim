@@ -2,7 +2,7 @@ return {
   -- ### System's plugin
   -- Colorscheme
   { 'supasorn/onedark.nvim',
-    lazy = false, 
+    lazy = false,
     priority = 1000,
     config = function()
       require('onedark').setup {
@@ -49,30 +49,28 @@ return {
   -- ### Textobjects
   -- af, if function objects
   { 'Matt-A-Bennett/vim-surround-funk',
-    lazy = true,
-    -- init = function()
-      -- vim.g.surround_funk_create_mappings = 0
-    -- end,
+    lazy = false,
+    init = function()
+      vim.g.surround_funk_create_mappings = 0
+    end,
     keys = {
-      {"af", "<Plug>(SelectWholeFUNCTION)", mode={"o", "x"}},
-      {"iF", "<Plug>(SelectFunctionName)", mode={"o", "x"}},
-      {"if", "<Plug>(SelectFunctionNAME)", mode={"o", "x"}},
-      {"daj", "di(vafp", mode="n"},
+      { "af", "<Plug>(SelectWholeFUNCTION)", mode = { "o", "x" } },
+      { "iF", "<Plug>(SelectFunctionName)", mode = { "o", "x" } },
+      { "if", "<Plug>(SelectFunctionNAME)", mode = { "o", "x" } },
+      { "daj", "di(vafp", mode = "n", remap = true },
     },
-    config = function()
-      vim.cmd [[
-        let g:surround_funk_create_mappings = 0
-      ]]
-    end
   },
   -- argument textobject, and swapping
   { 'PeterRincker/vim-argumentative',
+    event = "VeryLazy"
   },
   -- indent object
   { 'supasorn/vim-indent-object',
+    event = "VeryLazy"
   },
   -- Custom textobject. = i=
   { 'kana/vim-textobj-user',
+    event = "VeryLazy",
     config = function()
       vim.cmd [[
         function! AfterEquationObject()
@@ -106,58 +104,58 @@ return {
   },
   -- Many more textobjects
   { 'supasorn/targets.vim',
+    event = "VeryLazy"
   },
   -- for im, am textobject. (Around method's)
   { 'nvim-treesitter/nvim-treesitter-textobjects',
+    event = "VeryLazy"
   },
 
   -- ### Text edit / motion
   -- subversive + exchange: quick substitutions and exchange.
   { 'gbprod/substitute.nvim',
-    config = function()
-      require("substitute").setup({
-        exchange = {
-          motion = false,
-          use_esc_to_cancel = true,
-        },
-      })
-
-      local map = require("utils").map
-      map("n", "s", "<cmd>lua require('substitute').operator()<cr>", { noremap = true })
-      map("n", "ss", "<cmd>lua require('substitute').line()<cr>", { noremap = true })
-      map("n", "S", "<cmd>lua require('substitute').eol()<cr>", { noremap = true })
-      map("x", "s", "<cmd>lua require('substitute').visual()<cr>", { noremap = true })
-
-      map("n", "sx", "<cmd>lua require('substitute.exchange').operator()<cr>", { noremap = true })
-      map("n", "sxx", "<cmd>lua require('substitute.exchange').line()<cr>", { noremap = true })
-      map("x", "X", "<cmd>lua require('substitute.exchange').visual()<cr>", { noremap = true })
-      map("n", "sxc", "<cmd>lua require('substitute.exchange').cancel()<cr>", { noremap = true })
-    end,
+    keys = {
+      { "s", "<cmd>lua require('substitute').operator()<cr>" },
+      { "ss", "<cmd>lua require('substitute').line()<cr>" },
+      { "S", "<cmd>lua require('substitute').eol()<cr>" },
+      { "s", "<cmd>lua require('substitute').visual()<cr>", mode = "x" },
+      { "sx", "<cmd>lua require('substitute.exchange').operator()<cr>" },
+      { "sxx", "<cmd>lua require('substitute.exchange').line()<cr>" },
+      { "X", "<cmd>lua require('substitute.exchange').visual()<cr>", mode = "x" },
+    },
+    opts = {
+      exchange = {
+        motion = false,
+        use_esc_to_cancel = true,
+      },
+    },
   },
   -- expanding dot repeat for more functions
   { 'tpope/vim-repeat',
+    event = "VeryLazy",
   },
   -- Changes surrounding quote, e.g.
   { "kylechui/nvim-surround",
-    config = function()
-      require("nvim-surround").setup({
-        -- Configuration here, or leave empty to use defaults
-      })
-    end
+    event = "VeryLazy",
+    config = true,
   },
   -- <c-c> to comment line
   { 'numToStr/Comment.nvim',
-    keys = "<c-c>",
-    config = function()
-      require('Comment').setup()
-      vim.cmd [[
-      nmap <c-c> gccj
-      vmap <c-c> gc
-      ]]
-    end
+    dependencies = "nvim-treesitter",
+    keys = {
+      { "<c-c>", "gccj", remap = true },
+      { "<c-c>", "gc", mode = "v", remap = true }
+    },
+    config = true,
   },
   -- My hop with yank phrase, yank line
   { 'supasorn/hop.nvim',
+    keys = {
+      { "<c-j>", mode = { "n", "v" } },
+      { "<c-k>", mode = { "n", "v" } },
+      { "p", mode = { "o" } },
+      { "L", mode = { "o", "v" } },
+    },
     config = function()
       -- you can configure Hop the way you like here; see :h hop-config
       require 'hop'.setup { keys = 'cvbnmtyghqweruiopasldkfj' }
@@ -177,52 +175,41 @@ return {
   },
   -- Experimenting..
   { 'ggandor/leap.nvim',
-    config = function()
-      local map = require("utils").map
-      map({ "n", "v" }, "<space>", ":lua require('leap').leap { target_windows = { vim.fn.win_getid() } }<cr>")
-    end
+    keys = {
+      { "<space>", ":lua require('leap').leap { target_windows = { vim.fn.win_getid() } }<cr>", mode = { "n", "v" } }
+    },
   },
 
   -- ### Yank Paste plugins
   -- \p shows yank registers with fzf
   { "AckslD/nvim-neoclip.lua",
+    event = "VeryLazy",
     dependencies = "fzf-lua",
-    -- keys = { { "n", "\\p" } },
-    config = function()
-      require('neoclip').setup()
-      local map = require("utils").map
-      map("n", "\\p", require('neoclip.fzf')) -- show yank registers
-
-    end,
+    keys = { { "\\p", ":lua require('neoclip.fzf')()<cr>" } },
+    config = true,
   },
   -- \c to copy to system's clipboard. works inside tmux inside ssh
   { 'ojroques/vim-oscyank',
-    keys = "\\c",
-    config = function()
-      vim.cmd "vmap \\c :OSCYank<cr>"
-    end
+    keys = { { "\\c", ":OSCYank<cr>", mode = "v" } }
   },
   -- <c-p> to cycle through previous yank register
   { 'svermeulen/vim-yoink',
-    -- init = function()
-    -- require("utils").on_file_open "vim-yoink"
-    -- end,
-    config = function()
-      vim.cmd [[
-        nmap <c-p> <plug>(YoinkPostPasteSwapBack)
-        "nmap <c-n> <plug>(YoinkPostPasteSwapjorward)
-        nmap p <plug>(YoinkPaste_p)
-        nmap P <plug>(YoinkPaste_P)
-      ]]
-    end
+    event = "VeryLazy",
+    keys = {
+      { "<c-p>", "<plug>(YoinkPostPasteSwapBack)" },
+      { "p", "<plug>(YoinkPaste_p)" },
+      { "P", "<plug>(YoinkPaste_P)" },
+    },
   },
   -- make the cursor not move when yank
   { 'svban/YankAssassin.vim',
+    event = "VeryLazy",
   },
 
   -- ### Text Interface
   -- for modern folds
   { 'kevinhwang91/nvim-ufo',
+    event = "BufReadPost",
     dependencies = 'kevinhwang91/promise-async',
     config = function()
       local handler = function(virtText, lnum, endLnum, width, truncate)
@@ -266,6 +253,7 @@ return {
   },
   -- Shows color blocks when see hex code
   { 'DarwinSenior/nvim-colorizer.lua',
+    event = "VeryLazy",
     config = function()
       require 'colorizer'.setup({ 'lua', 'css', 'javascript', 'html' }, {
         mode = "virtualtext"
@@ -274,7 +262,7 @@ return {
   },
   -- Color picker
   { 'uga-rosa/ccc.nvim',
-    -- keys = { { "i", "<c-c>" } },
+    keys = { { "<c-c>", mode = "i" } },
     cmd = { "CccPick", "CccHighlighterToggle", "CccHighlighterEnable", "CccHighlighterDisable" },
     config = function()
       require('ccc').setup {
@@ -287,65 +275,68 @@ return {
     end
   },
   -- Automatically disable highlights when search
-  { 'romainl/vim-cool' },
+  { 'romainl/vim-cool',
+    event = "VeryLazy",
+  },
   -- Highlight current search text differently
   { 'airblade/vim-current-search-match',
+    event = "VeryLazy",
     config = function()
       vim.g.current_search_match = 'HighlightCurrentSearch'
     end
   },
   -- show mark column
   { 'chentoast/marks.nvim',
-    config = function()
-      require 'marks'.setup {
-        -- whether to map keybinds or not. default true
-        default_mappings = true,
-        -- which builtin marks to show. default {}
-        -- builtin_marks = { ".", "<", ">", "^" },
-        builtin_marks = {},
-        -- whether movements cycle back to the beginning/end of buffer. default true
-        cyclic = true,
-        -- whether the shada file is updated after modifying uppercase marks. default false
-        force_write_shada = true,
-        -- how often (in ms) to redraw signs/recompute mark positions.
-        -- higher values will have better performance but may cause visual lag,
-        -- while lower values may cause performance penalties. default 150.
-        refresh_interval = 250,
-        -- sign priorities for each type of mark - builtin marks, uppercase marks, lowercase
-        -- marks, and bookmarks.
-        -- can be either a table with all/none of the keys, or a single number, in which case
-        -- the priority applies to all marks.
-        -- default 10.
-        sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
-        -- disables mark tracking for specific filetypes. default {}
-        excluded_filetypes = {
-          "help",
-          "terminal",
-          "packer",
-          "lspinfo",
-          "TelescopePrompt",
-          "TelescopeResults",
-          "mason",
-          "",
-          "fzf"
-        },
-        -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own
-        -- sign/virttext. Bookmarks can be used to group together positions and quickly move
-        -- across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and
-        -- default virt_text is "".
-        bookmark_0 = {
-          sign = "⚑",
-          virt_text = "<<<<<<<<",
-          -- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
-          -- defaults to false.
-          annotate = false,
-        },
-        mappings = {}
-      }
-    end
+    event = "VeryLazy",
+    opts = {
+      -- whether to map keybinds or not. default true
+      default_mappings = true,
+      -- which builtin marks to show. default {}
+      -- builtin_marks = { ".", "<", ">", "^" },
+      builtin_marks = {},
+      -- whether movements cycle back to the beginning/end of buffer. default true
+      cyclic = true,
+      -- whether the shada file is updated after modifying uppercase marks. default false
+      force_write_shada = true,
+      -- how often (in ms) to redraw signs/recompute mark positions.
+      -- higher values will have better performance but may cause visual lag,
+      -- while lower values may cause performance penalties. default 150.
+      refresh_interval = 250,
+      -- sign priorities for each type of mark - builtin marks, uppercase marks, lowercase
+      -- marks, and bookmarks.
+      -- can be either a table with all/none of the keys, or a single number, in which case
+      -- the priority applies to all marks.
+      -- default 10.
+      sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
+      -- disables mark tracking for specific filetypes. default {}
+      excluded_filetypes = {
+        "help",
+        "terminal",
+        "packer",
+        "lspinfo",
+        "TelescopePrompt",
+        "TelescopeResults",
+        "mason",
+        "",
+        "fzf"
+      },
+      -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own
+      -- sign/virttext. Bookmarks can be used to group together positions and quickly move
+      -- across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and
+      -- default virt_text is "".
+      bookmark_0 = {
+        sign = "⚑",
+        virt_text = "<<<<<<<<",
+        -- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
+        -- defaults to false.
+        annotate = false,
+      },
+      mappings = {}
+    },
   },
   -- Indent guideline
   { 'lukas-reineke/indent-blankline.nvim',
+    event = "BufEnter",
     config = function()
       require('indent_blankline').setup({
         filetype_exclude = {
@@ -383,6 +374,7 @@ return {
   },
   -- Show context at the top. Cool!
   { 'nvim-treesitter/nvim-treesitter-context',
+    event = "VeryLazy",
     config = function()
       require 'treesitter-context'.setup {
         enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
@@ -428,6 +420,7 @@ return {
   },
   -- Scrollbar
   { 'dstein64/nvim-scrollview',
+    event = "VeryLazy",
     config = function()
       require('scrollview').setup({
         excluded_filetypes = { 'nerdtree' },
@@ -624,10 +617,9 @@ return {
   -- ### File browser, FZF, Telescope
   -- Directory browser
   { 'kyazdani42/nvim-tree.lua',
-    init = function()
-      local map = require("utils").map
-      map("", "<c-n>", ":NvimTreeToggle %:p:h<cr>")
-    end,
+    keys = {
+      { "<c-n>", ":NvimTreeToggle %:p:h<cr>" }
+    },
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     config = function()
       require 'nvim-tree'.setup({
@@ -687,67 +679,57 @@ return {
   },
   -- fzf!
   { 'junegunn/fzf',
+    lazy = true,
     build = './install --bin'
   },
   -- F4 fzf MRU
   { 'pbogut/fzf-mru.vim',
+    dependencies = "fzf",
     cmd = "FZFMru",
-    keys = "<f4>",
-    config = function()
-      vim.cmd [[nmap <F4> :FZFMru --no-sort<CR>]]
-    end
+    keys = { { "<f4>", ":FZFMru --no-sort<CR>" } },
   },
   -- fzf with native preview, etc
   { 'ibhagwan/fzf-lua',
     cmd = { "FzfLua" },
-    keys = { "?", "<s-r>", "<f3>" },
     dependencies = { 'kyazdani42/nvim-web-devicons' },
-    config = function()
-      require('fzf-lua').setup {
-        winopts = {
-          height = 0.25,
-          width = 1,
-          row = 1,
-          border = 'rounded',
-        },
-        buffers = {
-          previewer = false,
-          fzf_opts = {
-            -- hide tabnr
-            -- ['--delimiter'] = ":",
-            -- ["--with-nth"]  = '1',
-          }
-        },
-        oldfiles = {
-          previewer = false,
-        },
-        fzf_colors = {
-          ["fg"] = { "fg", "Normal" },
-          ["bg"] = { "bg", "Normal" },
-        },
-        grep = {
-          rg_opts = "-g '!tags' --column --line-number --no-heading --color=always --smart-case",
-        },
-      }
-
-      vim.cmd [[
-        nmap ? :lua require('fzf-lua').blines({prompt="> "})<cr>
-        nmap <s-r> :lua require('fzf-lua').command_history({prompt="> "})<cr>
-        nmap <f3> :lua require('fzf-lua').buffers({prompt="> "})<cr>
-        " nmap <f4> :lua require('fzf-lua').oldfiles({prompt="> "})<cr>
-
-        " nmap <F6> :call FilesWithPath()<cr>
-        " imap <F6> <esc>:call FilesWithPath()<cr>
-      ]]
-
-    end,
+    keys = {
+      { "?", ':lua require("fzf-lua").blines({prompt=" > "})<cr>' },
+      { "<s-r>", ':lua require("fzf-lua").command_history({prompt=" > "})<cr>' },
+      { "<f3>", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>' },
+    },
+    opts = {
+      winopts = {
+        height = 0.25,
+        width = 1,
+        row = 1,
+        border = 'rounded',
+      },
+      buffers = {
+        previewer = false,
+        fzf_opts = {
+          -- hide tabnr
+          -- ['--delimiter'] = ":",
+          -- ["--with-nth"]  = '1',
+        }
+      },
+      oldfiles = {
+        previewer = false,
+      },
+      fzf_colors = {
+        ["fg"] = { "fg", "Normal" },
+        ["bg"] = { "bg", "Normal" },
+      },
+      grep = {
+        rg_opts = "-g '!tags' --column --line-number --no-heading --color=always --smart-case",
+      },
+    },
+    -- " nmap <f4> :lua require('fzf-lua').oldfiles({prompt="> "})<cr>
   },
   -- Telescope
   { 'nvim-telescope/telescope.nvim',
     dependencies = {
       { 'nvim-lua/plenary.nvim' },
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
+      { 'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make'
       },
       { 'supasorn/telescope-file-browser.nvim' },
@@ -858,32 +840,18 @@ return {
     call TelescopeColor()
 
     ]]
-
-      -- fg_bg("TelescopeBorder", darker_black, darker_black)
-      -- fg_bg("TelescopePromptBorder", black2, black2)
-
-      -- fg_bg("TelescopePromptNormal", white, black2)
-      -- fg_bg("TelescopePromptPrefix", red, black2)
-
-      -- bg("TelescopeNormal", darker_black)
-
-      -- fg_bg("TelescopePreviewTitle", black, green)
-      -- fg_bg("TelescopePromptTitle", black, red)
-      -- fg_bg("TelescopeResultsTitle", darker_black, darker_black)
-
-      -- bg("TelescopeSelection", black2)
-
     end
   },
 
   -- ### LSP, Treesitter, Tags
   -- For adding format() to lsp, etc
   { "jose-elias-alvarez/null-ls.nvim",
-    -- keys = { { "n", "<leader>f" }, { "v", "<leader>f" } },
+    keys = {
+      { "<leader>f", vim.lsp.buf.format, mode = { "n", "v" } }
+    },
     config = function()
-      local map = require("utils").map
-      map({ "n", "v" }, "<leader>f", vim.lsp.buf.format)
-
+      -- local map = require("utils").map
+      -- map(, "<leader>f", vim.lsp.buf.format)
       require("null-ls").setup({
         sources = {
           require("null-ls").builtins.formatting.black,
@@ -893,7 +861,12 @@ return {
   },
   -- Goto preview with nested!
   { 'rmagatti/goto-preview',
-    keys = { "gp", "gP", "gr" },
+    keys = {
+      { "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>" },
+      { "gP", "<cmd>lua require('goto-preview').close_all_win()<CR>" },
+      { "gr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>" }
+    },
+    config = true,
     config = function()
       local map = require("utils").map
       map("n", "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>")
@@ -905,14 +878,13 @@ return {
   },
   -- Lsp Installer
   { "williamboman/mason.nvim",
-    -- cmd = {"Mason", "MasonLog", "MasonInstall", "MasonUninstall"},
-    config = function()
-      require("mason").setup()
-    end,
+    cmd = { "Mason", "MasonLog", "MasonInstall", "MasonUninstall" },
+    config = true,
   },
   -- Mason-Lsp interface
   { 'williamboman/mason-lspconfig.nvim',
-    --requires = {'williamboman/mason.nvim'},
+    event = "VeryLazy",
+    dependencies = "mason.nvim",
     config = function()
       local mason_lspconfig = require("mason-lspconfig")
       mason_lspconfig.setup({
@@ -930,6 +902,7 @@ return {
   },
   -- Lspconfig
   { 'neovim/nvim-lspconfig',
+    event = "VeryLazy",
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
       local mason_lspconfig = require("mason-lspconfig")
@@ -946,19 +919,12 @@ return {
   { 'majutsushi/tagbar',
     dependencies = { 'ludovicchabant/vim-gutentags' },
     cmd = "TagbarToggle",
-    init = function()
-      vim.cmd [[
-      nmap <F8> :TagbarToggle<CR>
-      ]]
-    end
+    keys = { { "<f8>", ":TagbarToggle<CR>" } },
   },
   -- Neovim's Treesitter
   { 'nvim-treesitter/nvim-treesitter',
+    event = "VeryLazy",
     build = function() require("nvim-treesitter.install").update { with_sync = true } end,
-    -- Post-install/update hook with neovim command
-    -- init = function()
-    -- require("utils").on_file_open "nvim-treesitter"
-    -- end,
     -- cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSEnable", "TSDisable", "TSModuleInfo" },
     config = function()
       require 'nvim-treesitter.configs'.setup {
@@ -1057,6 +1023,7 @@ return {
   { "rafamadriz/friendly-snippets",
     event = { "InsertEnter", "CmdlineEnter" }
   },
+
   { "L3MON4D3/LuaSnip",
     config = function()
       require("luasnip.loaders.from_vscode").lazy_load()
@@ -1218,12 +1185,11 @@ return {
   },
   -- For git
   { 'tpope/vim-fugitive',
-    init = function()
-      local map = require("utils").map
-      map("n", "<leader>gs", ":Git<cr>")
-      map("n", "<leader>gc", ':Git commit -m "auto commit"<cr>')
-      map("n", "<leader>gp", ":Git push<cr>")
-    end,
+    keys = {
+      { "<leader>gs", ":Git<cr>" },
+      { "<leader>gc", ':Git commit -m "auto commit"<cr>' },
+      { "<leader>gp", ":Git push<cr>" },
+    },
     cmd = { "Git" },
   },
   -- Show git diff, etc.
