@@ -336,7 +336,8 @@ return {
   },
   -- Indent guideline
   { 'lukas-reineke/indent-blankline.nvim',
-    event = "BufEnter",
+    -- event = "BufEnter",
+    event = "VeryLazy",
     config = function()
       require('indent_blankline').setup({
         filetype_exclude = {
@@ -894,7 +895,7 @@ return {
           "cssls",
           "tsserver",
           "eslint",
-          "sumneko_lua"
+          "lua_ls"
         },
         automatic_installation = true
       })
@@ -1020,28 +1021,25 @@ return {
   },
 
   -- ### All things cmp-related (autocomplete)
-  { "rafamadriz/friendly-snippets",
-    event = { "InsertEnter", "CmdlineEnter" }
-  },
-
   { "L3MON4D3/LuaSnip",
+    dependencies = "rafamadriz/friendly-snippets",
+    lazy = true,
     config = function()
       require("luasnip.loaders.from_vscode").lazy_load()
       vim.keymap.set({ "i", "s" }, "<c-n>", function() require 'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
       vim.keymap.set({ "i", "s" }, "<c-p>", function() require 'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
     end,
   },
-  { "hrsh7th/cmp-nvim-lsp",
-  },
-  { "hrsh7th/cmp-path",
-  },
-  { "hrsh7th/cmp-cmdline",
-  },
-  { "saadparwaiz1/cmp_luasnip",
-  },
-  { "hrsh7th/cmp-buffer",
-  },
   { "hrsh7th/nvim-cmp",
+    event = { "InsertEnter", "CmdlineEnter" },
+    dependencies = {
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lsp",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+    },
     config = function()
       local has_words_before = function()
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -1195,16 +1193,11 @@ return {
   -- Show git diff, etc.
   { 'lewis6991/gitsigns.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
-    init = function()
-      local map = require("utils").map
-      map("n", "<leader>gg", ":Gitsigns toggle_signs<cr>")
-    end,
+    keys = { { "<leader>gg", ":Gitsigns toggle_signs<cr>" } },
     cmd = "Gitsigns",
-    config = function()
-      require('gitsigns').setup({
-        signcolumn = false,
-      })
-    end
+    opts = {
+      signcolumn = false,
+    },
   },
 }
 

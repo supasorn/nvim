@@ -3,19 +3,6 @@ local fn = vim.fn
 local map = require("utils").map
 local opt = vim.opt
 
--- if fn.empty(fn.glob(install_path)) > 0 then
-  -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e222a" })
-  -- print "Cloning packer .."
-  -- fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
---
-  -- vim.cmd "packadd packer.nvim"
-  -- require "plugins"
-  -- vim.cmd "PackerSync"
--- end
--- pcall(require, 'impatient')
-
--- require 'plugins'
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -28,7 +15,6 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-
 
 -- Disable Diagnostcs globally
 opt.termguicolors = true
@@ -69,7 +55,19 @@ opt.foldenable = true
 
 -- vim.g.is_pythonsense_suppress_object_keymaps = 1
 
-require("lazy").setup("plugins2")
+require("lazy").setup("plugins2", {
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+})
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 
 map("v", "<", "<gv")
