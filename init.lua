@@ -102,6 +102,7 @@ map("n", "\\]", ":cn<cr>")
 
 
 vim.cmd [[
+set shm+=I
 vnoremap // y/\V<c-r>=escape(@",'/\')<cr><cr>
 nnoremap gy /\V<c-r>=escape(@",'/\')<cr><cr>
 
