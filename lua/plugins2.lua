@@ -179,6 +179,15 @@ return {
       { "<space>", ":lua require('leap').leap { target_windows = { vim.fn.win_getid() } }<cr>", mode = { "n", "v" } }
     },
   },
+  -- fFtT with leap
+  { 'ggandor/flit.nvim',
+    -- enabled = false,
+    dependencies = "leap.nvim",
+    keys = { "f", "F", "t", "T" },
+    opts = {
+      -- labeled_modes = "v",
+    },
+  },
 
   -- ### Yank Paste plugins
   -- \p shows yank registers with fzf
