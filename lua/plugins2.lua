@@ -181,7 +181,7 @@ return {
   },
   -- fFtT with leap
   { 'ggandor/flit.nvim',
-    -- enabled = false,
+    enabled = false,
     dependencies = "leap.nvim",
     keys = { "f", "F", "t", "T" },
     opts = {
