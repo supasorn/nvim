@@ -188,6 +188,9 @@ return {
       -- labeled_modes = "v",
     },
   },
+  { 'rhysd/clever-f.vim',
+    -- enabled = false,
+  },
 
   -- ### Yank Paste plugins
   -- \p shows yank registers with fzf
