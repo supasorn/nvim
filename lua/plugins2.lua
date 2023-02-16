@@ -188,8 +188,45 @@ return {
       -- labeled_modes = "v",
     },
   },
+  -- fFtT with highlight
   { 'rhysd/clever-f.vim',
+    keys = { "f", "F", "t", "T" },
     -- enabled = false,
+  },
+  -- enhanced increment/decrement
+  { 'monaqa/dial.nvim',
+    keys = {
+      { "<C-a>", "<Plug>(dial-increment)", mode = { "n", "v" } },
+      { "<C-x>", "<Plug>(dial-decrement)", mode = { "n", "v" } },
+      { "g<C-a>", "g<Plug>(dial-increment)", mode = "v" },
+      { "g<C-x>", "g<Plug>(dial-decrement)", mode = "v" },
+    },
+    config = function()
+      local augend = require("dial.augend")
+      require("dial.config").augends:register_group {
+        default = {
+          augend.integer.alias.decimal,
+          augend.integer.alias.hex,
+          augend.constant.alias.bool,
+          augend.date.alias["%Y/%m/%d"],
+          augend.constant.new {
+            elements = { "and", "or" },
+            word = true, -- if false, "sand" is incremented into "sor", "doctor" into "doctand", etc.
+            cyclic = true, -- "or" is incremented into "and".
+          },
+          augend.constant.new {
+            elements = { "&&", "||" },
+            word = false,
+            cyclic = true,
+          },
+          augend.constant.new {
+            elements = { "True", "False" },
+            word = true, 
+            cyclic = true, 
+          },
+        },
+      }
+    end,
   },
 
   -- ### Yank Paste plugins
@@ -1025,6 +1062,9 @@ return {
               ["[M"] = "@class.outer",
             },
           },
+          matchup = {
+            enable = true,
+          }
         },
       }
     end,
@@ -1214,6 +1254,26 @@ return {
     },
   },
 }
+
+-- { 'RRethy/vim-illuminate',
+--   event = "VeryLazy",
+--   config = function()
+--     vim.cmd [[
+--       function! IlluminateColor()
+--         hi! link IlluminatedWordText Visual
+--         hi! link IlluminatedWordRead Visual
+--         hi! link IlluminatedWordWrite Visual
+--       endfunction
+--
+--       augroup IlluminateColorHighlight
+--           autocmd!
+--           autocmd ColorScheme * call IlluminateColor()
+--       augroup END
+--       call IlluminateColor()
+--     ]]
+--   end,
+--
+-- },
 
 -- Tree climber
 -- use { 'drybalka/tree-climber.nvim'}
