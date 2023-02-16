@@ -16,7 +16,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Disable Diagnostcs globally
 opt.termguicolors = true
 opt.mouse = "a"
 opt.eb = false
@@ -70,7 +69,9 @@ require("lazy").setup("plugins2", {
     },
   },
 })
-vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+
+-- Disable Diagnostcs globally
+-- vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 
 map("v", "<", "<gv")
 map("v", ">", ">gv")
@@ -102,6 +103,16 @@ map("n", ">W", "WvhdBPli<space><esc>hhvEEldEPxBBB")
 map("n", "\\[", ":cp<cr>")
 map("n", "\\]", ":cn<cr>")
 
+local signs = {
+  Error = " ",
+  Warn = " ",
+  Hint = " ",
+  Info = " ",
+}
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end
 
 vim.cmd [[
 set shm+=I

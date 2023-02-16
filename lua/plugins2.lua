@@ -221,12 +221,20 @@ return {
           },
           augend.constant.new {
             elements = { "True", "False" },
-            word = true, 
-            cyclic = true, 
+            word = true,
+            cyclic = true,
           },
         },
       }
     end,
+  },
+  -- splitting/joining blocks of code like arrays
+  { 'Wansmer/treesj',
+    cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
+    keys = {
+      ";l", ":TSJToggle<cr>"
+    },
+    config = true,
   },
 
   -- ### Yank Paste plugins
@@ -824,7 +832,7 @@ return {
             height = 0.80,
             preview_cutoff = 120,
           },
-          file_ignore_patterns = { "node_modules" },
+          -- file_ignore_patterns = { "node_modules" },
           -- file_sorter = require("telescope.sorters").get_fuzzy_file,
           -- generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
           path_display = { "truncate" },
@@ -919,14 +927,6 @@ return {
       { "gr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>" }
     },
     config = true,
-    config = function()
-      local map = require("utils").map
-      map("n", "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>")
-      map("n", "gP", "<cmd>lua require('goto-preview').close_all_win()<CR>")
-      map("n", "gr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>")
-
-      require('goto-preview').setup {}
-    end
   },
   -- Lsp Installer
   { "williamboman/mason.nvim",
@@ -960,9 +960,16 @@ return {
       local mason_lspconfig = require("mason-lspconfig")
       mason_lspconfig.setup_handlers({
         function(server_name)
-          require("lspconfig")[server_name].setup {
-            capabilities = capabilities,
-          }
+          local opts = { capabilities = capabilities }
+          if server_name == 'lua_ls' then
+            opts.settings = {
+              Lua = {
+                diagnostics = { globals = { 'vim' }
+                }
+              }
+            }
+          end
+          require("lspconfig")[server_name].setup(opts)
         end
       })
     end
@@ -1072,6 +1079,11 @@ return {
   -- Treesitter playground
   { 'nvim-treesitter/playground',
     cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" }
+  },
+  -- A pretty list for showing diagnostics, refs, quickfix and location lists.
+  { 'folke/trouble.nvim',
+    cmd = { "Trouble", "TroubleToggle", "TroubleClose", "TrobleRefresh" },
+    config = true,
   },
 
   -- ### All things cmp-related (autocomplete)
