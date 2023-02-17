@@ -232,7 +232,7 @@ return {
   { 'Wansmer/treesj',
     cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
     keys = {
-      ";l", ":TSJToggle<cr>"
+      { ";l", ":TSJToggle<cr>" },
     },
     config = true,
   },
