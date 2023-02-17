@@ -456,6 +456,9 @@ return {
             -- 'switch',
             -- 'case',
           },
+          lua = {
+            'table',
+          },
           -- Example for a specific filetype.
           -- If a pattern is missing, *open a PR* so everyone can benefit.
           --   rust = {
@@ -463,6 +466,7 @@ return {
           --   },
         },
         exact_patterns = {
+            -- '  {',
           -- Example for a specific filetype with Lua patterns
           -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
           -- exactly match "impl_item" only)
@@ -609,7 +613,7 @@ return {
   },
   -- Statusline
   { 'nvim-lualine/lualine.nvim',
-    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'kyazdani42/nvim-web-devicons'},
     config = function()
       require('lualine').setup {
 
@@ -637,7 +641,12 @@ return {
           lualine_b = { 'branch' },
           lualine_c = { 'filename' },
           lualine_x = { 'filetype' },
-          lualine_y = { 'lsp_progress' },
+          -- lualine_y = { { 'lsp_progress',
+            -- display_components = { 'lsp_client_name', { 'title', 'percentage', 'message' } },
+            -- timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 1000 },
+            -- spinner_symbols = { '🌑 ', '🌒 ', '🌓 ', '🌔 ', '🌕 ', '🌖 ', '🌗 ', '🌘 ' },
+          -- } },
+          -- lualine_y = { 'filetype' },
           --lualine_z = {'location'}
           -- lualine_z = { 'progress' }
           lualine_z = { function()
@@ -1085,7 +1094,7 @@ return {
   { 'folke/trouble.nvim',
     cmd = { "Trouble", "TroubleToggle", "TroubleClose", "TrobleRefresh" },
     keys = {
-      {"<f9>", "<cmd>TroubleToggle document_diagnostics<cr>"}
+      { "<f9>", "<cmd>TroubleToggle document_diagnostics<cr>" }
     },
     config = true,
   },
