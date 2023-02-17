@@ -407,6 +407,7 @@ return {
           "mason",
           "lazy",
           "NvimTree",
+          "Trouble",
           "",
         },
         buftype_exclude = { "terminal" },
@@ -1083,6 +1084,9 @@ return {
   -- A pretty list for showing diagnostics, refs, quickfix and location lists.
   { 'folke/trouble.nvim',
     cmd = { "Trouble", "TroubleToggle", "TroubleClose", "TrobleRefresh" },
+    keys = {
+      {"<f9>", "<cmd>TroubleToggle document_diagnostics<cr>"}
+    },
     config = true,
   },
 
