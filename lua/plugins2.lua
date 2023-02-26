@@ -44,7 +44,8 @@ return {
   },
   -- Icons!
   { 'kyazdani42/nvim-web-devicons',
-    lazy = true },
+    lazy = true
+  },
 
   -- ### Textobjects
   -- af, if function objects
@@ -1108,7 +1109,7 @@ return {
     config = function()
       require("luasnip.loaders.from_vscode").lazy_load()
       local luasnip = require("luasnip")
-      luasnip.filetype_extend("html", {"javascript"})
+      luasnip.filetype_extend("html", { "javascript" })
 
       vim.keymap.set({ "i", "s" }, "<c-l>", function() require 'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
       vim.keymap.set({ "i", "s" }, "<c-h>", function() require 'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
@@ -1284,26 +1285,6 @@ return {
     },
   },
 }
-
--- { 'RRethy/vim-illuminate',
---   event = "VeryLazy",
---   config = function()
---     vim.cmd [[
---       function! IlluminateColor()
---         hi! link IlluminatedWordText Visual
---         hi! link IlluminatedWordRead Visual
---         hi! link IlluminatedWordWrite Visual
---       endfunction
---
---       augroup IlluminateColorHighlight
---           autocmd!
---           autocmd ColorScheme * call IlluminateColor()
---       augroup END
---       call IlluminateColor()
---     ]]
---   end,
---
--- },
 
 -- Tree climber
 -- use { 'drybalka/tree-climber.nvim'}
