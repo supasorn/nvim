@@ -616,6 +616,19 @@ return {
   { 'nvim-lualine/lualine.nvim',
     dependencies = { 'kyazdani42/nvim-web-devicons' },
     config = function()
+      local colors = {
+        bg       = '#202328',
+        fg       = '#bbc2cf',
+        yellow   = '#ECBE7B',
+        cyan     = '#008080',
+        darkblue = '#081633',
+        green    = '#98be65',
+        orange   = '#FF8800',
+        violet   = '#a9a1e1',
+        magenta  = '#c678dd',
+        blue     = '#51afef',
+        red      = '#ec5f67',
+      }
       require('lualine').setup {
 
         options = {
@@ -641,7 +654,6 @@ return {
           lualine_a = { 'mode' },
           lualine_b = { 'branch' },
           lualine_c = { 'filename' },
-          lualine_x = { 'filetype' },
           -- lualine_y = { { 'lsp_progress',
           -- display_components = { 'lsp_client_name', { 'title', 'percentage', 'message' } },
           -- timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 1000 },
@@ -649,7 +661,18 @@ return {
           -- } },
           -- lualine_y = { 'filetype' },
           --lualine_z = {'location'}
-          lualine_y = { '' },
+          lualine_x = {
+            { 'diagnostics',
+              sources = { 'nvim_diagnostic' },
+              symbols = { error = ' ', warn = ' ', info = ' ' },
+              diagnostics_color = {
+                color_error = { fg = colors.red },
+                color_warn = { fg = colors.yellow },
+                color_info = { fg = colors.cyan },
+              }
+            }
+          },
+          lualine_y = { 'filetype' },
           lualine_z = { function()
             local hn = vim.loop.os_gethostname()
             if hn == 'Supasorns-MacBook-Pro.local' then
