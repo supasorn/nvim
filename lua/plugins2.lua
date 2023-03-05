@@ -1,7 +1,6 @@
 return {
   -- ### System's plugin
-  -- Colorscheme
-  { 'supasorn/onedark.nvim',
+  { 'supasorn/onedark.nvim', -- Colorscheme
     lazy = false,
     priority = 1000,
     config = function()
@@ -42,14 +41,11 @@ return {
       vim.cmd [[ colorscheme onedark ]]
     end
   },
-  -- Icons!
-  { 'kyazdani42/nvim-web-devicons',
+  { 'kyazdani42/nvim-web-devicons', -- Icons!
     lazy = true
   },
-
   -- ### Textobjects
-  -- af, if function objects
-  { 'Matt-A-Bennett/vim-surround-funk',
+  { 'Matt-A-Bennett/vim-surround-funk', -- af, if function objects
     lazy = false,
     init = function()
       vim.g.surround_funk_create_mappings = 0
@@ -61,16 +57,13 @@ return {
       { "daj", "di(vafp", mode = "n", remap = true },
     },
   },
-  -- argument textobject, and swapping
-  { 'PeterRincker/vim-argumentative',
+  { 'PeterRincker/vim-argumentative', -- argument textobject, and swapping
     event = "VeryLazy"
   },
-  -- indent object
-  { 'supasorn/vim-indent-object',
+  { 'supasorn/vim-indent-object', -- indent object
     event = "VeryLazy"
   },
-  -- Custom textobject. = i=
-  { 'kana/vim-textobj-user',
+  { 'kana/vim-textobj-user', -- Custom textobject. = i=
     event = "VeryLazy",
     config = function()
       vim.cmd [[
@@ -103,18 +96,18 @@ return {
 
     end
   },
-  -- Many more textobjects
-  { 'supasorn/targets.vim',
+  { 'supasorn/targets.vim', -- Many more textobjects
     event = "VeryLazy"
   },
-  -- for im, am textobject. (Around method's)
-  { 'nvim-treesitter/nvim-treesitter-textobjects',
+  { 'nvim-treesitter/nvim-treesitter-textobjects', -- for im, am textobject. (Around method's)
     event = "VeryLazy"
   },
-
+  { 'echasnovski/mini.ai', -- more text objects
+    enabled = false,
+    version = '*'
+  },
   -- ### Text edit / motion
-  -- subversive + exchange: quick substitutions and exchange.
-  { 'gbprod/substitute.nvim',
+  { 'gbprod/substitute.nvim', -- subversive + exchange: quick substitutions and exchange.
     keys = {
       { "s", "<cmd>lua require('substitute').operator()<cr>" },
       { "ss", "<cmd>lua require('substitute').line()<cr>" },
@@ -131,17 +124,14 @@ return {
       },
     },
   },
-  -- expanding dot repeat for more functions
-  { 'tpope/vim-repeat',
+  { 'tpope/vim-repeat', -- expanding dot repeat for more functions
     event = "VeryLazy",
   },
-  -- Changes surrounding quote, e.g.
-  { "kylechui/nvim-surround",
+  { "kylechui/nvim-surround", -- Changes surrounding quote, e.g.
     event = "VeryLazy",
     config = true,
   },
-  -- <c-c> to comment line
-  { 'numToStr/Comment.nvim',
+  { 'numToStr/Comment.nvim', -- <c-c> to comment line
     dependencies = "nvim-treesitter",
     keys = {
       { "<c-c>", "gccj", remap = true },
@@ -149,8 +139,7 @@ return {
     },
     config = true,
   },
-  -- My hop with yank phrase, yank line
-  { 'supasorn/hop.nvim',
+  { 'supasorn/hop.nvim', -- My hop with yank phrase, yank line
     keys = {
       { "<c-j>", mode = { "n", "v" } },
       { "<c-k>", mode = { "n", "v" } },
@@ -174,14 +163,12 @@ return {
       -- map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
     end
   },
-  -- Experimenting..
-  { 'ggandor/leap.nvim',
+  { 'ggandor/leap.nvim', -- Experimenting..
     keys = {
       { "<space>", ":lua require('leap').leap { target_windows = { vim.fn.win_getid() } }<cr>", mode = { "n", "v" } }
     },
   },
-  -- fFtT with leap
-  { 'ggandor/flit.nvim',
+  { 'ggandor/flit.nvim', -- fFtT with leap
     enabled = false,
     dependencies = "leap.nvim",
     keys = { "f", "F", "t", "T" },
@@ -189,13 +176,11 @@ return {
       -- labeled_modes = "v",
     },
   },
-  -- fFtT with highlight
-  { 'rhysd/clever-f.vim',
+  { 'rhysd/clever-f.vim', -- fFtT with highlight
     keys = { "f", "F", "t", "T" },
     -- enabled = false,
   },
-  -- enhanced increment/decrement
-  { 'monaqa/dial.nvim',
+  { 'monaqa/dial.nvim', -- enhanced increment/decrement
     keys = {
       { "<C-a>", "<Plug>(dial-increment)", mode = { "n", "v" } },
       { "<C-x>", "<Plug>(dial-decrement)", mode = { "n", "v" } },
@@ -229,29 +214,24 @@ return {
       }
     end,
   },
-  -- splitting/joining blocks of code like arrays
-  { 'Wansmer/treesj',
+  { 'Wansmer/treesj', -- splitting/joining blocks of code like arrays
     cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
     keys = {
       { ";l", ":TSJToggle<cr>" },
     },
     config = true,
   },
-
   -- ### Yank Paste plugins
-  -- \p shows yank registers with fzf
-  { "AckslD/nvim-neoclip.lua",
+  { "AckslD/nvim-neoclip.lua", -- \p shows yank registers with fzf
     event = "VeryLazy",
     dependencies = "fzf-lua",
     keys = { { "\\p", ":lua require('neoclip.fzf')()<cr>" } },
     config = true,
   },
-  -- \c to copy to system's clipboard. works inside tmux inside ssh
-  { 'ojroques/vim-oscyank',
+  { 'ojroques/vim-oscyank', -- \c to copy to system's clipboard. works inside tmux inside ssh
     keys = { { "\\c", ":OSCYank<cr>", mode = "v" } }
   },
-  -- <c-p> to cycle through previous yank register
-  { 'svermeulen/vim-yoink',
+  { 'svermeulen/vim-yoink', -- <c-p> to cycle through previous yank register
     event = "VeryLazy",
     keys = {
       { "<c-p>", "<plug>(YoinkPostPasteSwapBack)" },
@@ -259,14 +239,11 @@ return {
       { "P", "<plug>(YoinkPaste_P)" },
     },
   },
-  -- make the cursor not move when yank
-  { 'svban/YankAssassin.vim',
+  { 'svban/YankAssassin.vim', -- make the cursor not move when yank
     event = "VeryLazy",
   },
-
   -- ### Text Interface
-  -- for modern folds
-  { 'kevinhwang91/nvim-ufo',
+  { 'kevinhwang91/nvim-ufo', -- for modern folds
     event = "BufReadPost",
     dependencies = 'kevinhwang91/promise-async',
     config = function()
@@ -309,8 +286,7 @@ return {
       map('n', 'zM', require('ufo').closeAllFolds)
     end
   },
-  -- Shows color blocks when see hex code
-  { 'DarwinSenior/nvim-colorizer.lua',
+  { 'DarwinSenior/nvim-colorizer.lua', -- Shows color blocks when see hex code
     event = "VeryLazy",
     config = function()
       require 'colorizer'.setup({ 'lua', 'css', 'javascript', 'html' }, {
@@ -318,8 +294,7 @@ return {
       })
     end
   },
-  -- Color picker
-  { 'uga-rosa/ccc.nvim',
+  { 'uga-rosa/ccc.nvim', -- Color picker
     keys = { { "<c-c>", mode = "i" } },
     cmd = { "CccPick", "CccHighlighterToggle", "CccHighlighterEnable", "CccHighlighterDisable" },
     config = function()
@@ -332,19 +307,16 @@ return {
       map('i', '<c-c>', '<Plug>(ccc-insert)')
     end
   },
-  -- Automatically disable highlights when search
-  { 'romainl/vim-cool',
+  { 'romainl/vim-cool', -- Automatically disable highlights when search
     event = "VeryLazy",
   },
-  -- Highlight current search text differently
-  { 'airblade/vim-current-search-match',
+  { 'airblade/vim-current-search-match', -- Highlight current search text differently
     event = "VeryLazy",
     config = function()
       vim.g.current_search_match = 'HighlightCurrentSearch'
     end
   },
-  -- show mark column
-  { 'chentoast/marks.nvim',
+  { 'chentoast/marks.nvim', -- show mark column
     event = "VeryLazy",
     opts = {
       -- whether to map keybinds or not. default true
@@ -392,8 +364,7 @@ return {
       mappings = {}
     },
   },
-  -- Indent guideline
-  { 'lukas-reineke/indent-blankline.nvim',
+  { 'lukas-reineke/indent-blankline.nvim', -- Indent guideline
     -- event = "BufEnter",
     event = "VeryLazy",
     config = function()
@@ -434,8 +405,7 @@ return {
       ]]
     end,
   },
-  -- Show context at the top. Cool!
-  { 'nvim-treesitter/nvim-treesitter-context',
+  { 'nvim-treesitter/nvim-treesitter-context', -- Show context at the top. Cool!
     event = "VeryLazy",
     config = function()
       require 'treesitter-context'.setup {
@@ -467,11 +437,6 @@ return {
           --   },
         },
         exact_patterns = {
-          -- '  {',
-          -- Example for a specific filetype with Lua patterns
-          -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
-          -- exactly match "impl_item" only)
-          -- rust = true,
         },
 
         -- [!] The options below are exposed but shouldn't require your attention,
@@ -484,8 +449,7 @@ return {
       }
     end,
   },
-  -- Scrollbar
-  { 'dstein64/nvim-scrollview',
+  { 'dstein64/nvim-scrollview', -- Scrollbar
     event = "VeryLazy",
     config = function()
       require('scrollview').setup({
@@ -508,10 +472,8 @@ return {
       ]]
     end
   },
-
   -- ### UI Interface
-  -- Bufferline
-  { 'akinsho/bufferline.nvim',
+  { 'akinsho/bufferline.nvim', -- Bufferline
     config = function()
       local map = require("utils").map
       for i = 1, 9 do
@@ -612,8 +574,7 @@ return {
       }
     end
   },
-  -- Statusline
-  { 'nvim-lualine/lualine.nvim',
+  { 'nvim-lualine/lualine.nvim', -- Statusline
     dependencies = { 'kyazdani42/nvim-web-devicons' },
     config = function()
       local colors = {
@@ -696,8 +657,7 @@ return {
       }
     end,
   },
-  -- Notification window
-  { 'rcarriga/nvim-notify',
+  { 'rcarriga/nvim-notify', -- Notification window
     event = 'VeryLazy',
     config = function()
       local notify = require("notify")
@@ -708,10 +668,8 @@ return {
       vim.notify = notify
     end
   },
-
   -- ### File browser, FZF, Telescope
-  -- Directory browser
-  { 'kyazdani42/nvim-tree.lua',
+  { 'kyazdani42/nvim-tree.lua', -- Directory browser
     keys = {
       { "<c-n>", ":NvimTreeToggle %:p:h<cr>" }
     },
@@ -772,20 +730,17 @@ return {
       ]]
     end,
   },
-  -- fzf!
-  { 'junegunn/fzf',
+  { 'junegunn/fzf', -- fzf!
     event = "VeryLazy",
     -- lazy = true,
     build = './install --bin'
   },
-  -- F4 fzf MRU
-  { 'pbogut/fzf-mru.vim',
+  { 'pbogut/fzf-mru.vim', -- F4 fzf MRU
     dependencies = "fzf",
     cmd = "FZFMru",
     keys = { { "<f4>", ":FZFMru --no-sort<CR>" } },
   },
-  -- fzf with native preview, etc
-  { 'ibhagwan/fzf-lua',
+  { 'ibhagwan/fzf-lua', -- fzf with native preview, etc
     cmd = { "FzfLua" },
     dependencies = { 'kyazdani42/nvim-web-devicons' },
     keys = {
@@ -821,8 +776,7 @@ return {
     },
     -- " nmap <f4> :lua require('fzf-lua').oldfiles({prompt="> "})<cr>
   },
-  -- Telescope
-  { 'nvim-telescope/telescope.nvim',
+  { 'nvim-telescope/telescope.nvim', -- Telescope
     dependencies = {
       { 'nvim-lua/plenary.nvim' },
       { 'nvim-telescope/telescope-fzf-native.nvim',
@@ -938,10 +892,8 @@ return {
     ]]
     end
   },
-
   -- ### LSP, Treesitter, Tags
-  -- For adding format() to lsp, etc
-  { "jose-elias-alvarez/null-ls.nvim",
+  { "jose-elias-alvarez/null-ls.nvim", -- For adding format() to lsp, etc
     keys = {
       { "<leader>f", vim.lsp.buf.format, mode = { "n", "v" } }
     },
@@ -955,8 +907,7 @@ return {
       })
     end
   },
-  -- Goto preview with nested!
-  { 'rmagatti/goto-preview',
+  { 'rmagatti/goto-preview', -- Goto preview with nested!
     keys = {
       { "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>" },
       { "gP", "<cmd>lua require('goto-preview').close_all_win()<CR>" },
@@ -964,13 +915,11 @@ return {
     },
     config = true,
   },
-  -- Lsp Installer
-  { "williamboman/mason.nvim",
+  { "williamboman/mason.nvim", -- Lsp Installer
     cmd = { "Mason", "MasonLog", "MasonInstall", "MasonUninstall" },
     config = true,
   },
-  -- Mason-Lsp interface
-  { 'williamboman/mason-lspconfig.nvim',
+  { 'williamboman/mason-lspconfig.nvim', -- Mason-Lsp interface
     event = "VeryLazy",
     dependencies = "mason.nvim",
     config = function()
@@ -988,8 +937,7 @@ return {
       })
     end,
   },
-  -- Lspconfig
-  { 'neovim/nvim-lspconfig',
+  { 'neovim/nvim-lspconfig', -- Lspconfig
     event = "VeryLazy",
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -1010,14 +958,12 @@ return {
       })
     end
   },
-  -- Tagbar! Show code tags
-  { 'majutsushi/tagbar',
+  { 'majutsushi/tagbar', -- Tagbar! Show code tags
     dependencies = { 'ludovicchabant/vim-gutentags' },
     cmd = "TagbarToggle",
     keys = { { "<f8>", ":TagbarToggle<CR>" } },
   },
-  -- Neovim's Treesitter
-  { 'nvim-treesitter/nvim-treesitter',
+  { 'nvim-treesitter/nvim-treesitter', -- Neovim's Treesitter
     event = "VeryLazy",
     build = function() require("nvim-treesitter.install").update { with_sync = true } end,
     -- cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSEnable", "TSDisable", "TSModuleInfo" },
@@ -1112,19 +1058,16 @@ return {
       }
     end,
   },
-  -- Treesitter playground
-  { 'nvim-treesitter/playground',
+  { 'nvim-treesitter/playground', -- Treesitter playground
     cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" }
   },
-  -- A pretty list for showing diagnostics, refs, quickfix and location lists.
-  { 'folke/trouble.nvim',
+  { 'folke/trouble.nvim', -- A pretty list for showing diagnostics, refs, quickfix and location lists.
     cmd = { "Trouble", "TroubleToggle", "TroubleClose", "TrobleRefresh" },
     keys = {
       { "<f9>", "<cmd>TroubleToggle document_diagnostics<cr>" }
     },
     config = true,
   },
-
   -- ### All things cmp-related (autocomplete)
   { "L3MON4D3/LuaSnip",
     dependencies = "rafamadriz/friendly-snippets",
@@ -1276,21 +1219,16 @@ return {
 
     end,
   },
-
   -- ### Utilities
-  -- Profiles startup time
-  { 'dstein64/vim-startuptime',
+  { 'dstein64/vim-startuptime', -- Profiles startup time
     cmd = "StartupTime"
   },
-  -- :Rename :Delete :SudoWrite
-  { 'tpope/vim-eunuch',
+  { 'tpope/vim-eunuch', -- :Rename :Delete :SudoWrite
   },
-  -- \ww swap two windows
-  { 'wesQ3/vim-windowswap',
+  { 'wesQ3/vim-windowswap', -- \ww swap two windows
     keys = "<leader>ww"
   },
-  -- For git
-  { 'tpope/vim-fugitive',
+  { 'tpope/vim-fugitive', -- For git
     keys = {
       { "<leader>gs", ":Git<cr>" },
       { "<leader>gc", ':Git commit -m "auto commit"<cr>' },
@@ -1298,8 +1236,7 @@ return {
     },
     cmd = { "Git" },
   },
-  -- Show git diff, etc.
-  { 'lewis6991/gitsigns.nvim',
+  { 'lewis6991/gitsigns.nvim', -- Show git diff, etc.
     dependencies = { 'nvim-lua/plenary.nvim' },
     keys = { { "<leader>gg", ":Gitsigns toggle_signs<cr>" } },
     cmd = "Gitsigns",
@@ -1308,6 +1245,7 @@ return {
     },
   },
 }
+
 
 -- Tree climber
 -- use { 'drybalka/tree-climber.nvim'}
