@@ -102,10 +102,6 @@ return {
   { 'nvim-treesitter/nvim-treesitter-textobjects', -- for im, am textobject. (Around method's)
     event = "VeryLazy"
   },
-  { 'echasnovski/mini.ai', -- more text objects
-    enabled = false,
-    version = '*'
-  },
   -- ### Text edit / motion
   { 'gbprod/substitute.nvim', -- subversive + exchange: quick substitutions and exchange.
     keys = {
@@ -1247,6 +1243,10 @@ return {
 }
 
 
+-- { 'echasnovski/mini.ai', -- more text objects
+-- enabled = false,
+-- version = '*'
+-- },
 -- Tree climber
 -- use { 'drybalka/tree-climber.nvim'}
 -- svart!
