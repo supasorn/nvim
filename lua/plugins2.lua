@@ -665,7 +665,7 @@ return {
       notify.setup {
         -- top_down = false,
         -- render = "minimal"
-        animate = false
+        stages = "static"
       }
       vim.notify = notify
     end
