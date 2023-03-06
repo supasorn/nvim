@@ -6,7 +6,7 @@ return {
     config = function()
       require('onedark').setup {
         -- Main options --
-        style = 'dark', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+        style = 'cool', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
         transparent = false, -- Show/hide background
         term_colors = true, -- Change terminal color as per the selected theme style
         ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
@@ -475,31 +475,36 @@ return {
       for i = 1, 9 do
         map("n", "<leader>" .. i, ":BufferLineGoToBuffer " .. i .. "<cr>", { silent = true })
       end
+      local function get_color(group, attr)
+        return vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID(group)), attr)
+      end
 
+      -- local deffg = '#8a919d'
+      -- dark -> bright
+      local g0bg = get_color("LineNr", "bg#")
+      local g1bg = get_color("StatusLineNc", "bg#")
+      local g2bg = get_color("StatusLine", "bg#")
+      local deffg = get_color("StatusLine", "fg#")
+
+      local fontcolor = get_color("Function", "fg#")
       local hnormal = {
-        bg = '#31353f',
-        fg = '#8a919d'
+        -- bg = '#31353f',
+        bg = g1bg,
+        fg = deffg,
       }
       local hselected = {
-        -- fg = '#b7c0d0',
-        -- fg = '#98c379',
-        fg = '#73b8f1',
+        fg = fontcolor,
         bold = false,
         italic = false,
       }
       local hvisible = {
-        fg = '#7ca8cf',
-        bg = '#31353f',
-        -- bg = '#21242a',
-        -- fg = '#9299a6',
-      }
-      local redv = {
-        bg = 'red',
-        fg = 'red'
+        -- fg = '#7ca8cf',
+        fg = get_color("Constant", "fg#"),
+        bg = g1bg,
       }
       local separator = {
-        fg = '#21242a',
-        bg = '#21242a',
+        fg = g0b0,
+        bg = g0b0,
       }
       require("bufferline").setup {
         options = {
@@ -558,12 +563,12 @@ return {
           indicator_visible = hvisible,
           separator_visible = separator,
           background = {
-            bg = '#31353f',
-            fg = '#8a919d'
+            bg = g1bg,
+            fg = deffg
           },
           fill = {
-            bg = '#31353f',
-            fg = '#31353f'
+            bg = g1bg,
+            fg = g1bg
           },
 
         }
@@ -660,6 +665,7 @@ return {
       notify.setup {
         -- top_down = false,
         -- render = "minimal"
+        animate = false
       }
       vim.notify = notify
     end
