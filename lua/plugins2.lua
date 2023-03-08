@@ -616,14 +616,11 @@ return {
           lualine_a = { 'mode' },
           lualine_b = { 'branch' },
           lualine_c = { 'filename' },
-          -- lualine_y = { { 'lsp_progress',
-          -- display_components = { 'lsp_client_name', { 'title', 'percentage', 'message' } },
-          -- timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 1000 },
-          -- spinner_symbols = { '🌑 ', '🌒 ', '🌓 ', '🌔 ', '🌕 ', '🌖 ', '🌗 ', '🌘 ' },
-          -- } },
-          -- lualine_y = { 'filetype' },
-          --lualine_z = {'location'}
           lualine_x = {
+            { 'lsp_progress',
+              spinner_symbols = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏', },
+              -- { '🌑 ', '🌒 ', '🌓 ', '🌔 ', '🌕 ', '🌖 ', '🌗 ', '🌘 ' },
+            },
             { 'diagnostics',
               sources = { 'nvim_diagnostic' },
               symbols = { error = ' ', warn = ' ', info = ' ' },
@@ -632,7 +629,7 @@ return {
                 color_warn = { fg = colors.yellow },
                 color_info = { fg = colors.cyan },
               }
-            }
+            },
           },
           lualine_y = { 'filetype' },
           lualine_z = { function()
@@ -669,6 +666,9 @@ return {
       }
       vim.notify = notify
     end
+  },
+  { 'WhoIsSethDaniel/lualine-lsp-progress.nvim',
+    lazy = true,
   },
   -- ### File browser, FZF, Telescope
   { 'kyazdani42/nvim-tree.lua', -- Directory browser
