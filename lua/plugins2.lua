@@ -621,6 +621,8 @@ return {
               spinner_symbols = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏', },
               -- { '🌑 ', '🌒 ', '🌓 ', '🌔 ', '🌕 ', '🌖 ', '🌗 ', '🌘 ' },
             },
+            -- { require("lsp-progress").progress, },
+            -- { require('lsp_spinner').status },
             { 'diagnostics',
               sources = { 'nvim_diagnostic' },
               symbols = { error = ' ', warn = ' ', info = ' ' },
@@ -670,6 +672,33 @@ return {
   { 'WhoIsSethDaniel/lualine-lsp-progress.nvim',
     lazy = true,
   },
+  -- { 'linrongbin16/lsp-progress.nvim',
+  --   lazy = true,
+  --   config = function()
+  --     require('lsp-progress').setup {
+  --       -- Spinning icons.
+  --       spinner = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" },
+  --
+  --       -- Spinning update time in milliseconds.
+  --       spin_update_time = 200,
+  --
+  --       -- Last message cached decay time in milliseconds.
+  --       --
+  --       -- Message could be really fast(appear and disappear in an
+  --       -- instant) that user cannot even see it, thus we cache the last message
+  --       -- for a while for user view.
+  --       decay = 1000,
+  --
+  --       -- User event name.
+  --     }
+  --     vim.cmd [[
+  --       augroup lualine_augroup
+  --         autocmd!
+  --         autocmd User LspProgressStatusUpdated lua require("lualine").refresh()
+  --       augroup END
+  --     ]]
+  --   end,
+  -- },
   -- ### File browser, FZF, Telescope
   { 'kyazdani42/nvim-tree.lua', -- Directory browser
     keys = {
@@ -943,6 +972,7 @@ return {
     event = "VeryLazy",
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
       local mason_lspconfig = require("mason-lspconfig")
       mason_lspconfig.setup_handlers({
         function(server_name)
