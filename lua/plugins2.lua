@@ -1256,6 +1256,7 @@ return {
     cmd = "StartupTime"
   },
   { 'tpope/vim-eunuch', -- :Rename :Delete :SudoWrite
+    cmd = { "Remove", "Delete", "Move", "SudoWrite", "SudoEdit", "Chmod", "Mkdir" }
   },
   { 'wesQ3/vim-windowswap', -- \ww swap two windows
     keys = "<leader>ww"
