@@ -1,11 +1,10 @@
 local fn = vim.fn
--- local install_path = fn.stdpath "data" .. "/site/pack/packer/opt/packer.nvim"
 local map = require("utils").map
 local opt = vim.opt
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
+  fn.system({
     "git",
     "clone",
     "--filter=blob:none",
@@ -111,7 +110,7 @@ local signs = {
 }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+  fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
 vim.cmd [[
