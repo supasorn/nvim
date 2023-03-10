@@ -470,6 +470,7 @@ return {
   },
   -- ### UI Interface
   { 'akinsho/bufferline.nvim', -- Bufferline
+    enabled = false,
     config = function()
       local map = require("utils").map
       for i = 1, 9 do
@@ -503,8 +504,8 @@ return {
         bg = g1bg,
       }
       local separator = {
-        fg = g0b0,
-        bg = g0b0,
+        fg = g0bg,
+        bg = g0bg,
       }
       require("bufferline").setup {
         options = {
@@ -672,33 +673,6 @@ return {
   { 'WhoIsSethDaniel/lualine-lsp-progress.nvim',
     lazy = true,
   },
-  -- { 'linrongbin16/lsp-progress.nvim',
-  --   lazy = true,
-  --   config = function()
-  --     require('lsp-progress').setup {
-  --       -- Spinning icons.
-  --       spinner = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" },
-  --
-  --       -- Spinning update time in milliseconds.
-  --       spin_update_time = 200,
-  --
-  --       -- Last message cached decay time in milliseconds.
-  --       --
-  --       -- Message could be really fast(appear and disappear in an
-  --       -- instant) that user cannot even see it, thus we cache the last message
-  --       -- for a while for user view.
-  --       decay = 1000,
-  --
-  --       -- User event name.
-  --     }
-  --     vim.cmd [[
-  --       augroup lualine_augroup
-  --         autocmd!
-  --         autocmd User LspProgressStatusUpdated lua require("lualine").refresh()
-  --       augroup END
-  --     ]]
-  --   end,
-  -- },
   -- ### File browser, FZF, Telescope
   { 'kyazdani42/nvim-tree.lua', -- Directory browser
     keys = {
@@ -1280,6 +1254,33 @@ return {
 }
 
 
+-- { 'linrongbin16/lsp-progress.nvim',
+--   lazy = true,
+--   config = function()
+--     require('lsp-progress').setup {
+--       -- Spinning icons.
+--       spinner = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" },
+--
+--       -- Spinning update time in milliseconds.
+--       spin_update_time = 200,
+--
+--       -- Last message cached decay time in milliseconds.
+--       --
+--       -- Message could be really fast(appear and disappear in an
+--       -- instant) that user cannot even see it, thus we cache the last message
+--       -- for a while for user view.
+--       decay = 1000,
+--
+--       -- User event name.
+--     }
+--     vim.cmd [[
+--       augroup lualine_augroup
+--         autocmd!
+--         autocmd User LspProgressStatusUpdated lua require("lualine").refresh()
+--       augroup END
+--     ]]
+--   end,
+-- },
 -- { 'echasnovski/mini.ai', -- more text objects
 -- enabled = false,
 -- version = '*'
