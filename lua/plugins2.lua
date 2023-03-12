@@ -741,9 +741,10 @@ return {
     build = './install --bin'
   },
   { 'pbogut/fzf-mru.vim', -- F4 fzf MRU
+    lazy = false, -- otherwise, it won't remember any files
     dependencies = "fzf",
     cmd = "FZFMru",
-    keys = { { "<f4>", ":FZFMru --no-sort<CR>" } },
+    keys = { { "<c-.>", ":FZFMru --no-sort<CR>" } },
   },
   { 'ibhagwan/fzf-lua', -- fzf with native preview, etc
     cmd = { "FzfLua" },
@@ -751,7 +752,7 @@ return {
     keys = {
       { "?", ':lua require("fzf-lua").blines({prompt=" > "})<cr>' },
       { "<s-r>", ':lua require("fzf-lua").command_history({prompt=" > "})<cr>' },
-      { "<f3>", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>' },
+      { "<c-/>", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>' },
     },
     opts = {
       winopts = {
