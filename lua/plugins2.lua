@@ -1132,6 +1132,7 @@ return {
       local cmp = require 'cmp'
       cmp.setup({
         formatting = {
+          fields = { "kind", "abbr" },
           format = function(entry, vim_item)
             local kind_icons = {
               Text = "",
@@ -1161,7 +1162,8 @@ return {
               TypeParameter = ""
             }
             -- Kind icons
-            vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+            -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+            vim_item.kind = string.format('%s', kind_icons[vim_item.kind]) -- This concatonates the icons with the name of the item kind
             -- Source
             -- vim_item.menu = ({
             -- buffer = "[Buffer]",
