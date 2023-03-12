@@ -760,10 +760,18 @@ return {
         width = 1,
         row = 1,
         border = 'rounded',
+        -- hl = { border = 'FloatBorder', }
+        preview = {
+          -- layout = 'horizontal',
+        },
+      },
+      fzf_opts = {
+        ['--layout'] = false,
       },
       buffers = {
         previewer = false,
         fzf_opts = {
+          ['--layout'] = 'reverse-list',
           -- hide tabnr
           -- ['--delimiter'] = ":",
           -- ["--with-nth"]  = '1',
