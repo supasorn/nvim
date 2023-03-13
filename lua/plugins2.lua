@@ -1123,6 +1123,7 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
+      "onsails/lspkind.nvim",
     },
     config = function()
       local has_words_before = function()
@@ -1132,48 +1133,14 @@ return {
       local cmp = require 'cmp'
       cmp.setup({
         formatting = {
+          fields = { "kind", "abbr", "menu" },
           format = function(entry, vim_item)
-            local kind_icons = {
-              Text = "",
-              Method = "",
-              Function = "",
-              Constructor = "",
-              Field = "",
-              Variable = "",
-              Class = "ﴯ",
-              Interface = "",
-              Module = "",
-              Property = "ﰠ",
-              Unit = "",
-              Value = "",
-              Enum = "",
-              Keyword = "",
-              Snippet = "",
-              Color = "",
-              File = "",
-              Reference = "",
-              Folder = "",
-              EnumMember = "",
-              Constant = "",
-              Struct = "",
-              Event = "",
-              Operator = "",
-              TypeParameter = ""
-            }
-            -- Kind icons
-            vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
-            -- vim_item.kind = string.format('%s', kind_icons[vim_item.kind]) -- This concatonates the icons with the name of the item kind
-            -- Source
-            -- vim_item.menu = ({
-            -- buffer = "[Buffer]",
-            -- nvim_lsp = "[LSP]",
-            -- luasnip = "[LuaSnip]",
-            -- nvim_lua = "[Lua]",
-            -- latex_symbols = "[LaTeX]",
-            -- })[entry.source.name]
-            vim_item.menu = ""
-            return vim_item
-          end
+            local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
+            local strings = vim.split(kind.kind, "%s", { trimempty = true })
+            kind.kind = " " .. (strings[1] or "") .. " "
+            kind.menu = "    (" .. (strings[2] or "") .. ")"
+            return kind
+          end,
         },
         snippet = {
           -- REQUIRED - you must specify a snippet engine
@@ -1182,7 +1149,11 @@ return {
           end,
         },
         window = {
-          completion = cmp.config.window.bordered(),
+          completion = cmp.config.window.bordered({
+            -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+            col_offset = -4,
+            side_padding = 0,
+          }),
           documentation = cmp.config.window.bordered(),
         },
         mapping = {
@@ -1238,7 +1209,10 @@ return {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
           { name = 'buffer', max_item_count = 5 }
-        }
+        },
+        formatting = {
+          fields = { "abbr" },
+        },
       })
 
       -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
@@ -1247,7 +1221,10 @@ return {
         sources = cmp.config.sources({
           { name = 'cmdline', max_item_count = 10 },
           -- { name = 'path'}
-        })
+        }),
+        formatting = {
+          fields = { 'abbr' },
+        },
       })
 
 
