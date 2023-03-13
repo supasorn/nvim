@@ -1270,11 +1270,12 @@ return {
     cmd = { "Git" },
   },
   { 'lewis6991/gitsigns.nvim', -- Show git diff, etc.
+    event = "VeryLazy",
     dependencies = { 'nvim-lua/plenary.nvim' },
     keys = { { "<leader>gg", ":Gitsigns toggle_signs<cr>" } },
     cmd = "Gitsigns",
     opts = {
-      signcolumn = false,
+      signcolumn = true,
     },
   },
 }
