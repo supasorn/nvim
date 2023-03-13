@@ -225,7 +225,7 @@ return {
     config = true,
   },
   { 'ojroques/vim-oscyank', -- \c to copy to system's clipboard. works inside tmux inside ssh
-    keys = { { "\\c", ":OSCYank<cr>", mode = "v" } }
+    keys = { { "\\c", ":OSCYankVisual<cr>", mode = "v" } }
   },
   { 'svermeulen/vim-yoink', -- <c-p> to cycle through previous yank register
     event = "VeryLazy",
@@ -597,7 +597,8 @@ return {
         options = {
           icons_enabled = true,
           theme = 'onedark',
-          component_separators = { left = '', right = '' },
+          -- component_separators = { left = '|', right = '' },
+          component_separators = { left = '|', right = '|' },
           --section_separators = { left = '', right = ''},
           section_separators = { left = '', right = '' },
           disabled_filetypes = {
@@ -616,15 +617,37 @@ return {
         sections = {
           lualine_a = {
             { function()
-              return '▊'
+              if vim.bo.modified then
+                return ' ●'
+              end
+              return ' '
             end,
-            -- color = { fg = colors.blue }, -- Sets highlighting of component
-            padding = { left = 0, right = 0 }, -- We don't need space before this
+            padding = {left = 0, right = 0 }, -- We don't need space before this
+            -- separator = { right = ''}
             },
           },
-          lualine_b = { 'filename' },
+          lualine_b = {
+            { 'filename',
+              file_status = false,
+              symbols = {
+                modified = '',    -- Text to show when the file is modified.
+                readonly = '[-]',    -- Text to show when the file is non-modifiable or readonly.
+                unnamed = '[No Name]', -- Text to show for unnamed buffers.
+                newfile = '[New]',   -- Text to show for newly created file before first write
+              }
+            }
+          },
           lualine_c = { 'branch', 'diff' },
           lualine_x = {
+            { 'diagnostics',
+              sources = { 'nvim_diagnostic' },
+              symbols = { error = ' ', warn = ' ', info = ' ' },
+              diagnostics_color = {
+                color_error = { fg = colors.red },
+                color_warn = { fg = colors.yellow },
+                color_info = { fg = colors.cyan },
+              }
+            },
             { 'lsp_progress',
               display_components = { { 'title', 'percentage', 'message' } },
               spinner_symbols = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏', },
@@ -649,15 +672,6 @@ return {
             },
             -- { require("lsp-progress").progress, },
             -- { require('lsp_spinner').status },
-            { 'diagnostics',
-              sources = { 'nvim_diagnostic' },
-              symbols = { error = ' ', warn = ' ', info = ' ' },
-              diagnostics_color = {
-                color_error = { fg = colors.red },
-                color_warn = { fg = colors.yellow },
-                color_info = { fg = colors.cyan },
-              }
-            },
           },
           lualine_y = { 'filetype' },
           lualine_z = { function()
