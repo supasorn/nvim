@@ -614,9 +614,16 @@ return {
           }
         },
         sections = {
-          lualine_a = { 'mode' },
-          lualine_b = { 'branch' },
-          lualine_c = { 'filename', 'diff' },
+          lualine_a = {
+            { function()
+              return '▊'
+            end,
+            -- color = { fg = colors.blue }, -- Sets highlighting of component
+            padding = { left = 0, right = 0 }, -- We don't need space before this
+            },
+          },
+          lualine_b = { 'filename' },
+          lualine_c = { 'branch', 'diff' },
           lualine_x = {
             { 'lsp_progress',
               display_components = { { 'title', 'percentage', 'message' } },
