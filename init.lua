@@ -43,6 +43,7 @@ opt.cursorline = true
 opt.cursorlineopt = "number"
 opt.signcolumn = "yes"
 vim.g.python_recommended_style = 0
+-- vim.g.mapleader = " "
 
 opt.foldcolumn = '0'
 opt.foldlevel = 99
