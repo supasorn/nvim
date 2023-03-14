@@ -1,12 +1,17 @@
 return {
   -- ### System's plugin
-  { 'supasorn/onedark.nvim', -- Colorscheme
+  -- { 'supasorn/onedark.nvim', -- Colorscheme
+  { 'navarasu/onedark.nvim', -- Colorscheme
+    -- enabled = false,
     lazy = false,
     priority = 1000,
     config = function()
+      local style = 'cool'
+      local util = require("onedark.util")
+      local colors = require("onedark.palette")[style]
       require('onedark').setup {
         -- Main options --
-        style = 'cool', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+        style = style, -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
         transparent = false, -- Show/hide background
         term_colors = true, -- Change terminal color as per the selected theme style
         ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
@@ -29,7 +34,10 @@ return {
 
         -- Custom Highlights --
         colors = {}, -- Override default colors
-        highlights = {}, -- Override highlight groupscluster pixels into segments
+        highlights = {
+          ["HopNextKey1"] = {fg = '$yellow'},
+          ["HopNextKey2"] = {fg = util.darken(colors.yellow, 0.8)},
+        }, -- Override highlight groupscluster pixels into segments
 
         -- Plugins Config --
         diagnostics = {
@@ -685,7 +693,11 @@ return {
         inactive_sections = {
           lualine_a = {},
           lualine_b = {},
-          lualine_c = { 'filename' },
+          lualine_c = {
+            { 'filename',
+              color = { fg = 'lualine_c_normal' },
+            }
+          },
           lualine_x = { 'location' },
           lualine_y = {},
           lualine_z = {}
@@ -1148,6 +1160,7 @@ return {
     },
     config = function()
       local has_words_before = function()
+        table.unpack = table.unpack or unpack
         local line, col = table.unpack(vim.api.nvim_win_get_cursor(0))
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
       end
