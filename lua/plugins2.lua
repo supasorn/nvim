@@ -169,7 +169,7 @@ return {
   },
   { 'ggandor/leap.nvim', -- Experimenting..
     keys = {
-      { "<space>", ":lua require('leap').leap { target_windows = { vim.fn.win_getid() } }<cr>", mode = { "n", "v" } }
+      { "<space><space>", ":lua require('leap').leap { target_windows = { vim.fn.win_getid() } }<cr>", mode = { "n", "v" } }
     },
   },
   { 'ggandor/flit.nvim', -- fFtT with leap
@@ -182,6 +182,16 @@ return {
   },
   { 'rhysd/clever-f.vim', -- fFtT with highlight
     keys = { "f", "F", "t", "T" },
+    config = function()
+      vim.cmd [[
+        let g:clever_f_not_overwrites_standard_mappings = 1
+
+        nmap <expr> f reg_recording() .. reg_executing() == "" ? "<plug>(clever-f-f)" : "f"
+        nmap <expr> f reg_recording() .. reg_executing() == "" ? "<plug>(clever-f-f)" : "f"
+        nmap <expr> t reg_recording() .. reg_executing() == "" ? "<plug>(clever-f-t)" : "t"
+        nmap <expr> t reg_recording() .. reg_executing() == "" ? "<plug>(clever-f-t)" : "t"
+      ]]
+    end
     -- enabled = false,
   },
   { 'monaqa/dial.nvim', -- enhanced increment/decrement
@@ -221,7 +231,7 @@ return {
   { 'Wansmer/treesj', -- splitting/joining blocks of code like arrays
     cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
     keys = {
-      { ";l", ":TSJToggle<cr>" },
+      { "<space>l", ":TSJToggle<cr>" },
     },
     config = true,
   },
@@ -799,7 +809,8 @@ return {
     lazy = false, -- otherwise, it won't remember any files
     dependencies = "fzf",
     cmd = "FZFMru",
-    keys = { { "<f4>", ":FZFMru --no-sort<CR>" } },
+    -- keys = { { "<f4>", ":FZFMru --no-sort<CR>" } },
+    keys = { { "<space>p", ":FZFMru --no-sort<CR>" } },
   },
   { 'ibhagwan/fzf-lua', -- fzf with native preview, etc
     cmd = { "FzfLua" },
@@ -807,7 +818,8 @@ return {
     keys = {
       { "?", ':lua require("fzf-lua").blines({prompt=" > "})<cr>' },
       { "<s-r>", ':lua require("fzf-lua").command_history({prompt=" > "})<cr>' },
-      { "<f3>", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>' },
+      -- { "<f3>", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>' },
+      { "<space>o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>' },
     },
     opts = {
       winopts = {
@@ -856,7 +868,8 @@ return {
       { 'junegunn/fzf' },
     },
     cmd = { "Telescope" },
-    keys = { "<f2>", "gr", "<leader>od" },
+    -- keys = { "<f2>", "gr", "<leader>od" },
+    keys = { "<space>i", "gr", "<leader>od" },
 
     config = function()
       local actions = require("telescope.actions")
@@ -927,7 +940,7 @@ return {
       require("telescope").load_extension "olddirs"
 
       local map = require("utils").map
-      map({ 'n', 'i', 'v' }, "<f2>",
+      map({ 'n', 'i', 'v' }, "<space>i",
         function() require "telescope".extensions.file_browser.file_browser({
             path = '%:p:h',
             -- previewer = true,
