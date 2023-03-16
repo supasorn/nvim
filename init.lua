@@ -102,6 +102,7 @@ map("n", ">W", "WvhdBPli<space><esc>hhvEEldEPxBBB")
 
 map("n", "\\[", ":cp<cr>")
 map("n", "\\]", ":cn<cr>")
+map("n", "\\dd", ":lua vim.diagnostic.disable()<cr>")
 
 local signs = {
   Error = " ",

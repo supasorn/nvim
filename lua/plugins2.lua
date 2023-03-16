@@ -68,7 +68,7 @@ return {
   { 'PeterRincker/vim-argumentative', -- argument textobject, and swapping
     event = "VeryLazy"
   },
-  { 'supasorn/vim-indent-object', -- indent object
+  { 'michaeljsmith/vim-indent-object', -- indent object
     event = "VeryLazy"
   },
   { 'kana/vim-textobj-user', -- Custom textobject. = i=
@@ -299,7 +299,7 @@ return {
     end
   },
   { 'uga-rosa/ccc.nvim', -- Color picker
-    keys = { { "<c-c>", mode = "i" } },
+    keys = { { "<c-c>", mode = "i" }, { '\\\\c', ':CccPick<cr>' } },
     cmd = { "CccPick", "CccHighlighterToggle", "CccHighlighterEnable", "CccHighlighterDisable" },
     config = function()
       require('ccc').setup {
@@ -647,7 +647,8 @@ return {
           },
           lualine_c = { 'branch', 'diff' },
           lualine_x = {
-            { 'diagnostics',
+            {
+              'diagnostics',
               sources = { 'nvim_diagnostic' },
               symbols = { error = ' ', warn = ' ', info = ' ' },
               diagnostics_color = {
@@ -656,11 +657,17 @@ return {
                 color_info = { fg = colors.cyan },
               }
             },
-            { 'lsp_progress',
+            {
+              'lsp_progress',
               display_components = { { 'title', 'percentage', 'message' } },
               spinner_symbols = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏', },
             },
-            { function ()
+            -- { require("lsp-progress").progress, },
+            -- { require('lsp_spinner').status },
+          },
+          lualine_y = {
+            {
+              function()
                 local msg = 'no lsp'
                 local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
                 local clients = vim.lsp.get_active_clients()
@@ -678,10 +685,7 @@ return {
               icon = ' ',
               -- color = { fg = '#ffffff', gui = 'bold' },
             },
-            -- { require("lsp-progress").progress, },
-            -- { require('lsp_spinner').status },
-          },
-          lualine_y = { 'filetype' },
+            { 'filetype' } },
           lualine_z = { function()
             local hn = vim.loop.os_gethostname()
             if hn == 'Supasorns-MacBook-Pro.local' then
@@ -1142,9 +1146,8 @@ return {
       require("luasnip.loaders.from_vscode").lazy_load()
       local luasnip = require("luasnip")
       luasnip.filetype_extend("html", { "javascript" })
-
-      vim.keymap.set({ "i", "s" }, "<c-l>", function() require 'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
-      vim.keymap.set({ "i", "s" }, "<c-h>", function() require 'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
+      -- vim.keymap.set({ "i", "s" }, "<c-l>", function() require 'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
+      -- vim.keymap.set({ "i", "s" }, "<c-h>", function() require 'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
     end,
   },
   { "hrsh7th/nvim-cmp",
