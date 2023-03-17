@@ -172,29 +172,16 @@ return {
       { "<space><space>", ":lua require('leap').leap { target_windows = { vim.fn.win_getid() } }<cr>", mode = { "n", "v" } }
     },
   },
-  { 'ggandor/flit.nvim', -- fFtT with leap
-    enabled = false,
-    dependencies = "leap.nvim",
-    keys = { "f", "F", "t", "T" },
+  { 'kevinhwang91/nvim-fFHighlight', -- highlight fF
     opts = {
-      -- labeled_modes = "v",
+      disable_keymap = false,
+      disable_words_hl = false,
+      number_hint_threshold = 3,
+      prompt_sign_define = { text = '✹' }
     },
+    keys = {{'f', mode = {"n", "v"}}, {'f', mode = {"n", "v"}}}
   },
-  { 'rhysd/clever-f.vim', -- fFtT with highlight
-    enabled = false,
-    keys = { "f", "F", "t", "T" },
-    config = function()
-      vim.cmd [[
-        let g:clever_f_not_overwrites_standard_mappings = 1
 
-        nmap <expr> f reg_recording() .. reg_executing() == "" ? "<plug>(clever-f-f)" : "f"
-        nmap <expr> f reg_recording() .. reg_executing() == "" ? "<plug>(clever-f-f)" : "f"
-        nmap <expr> t reg_recording() .. reg_executing() == "" ? "<plug>(clever-f-t)" : "t"
-        nmap <expr> t reg_recording() .. reg_executing() == "" ? "<plug>(clever-f-t)" : "t"
-      ]]
-    end
-    -- enabled = false,
-  },
   { 'monaqa/dial.nvim', -- enhanced increment/decrement
     keys = {
       { "<C-a>", "<Plug>(dial-increment)", mode = { "n", "v" } },
@@ -1309,4 +1296,3 @@ return {
     },
   },
 }
-
