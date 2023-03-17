@@ -181,6 +181,7 @@ return {
     },
   },
   { 'rhysd/clever-f.vim', -- fFtT with highlight
+    enabled = false,
     keys = { "f", "F", "t", "T" },
     config = function()
       vim.cmd [[
