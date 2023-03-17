@@ -49,6 +49,9 @@ return {
       vim.cmd [[ colorscheme onedark ]]
     end
   },
+  { 'folke/tokyonight.nvim',
+    lazy = true,
+  },
   { 'kyazdani42/nvim-web-devicons', -- Icons!
     lazy = true
   },
