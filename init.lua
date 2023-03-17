@@ -102,7 +102,20 @@ map("n", ">W", "WvhdBPli<space><esc>hhvEEldEPxBBB")
 
 map("n", "\\[", ":cp<cr>")
 map("n", "\\]", ":cn<cr>")
-map("n", "\\dd", ":lua vim.diagnostic.disable()<cr>")
+
+local diagnostics_active = true
+local toggle_diagnostics = function()
+  diagnostics_active = not diagnostics_active
+  if diagnostics_active then
+    vim.api.nvim_echo({ { "Show diagnostics" } }, false, {})
+    vim.diagnostic.enable()
+  else
+    vim.api.nvim_echo({ { "Disable diagnostics" } }, false, {})
+    vim.diagnostic.disable()
+  end
+end
+
+map("n", "\\dd", toggle_diagnostics) -- ":lua vim.diagnostic.disable()<cr>")
 
 local signs = {
   Error = " ",
