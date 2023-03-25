@@ -1194,6 +1194,12 @@ return {
             -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
             col_offset = -3,
             side_padding = 0,
+
+            -- col_offset = -2,
+            -- border = "none",
+            -- winhighlight = "Normal:Pmenu",
+            -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+            -- border = { "", "", "", "│", "╯", "─", "╰", "│" },
           }),
           documentation = cmp.config.window.bordered(),
         },
@@ -1297,5 +1303,9 @@ return {
     opts = {
       signcolumn = true,
     },
+  },
+  { 'sindrets/diffview.nvim',
+    cmd = {'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles', 'DiffviewRefresh'},
+
   },
 }
