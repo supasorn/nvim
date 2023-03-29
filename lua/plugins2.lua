@@ -801,7 +801,7 @@ return {
     dependencies = "fzf",
     cmd = "FZFMru",
     -- keys = { { "<f4>", ":FZFMru --no-sort<CR>" } },
-    keys = { { "<space>p", ":FZFMru --no-sort<CR>" } },
+    keys = { { "<space>p", ":FZFMru --no-sort<CR>", mode = "n" } },
   },
   { 'ibhagwan/fzf-lua', -- fzf with native preview, etc
     cmd = { "FzfLua" },
@@ -810,7 +810,7 @@ return {
       { "?", ':lua require("fzf-lua").blines({prompt=" > "})<cr>' },
       { "<s-r>", ':lua require("fzf-lua").command_history({prompt=" > "})<cr>' },
       -- { "<f3>", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>' },
-      { "<space>o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>' },
+      { "<space>o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n" },
     },
     opts = {
       winopts = {
@@ -931,7 +931,7 @@ return {
       require("telescope").load_extension "olddirs"
 
       local map = require("utils").map
-      map({ 'n', 'i', 'v' }, "<space>i",
+      map({ 'n' }, "<space>i",
         function() require "telescope".extensions.file_browser.file_browser({
             path = '%:p:h',
             -- previewer = true,
