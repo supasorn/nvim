@@ -691,6 +691,8 @@ return {
             local hn = vim.loop.os_gethostname()
             if hn == 'Supasorns-MacBook-Pro.local' then
               return 'MBP'
+            elseif hn == 'Supasorns-MacBook-Pro-2.local' then
+              return 'MBP'
             end
             return hn:gsub("vision", "v")
           end }
