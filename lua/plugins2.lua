@@ -1,6 +1,5 @@
 return {
   -- ### System's plugin
-  -- { 'supasorn/onedark.nvim', -- Colorscheme
   { 'navarasu/onedark.nvim', -- Colorscheme
     -- enabled = false,
     lazy = false,
