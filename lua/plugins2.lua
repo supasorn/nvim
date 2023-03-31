@@ -166,12 +166,13 @@ return {
       -- map({ "o" }, "p", rwt(require 'hop'.hint_phrase, { ["postcmd"] = "p" }))
       map({ "o" }, "p", rwt(require 'hop'.hint_phrase))
       map({ "o", "v" }, "L", rwt(require 'hop'.hint_2lines))
-      -- map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
+      map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
     end
   },
   { 'ggandor/leap.nvim', -- Experimenting..
+
     keys = {
-      { "<space><space>", ":lua require('leap').leap { target_windows = { vim.fn.win_getid() } }<cr>", mode = { "n", "v" } }
+      { "<space>", ":lua require('leap').leap { target_windows = { vim.fn.win_getid() } }<cr>", mode = { "n", "v" } }
     },
   },
   { 'kevinhwang91/nvim-fFHighlight', -- highlight fF
@@ -221,7 +222,7 @@ return {
   { 'Wansmer/treesj', -- splitting/joining blocks of code like arrays
     cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
     keys = {
-      { "<space>l", ":TSJToggle<cr>" },
+      { "\\l", ":TSJToggle<cr>" },
     },
     config = true,
   },
@@ -477,6 +478,48 @@ return {
     end
   },
   -- ### UI Interface
+  { "SmiteshP/nvim-navic",
+    enabled = false,
+    dependencies = {
+      "neovim/nvim-lspconfig",
+    },
+    lazy = "VeryLazy",
+    opts = {
+      icons = {
+        File          = " ",
+        Module        = " ",
+        Namespace     = " ",
+        Package       = " ",
+        Class         = " ",
+        Method        = " ",
+        Property      = " ",
+        Field         = " ",
+        Constructor   = " ",
+        Enum          = "練",
+        Interface     = "練",
+        Function      = " ",
+        Variable      = " ",
+        Constant      = " ",
+        String        = " ",
+        Number        = " ",
+        Boolean       = "◩ ",
+        Array         = " ",
+        Object        = " ",
+        Key           = " ",
+        Null          = "ﳠ ",
+        EnumMember    = " ",
+        Struct        = " ",
+        Event         = " ",
+        Operator      = " ",
+        TypeParameter = " ",
+      },
+      highlight = true,
+      separator = " > ",
+      depth_limit = 0,
+      depth_limit_indicator = "..",
+      safe_output = true
+    },
+  },
   { 'akinsho/bufferline.nvim', -- Bufferline
     enabled = false,
     config = function()
@@ -802,7 +845,7 @@ return {
     dependencies = "fzf",
     cmd = "FZFMru",
     -- keys = { { "<f4>", ":FZFMru --no-sort<CR>" } },
-    keys = { { "<space>p", ":FZFMru --no-sort<CR>", mode = "n" } },
+    keys = { { "<f4>", ":FZFMru --no-sort<CR>", mode = "n" } },
   },
   { 'ibhagwan/fzf-lua', -- fzf with native preview, etc
     cmd = { "FzfLua" },
@@ -811,7 +854,7 @@ return {
       { "?", ':lua require("fzf-lua").blines({prompt=" > "})<cr>' },
       { "<s-r>", ':lua require("fzf-lua").command_history({prompt=" > "})<cr>' },
       -- { "<f3>", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>' },
-      { "<space>o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n" },
+      { "<f3>", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n" },
     },
     opts = {
       winopts = {
@@ -861,7 +904,7 @@ return {
     },
     cmd = { "Telescope" },
     -- keys = { "<f2>", "gr", "<leader>od" },
-    keys = { "<space>i", "gr", "<leader>od" },
+    keys = { "<f2>", "gr", "<leader>od" },
 
     config = function()
       local actions = require("telescope.actions")
@@ -932,7 +975,7 @@ return {
       require("telescope").load_extension "olddirs"
 
       local map = require("utils").map
-      map({ 'n' }, "<space>i",
+      map({ 'n' }, "<f2>",
         function() require "telescope".extensions.file_browser.file_browser({
             path = '%:p:h',
             -- previewer = true,
@@ -1015,8 +1058,8 @@ return {
     event = "VeryLazy",
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
       local mason_lspconfig = require("mason-lspconfig")
+
       mason_lspconfig.setup_handlers({
         function(server_name)
           local opts = { capabilities = capabilities }
@@ -1028,6 +1071,10 @@ return {
               }
             }
           end
+          -- opts.on_attach = function(client, bufnr)
+            -- local navic = require("nvim-navic")
+            -- navic.attach(client, bufnr)
+          -- end
           require("lspconfig")[server_name].setup(opts)
         end
       })
