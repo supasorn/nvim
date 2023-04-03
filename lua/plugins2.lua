@@ -177,6 +177,7 @@ return {
     },
   },
   { 'kevinhwang91/nvim-fFHighlight', -- highlight fF
+    enabled = false,
     opts = {
       disable_keymap = false,
       disable_words_hl = false,
@@ -184,6 +185,20 @@ return {
       prompt_sign_define = { text = '✹' }
     },
     keys = {{'f', mode = {"n", "v"}}, {'f', mode = {"n", "v"}}}
+  },
+  { 'rhysd/clever-f.vim', -- fFtT with highlight
+    keys = { "f", "F", "t", "T" },
+    -- enabled = false,
+    config = function()
+      vim.cmd [[
+      let g:clever_f_not_overwrites_standard_mappings = 1
+      nmap <expr> f reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-f)" : "f"
+      nmap <expr> F reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-F)" : "F"
+      nmap <expr> t reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-t)" : "t"
+      nmap <expr> T reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-T)" : "T"
+      " map <c-;> ;
+      ]]
+    end,
   },
 
   { 'monaqa/dial.nvim', -- enhanced increment/decrement
@@ -846,7 +861,7 @@ return {
     dependencies = "fzf",
     cmd = "FZFMru",
     -- keys = { { "<f4>", ":FZFMru --no-sort<CR>" } },
-    keys = { { "<f4>", ":FZFMru --no-sort<CR>", mode = "n" } },
+    keys = { { ";p", ":FZFMru --no-sort<CR>", mode = "n" } },
   },
   { 'ibhagwan/fzf-lua', -- fzf with native preview, etc
     cmd = { "FzfLua" },
@@ -854,8 +869,7 @@ return {
     keys = {
       { "?", ':lua require("fzf-lua").blines({prompt=" > "})<cr>' },
       { "<s-r>", ':lua require("fzf-lua").command_history({prompt=" > "})<cr>' },
-      -- { "<f3>", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>' },
-      { "<f3>", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n" },
+      { ";o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n" },
     },
     opts = {
       winopts = {
@@ -905,7 +919,7 @@ return {
     },
     cmd = { "Telescope" },
     -- keys = { "<f2>", "gr", "<leader>od" },
-    keys = { "<f2>", "gr", "<leader>od" },
+    keys = { ";i", "gr", "<leader>od" },
 
     config = function()
       local actions = require("telescope.actions")
@@ -976,7 +990,7 @@ return {
       require("telescope").load_extension "olddirs"
 
       local map = require("utils").map
-      map({ 'n' }, "<f2>",
+      map({ 'n' }, ";i",
         function() require "telescope".extensions.file_browser.file_browser({
             path = '%:p:h',
             -- previewer = true,
@@ -1358,6 +1372,7 @@ return {
 
   },
   { 'github/copilot.vim',
+    keys = { { "<f10>", "<esc>:Copilot<cr>", mode = { "i" } }, { "<f10>", ":Copilot<cr>", mode = { "n", "v" } } },
     -- enabled = false,
     config = function()
       vim.g.copilot_no_tab_map = true
