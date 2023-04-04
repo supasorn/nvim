@@ -149,7 +149,7 @@ return {
     keys = {
       { "<c-j>", mode = { "n", "v" } },
       { "<c-k>", mode = { "n", "v" } },
-      { "<space>", mode = { "n", "v" } },
+      { ";", mode = { "n", "v" } },
       { "p", mode = { "o" } },
       { "L", mode = { "o", "v" } },
     },
@@ -167,7 +167,7 @@ return {
       -- map({ "o" }, "p", rwt(require 'hop'.hint_phrase, { ["postcmd"] = "p" }))
       map({ "o" }, "p", rwt(require 'hop'.hint_phrase))
       map({ "o", "v" }, "L", rwt(require 'hop'.hint_2lines))
-      map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
+      map({ "n", "v" }, ";", rwt(require 'hop'.hint_char1))
     end
   },
   { 'ggandor/leap.nvim', -- Experimenting..
@@ -749,7 +749,7 @@ return {
             local hn = vim.loop.os_gethostname()
             if hn == 'Supasorns-MacBook-Pro.local' then
               return 'MBP'
-            elseif hn == 'Supasorns-MacBook-Pro-2.local' then
+            elseif hn == 'Supasorns-M2X.local' then
               return 'MBP'
             end
             return hn:gsub("vision", "v")
@@ -861,7 +861,7 @@ return {
     dependencies = "fzf",
     cmd = "FZFMru",
     -- keys = { { "<f4>", ":FZFMru --no-sort<CR>" } },
-    keys = { { ";p", ":FZFMru --no-sort<CR>", mode = "n" } },
+    keys = { { "<space>p", ":FZFMru --no-sort<CR>", mode = "n" } },
   },
   { 'ibhagwan/fzf-lua', -- fzf with native preview, etc
     cmd = { "FzfLua" },
@@ -869,7 +869,7 @@ return {
     keys = {
       { "?", ':lua require("fzf-lua").blines({prompt=" > "})<cr>' },
       { "<s-r>", ':lua require("fzf-lua").command_history({prompt=" > "})<cr>' },
-      { ";o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n" },
+      { "<space>o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n" },
     },
     opts = {
       winopts = {
@@ -919,7 +919,7 @@ return {
     },
     cmd = { "Telescope" },
     -- keys = { "<f2>", "gr", "<leader>od" },
-    keys = { ";i", "gr", "<leader>od" },
+    keys = { "<space>i", "gr", "<leader>od" },
 
     config = function()
       local actions = require("telescope.actions")
@@ -990,7 +990,7 @@ return {
       require("telescope").load_extension "olddirs"
 
       local map = require("utils").map
-      map({ 'n' }, ";i",
+      map({ 'n' }, "<space>i",
         function() require "telescope".extensions.file_browser.file_browser({
             path = '%:p:h',
             -- previewer = true,
