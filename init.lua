@@ -142,7 +142,7 @@ let $FZF_DEFAULT_OPTS="--info inline"
 
 " Fold all "use { }" in plugins.lua
 " au BufReadPost plugins.lua :%g/\(use\_.\{-}\)\@<={/ normal! f{zf%
-au BufReadPost plugins2.lua :%g/^  {/ normal! f{zf% 
+au BufReadPost plugins.lua :%g/^  {/ normal! f{zf% 
 
 " " This beauty remembers where you were the last time you edited the file, and returns to the same position.
 " au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
