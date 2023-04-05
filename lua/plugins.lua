@@ -493,7 +493,7 @@ return {
     end
   },
   -- ### UI Interface
-  { "SmiteshP/nvim-navic",
+  { "SmiteshP/nvim-navic", -- show current code context
     enabled = false,
     dependencies = {
       "neovim/nvim-lspconfig",
