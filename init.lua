@@ -54,7 +54,7 @@ opt.foldenable = true
 
 -- vim.g.is_pythonsense_suppress_object_keymaps = 1
 
-require("lazy").setup("plugins2", {
+require("lazy").setup("plugins", {
   performance = {
     rtp = {
       disabled_plugins = {
