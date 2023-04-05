@@ -200,7 +200,6 @@ return {
       ]]
     end,
   },
-
   { 'monaqa/dial.nvim', -- enhanced increment/decrement
     keys = {
       { "<C-a>", "<Plug>(dial-increment)", mode = { "n", "v" } },
@@ -1383,5 +1382,4 @@ return {
       ]]
     end,
   },
-
 }
