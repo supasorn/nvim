@@ -166,6 +166,7 @@ augroup highlight_yank
   au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=1000 }
 augroup END
 
+au BufNewFile,BufRead *.ejs set filetype=html
 ]]
 
 vim.cmd "source ~/.config/nvim/extra.vim"
