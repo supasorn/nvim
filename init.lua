@@ -128,10 +128,25 @@ for type, icon in pairs(signs) do
   fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
+function LaunchHttpServerHere(directory)
+  local port = 1111
+  local cmd = string.format("cd %s && python3 -m http.server %d", directory, port)
+  -- local cmd = string.format("python3 -m http.server %d", port)
+  -- vim.fn.termopen(cmd)
+  vim.api.nvim_command("tabnew")
+  vim.fn.termopen(cmd)
+  -- vim.cmd(":tab")
+
+  -- Print a message to the user
+  print(string.format("Started HTTP server on port %d serving directory %s", port, directory))
+end
+
 vim.cmd [[
 set shm+=I
 vnoremap // y/\V<c-r>=escape(@",'/\')<cr><cr>
 nnoremap gy /\V<c-r>=escape(@",'/\')<cr><cr>
+
+command! -nargs=+ H lua LaunchHttpServerHere(<f-args>)
 
 command! To2spaces %s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g
 command! To4spaces %s/^\s*/&&/g
