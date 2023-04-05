@@ -1110,7 +1110,7 @@ return {
           enable = true
         },
         ensure_installed = { "c", "python", "css", "cpp", "go", "html", "java", "javascript", "json", "lua", "make",
-          "php", "vim", "typescript", "help" },
+          "php", "vim", "typescript", "vimdoc" },
         ignore_install = { "haskell" }, -- List of parsers to ignore installing
         highlight = {
           enable = true, -- false will disable the whole extension
