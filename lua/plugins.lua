@@ -3,7 +3,6 @@ return {
   { 'navarasu/onedark.nvim', -- Colorscheme
     -- enabled = false,
     lazy = false,
-    commit = 'f0a70e0993acbb348c32a52a88058cc60c160992',
     priority = 1000,
     config = function()
       local style = 'cool'
