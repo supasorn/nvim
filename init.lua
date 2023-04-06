@@ -141,6 +141,26 @@ function LaunchHttpServerHere(directory)
   print(string.format("Started HTTP server on port %d serving directory %s", port, directory))
 end
 
+-- local color_schemes = {'onedark', 'tokyonight', 'tokyonight-night' }
+-- function RotateColorScheme()
+  -- local current_scheme = vim.g.colors_name
+  -- local current_index
+  -- for i, scheme in ipairs(color_schemes) do
+    -- if scheme == current_scheme then
+      -- current_index = i
+      -- break
+    -- end
+  -- end
+  -- local next_index = (current_index % #color_schemes) + 1
+  -- vim.cmd('colorscheme ' .. color_schemes[next_index])
+  -- vim.api.nvim_echo({ { tostring(next_index) } }, true, {})
+  -- vim.api.nvim_echo({ { 'colorscheme - ' .. color_schemes[next_index] } }, true, {})
+  -- vim.api.nvim_echo({ { 'colorscheme ' } }, false, {})
+  -- vim.notify({ 'colorscheme ' .. color_schemes[next_index] }, "info")
+-- end
+
+-- map("n", "\\s", RotateColorScheme)
+
 vim.cmd [[
 set shm+=I
 vnoremap // y/\V<c-r>=escape(@",'/\')<cr><cr>

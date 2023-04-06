@@ -3,6 +3,7 @@ return {
   { 'navarasu/onedark.nvim', -- Colorscheme
     -- enabled = false,
     lazy = false,
+    commit = 'f0a70e0993acbb348c32a52a88058cc60c160992',
     priority = 1000,
     config = function()
       local style = 'cool'
@@ -17,8 +18,8 @@ return {
         cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
         -- toggle theme style ---
-        toggle_style_key = "<leader>s", -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
-        toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
+        -- toggle_style_key = "<leader>s", -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+        -- toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
 
         -- Change code style ---
         -- Options are italic, bold, underline, none
@@ -47,6 +48,9 @@ return {
       }
       vim.cmd [[ colorscheme onedark ]]
     end
+  },
+  { 'catppuccin/nvim',
+    lazy = true,
   },
   { 'folke/tokyonight.nvim',
     lazy = true,
@@ -1086,10 +1090,11 @@ return {
               }
             }
           end
-          -- opts.on_attach = function(client, bufnr)
+          opts.on_attach = function(client, bufnr)
             -- local navic = require("nvim-navic")
             -- navic.attach(client, bufnr)
-          -- end
+            client.server_capabilities.semanticTokensProvider = nil -- need this otherwise a lot of things will be highlighted red
+          end
           require("lspconfig")[server_name].setup(opts)
         end
       })
