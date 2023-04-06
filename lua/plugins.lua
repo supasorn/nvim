@@ -55,7 +55,7 @@ return {
   { 'folke/tokyonight.nvim',
     lazy = true,
   },
-  { 'kyazdani42/nvim-web-devicons', -- Icons!
+  { 'nvim-tree/nvim-web-devicons', -- Icons!
     lazy = true
   },
   -- ### Textobjects
@@ -191,15 +191,23 @@ return {
     keys = {{'f', mode = {"n", "v"}}, {'f', mode = {"n", "v"}}}
   },
   { 'rhysd/clever-f.vim', -- fFtT with highlight
-    keys = { "f", "F", "t", "T" },
+    keys = {
+      { "f", mode = { "n", "v" } },
+      { "F", mode = { "n", "v" } },
+      { "t", mode = { "n", "v" } },
+      { "T", mode = { "n", "v" } } },
     -- enabled = false,
     config = function()
       vim.cmd [[
       let g:clever_f_not_overwrites_standard_mappings = 1
       nmap <expr> f reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-f)" : "f"
+      vmap <expr> f reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-f)" : "f"
       nmap <expr> F reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-F)" : "F"
+      vmap <expr> F reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-F)" : "F"
       nmap <expr> t reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-t)" : "t"
+      vmap <expr> t reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-t)" : "t"
       nmap <expr> T reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-T)" : "T"
+      vmap <expr> T reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-T)" : "T"
       " map <c-;> ;
       ]]
     end,
@@ -498,46 +506,49 @@ return {
   },
   -- ### UI Interface
   { "SmiteshP/nvim-navic", -- show current code context
-    enabled = false,
+    -- enabled = false,
     dependencies = {
       "neovim/nvim-lspconfig",
     },
     lazy = "VeryLazy",
-    opts = {
-      icons = {
-        File          = " ",
-        Module        = " ",
-        Namespace     = " ",
-        Package       = " ",
-        Class         = " ",
-        Method        = " ",
-        Property      = " ",
-        Field         = " ",
-        Constructor   = " ",
-        Enum          = "練",
-        Interface     = "練",
-        Function      = " ",
-        Variable      = " ",
-        Constant      = " ",
-        String        = " ",
-        Number        = " ",
-        Boolean       = "◩ ",
-        Array         = " ",
-        Object        = " ",
-        Key           = " ",
-        Null          = "ﳠ ",
-        EnumMember    = " ",
-        Struct        = " ",
-        Event         = " ",
-        Operator      = " ",
-        TypeParameter = " ",
-      },
-      highlight = true,
-      separator = " > ",
-      depth_limit = 0,
-      depth_limit_indicator = "..",
-      safe_output = true
-    },
+    config = function()
+      require('nvim-navic').setup({
+        icons = {
+          File          = " ",
+          Module        = " ",
+          Namespace     = " ",
+          Package       = " ",
+          Class         = " ",
+          Method        = " ",
+          Property      = " ",
+          Field         = " ",
+          Constructor   = " ",
+          Enum          = "練",
+          Interface     = "練",
+          Function      = " ",
+          Variable      = " ",
+          Constant      = " ",
+          String        = " ",
+          Number        = " ",
+          Boolean       = "◩ ",
+          Array         = " ",
+          Object        = " ",
+          Key           = " ",
+          Null          = "ﳠ ",
+          EnumMember    = " ",
+          Struct        = " ",
+          Event         = " ",
+          Operator      = " ",
+          TypeParameter = " ",
+        },
+        highlight = true,
+        separator = "  ",
+        -- separator = " › ",
+        depth_limit = 0,
+        depth_limit_indicator = "..",
+        safe_output = true
+      })
+    end,
   },
   { 'akinsho/bufferline.nvim', -- Bufferline
     enabled = false,
@@ -647,7 +658,7 @@ return {
     end
   },
   { 'nvim-lualine/lualine.nvim', -- Statusline
-    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       local colors = {
         bg       = '#202328',
@@ -662,6 +673,54 @@ return {
         blue     = '#51afef',
         red      = '#ec5f67',
       }
+
+      local navic_ok, navic = pcall(require, 'nvim-navic')
+      local winbar_cfg = {}
+      local inactive_winbar_cfg = {}
+
+      local navic_context = {
+        function()
+          if navic.is_available() then
+            local l = navic.get_location()
+            if l ~= '' then
+              return l
+            end
+            return ' '
+          else
+            return ' '
+          end
+        end,
+        -- navic.get_location,
+        -- cond = navic.is_available,
+        padding = { left = 1, right = 0 },
+      }
+
+      if navic_ok then
+        winbar_cfg = {
+          lualine_b = {},
+          lualine_a = { { 'filename' } },
+          lualine_c = {
+            navic_context
+          },
+          lualine_x = {
+            { function() return ' ' end, color = 'lualine_c_normal', draw_empty = true }
+          },
+          lualine_y = {},
+          lualine_z = {}
+        }
+        inactive_winbar_cfg = {
+          lualine_a = {},
+          lualine_b = { { 'filename', color = 'lualine_b_normal', separator = { left = '', right = '' } } },
+          lualine_c = {
+            { function() return ' ' end, color = 'lualine_c_normal', draw_empty = true }
+            -- navic_context
+          },
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {}
+        }
+      end
+
       require('lualine').setup {
 
         options = {
@@ -678,7 +737,7 @@ return {
           },
           ignore_focus = {},
           always_divide_middle = true,
-          globalstatus = false,
+          globalstatus = true,
           refresh = {
             statusline = 1000,
             tabline = 1000,
@@ -694,9 +753,9 @@ return {
               return ' '
             end,
             padding = {left = 0, right = 0 }, -- We don't need space before this
-            -- separator = { right = ''}
             },
           },
+          --[[
           lualine_b = {
             { 'filename',
               file_status = false,
@@ -708,7 +767,11 @@ return {
               }
             }
           },
-          lualine_c = { 'branch', 'diff' },
+          --]]
+          lualine_c = {
+            { 'diff'},
+          },
+          lualine_b = { 'branch' },
           lualine_x = {
             {
               'diagnostics',
@@ -772,10 +835,19 @@ return {
           lualine_z = {}
         },
         tabline = {},
-        winbar = {},
-        inactive_winbar = {},
+        winbar = winbar_cfg,
+        inactive_winbar = inactive_winbar_cfg,
         extensions = {}
       }
+
+      local hl_groups = vim.fn.getcompletion('Navic*', 'highlight')
+      local bgcolor = vim.api.nvim_get_hl_by_name('lualine_c_normal', true).background
+      for _, group in ipairs(hl_groups) do
+        local hl = vim.api.nvim_get_hl_by_name(group, true)
+        hl.background = bgcolor
+        vim.api.nvim_set_hl(0, group, hl)
+      end
+
     end,
   },
   { 'rcarriga/nvim-notify', -- Notification window
@@ -869,7 +941,7 @@ return {
   },
   { 'ibhagwan/fzf-lua', -- fzf with native preview, etc
     cmd = { "FzfLua" },
-    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     keys = {
       { "?", ':lua require("fzf-lua").blines({prompt=" > "})<cr>' },
       { "<s-r>", ':lua require("fzf-lua").command_history({prompt=" > "})<cr>' },
@@ -1091,8 +1163,8 @@ return {
             }
           end
           opts.on_attach = function(client, bufnr)
-            -- local navic = require("nvim-navic")
-            -- navic.attach(client, bufnr)
+            local navic = require("nvim-navic")
+            navic.attach(client, bufnr)
             client.server_capabilities.semanticTokensProvider = nil -- need this otherwise a lot of things will be highlighted red
           end
           require("lspconfig")[server_name].setup(opts)

@@ -37,11 +37,12 @@ opt.display = "lastline"
 opt.scrolloff = 3
 opt.autoread = true
 opt.encoding = "utf-8"
-opt.laststatus = 2
 opt.winblend = 0
 opt.cursorline = true
 opt.cursorlineopt = "number"
 opt.signcolumn = "yes"
+-- opt.laststatus = 3
+
 vim.g.python_recommended_style = 0
 -- vim.g.mapleader = " "
 
