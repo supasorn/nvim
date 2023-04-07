@@ -505,10 +505,10 @@ return {
   -- ### UI Interface
   { "SmiteshP/nvim-navic", -- show current code context
     -- enabled = false,
+    event = "VeryLazy",
     dependencies = {
       "neovim/nvim-lspconfig",
     },
-    lazy = "VeryLazy",
     config = function()
       require('nvim-navic').setup({
         icons = {
@@ -655,6 +655,7 @@ return {
     end
   },
   { 'nvim-lualine/lualine.nvim', -- Statusline
+    event = "VeryLazy",
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       local colors = {
