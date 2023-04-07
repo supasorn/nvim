@@ -823,41 +823,51 @@ return {
         winbar = {
           lualine_a = {},
           lualine_b = { 
-            -- { 'filename' },
-            -- { filepath.get_file }
-            {
-              my_filename, colored = true,
+            -- {
+              -- my_filename, colored = true,
               -- color = {fg = util.lighten(string.format("#%06x", utils.getHl("Function").foreground), 0.5) }
               -- color = {fg = string.format("#%06x", utils.getHl("Function").foreground) }
-            }
+            -- }
           },
           lualine_c = {
             navic_context
           },
           lualine_x = {
-            { function() return ' ' end } -- needed to make sure that the bg extends all the way to the right
+            { function() return ' ' end,
+              separator = {}
+            } -- needed to make sure that the bg extends all the way to the right
             -- { 
               -- filepath.get_path,
               -- padding = { left = 0, right = 0 },
             -- }
           },
           lualine_y = {
-            -- {
-              -- my_filename, colored = true
-            -- }
+            {
+              my_filename, colored = true,
+              -- color = {fg = util.lighten(string.format("#%06x", utils.getHl("Function").foreground), 0.5) }
+              -- color = {fg = string.format("#%06x", utils.getHl("Function").foreground) }
+              -- separator = {left = '' },
+              -- separator = {},
+              padding = { left = 1, right = 1 },
+
+            },
+
           },
           lualine_z = {}
         },
         inactive_winbar = {
           lualine_a = {},
           lualine_b = {
-            {
-              my_filename, colored = true
-            }
           },
           lualine_c = {},
           lualine_x = {},
-          lualine_y = {},
+          lualine_y = {
+            {
+              my_filename, colored = true,
+              -- color = {fg = 'Normal' }
+              color = {fg = util.darken(string.format("#%06x", utils.getHl("Normal").foreground), 0.8) }
+            }
+          },
           lualine_z = {}
         },
         extensions = {}
@@ -890,6 +900,70 @@ return {
   },
   { 'WhoIsSethDaniel/lualine-lsp-progress.nvim',
     lazy = true,
+  },
+  { 'b0o/incline.nvim',
+    enabled = false,
+    opts = {
+      debounce_threshold = {
+        falling = 50,
+        rising = 10
+      },
+      hide = {
+        cursorline = false,
+        focused_win = false,
+        only_win = false
+      },
+      highlight = {
+        groups = {
+          InclineNormal = {
+            default = true,
+            group = "NormalFloat"
+          },
+          InclineNormalNC = {
+            default = true,
+            group = "NormalFloat"
+          }
+        }
+      },
+      ignore = {
+        buftypes = "special",
+        filetypes = {},
+        floating_wins = true,
+        unlisted_buffers = true,
+        wintypes = "special"
+      },
+      render = "basic",
+      window = {
+        margin = {
+          horizontal = 1,
+          vertical = 1
+        },
+        options = {
+          signcolumn = "no",
+          wrap = false
+        },
+        padding = 1,
+        padding_char = " ",
+        placement = {
+          horizontal = "right",
+          vertical = "top"
+        },
+        width = "fit",
+        winhighlight = {
+          active = {
+            EndOfBuffer = "None",
+            Normal = "InclineNormal",
+            Search = "None"
+          },
+          inactive = {
+            EndOfBuffer = "None",
+            Normal = "InclineNormalNC",
+            Search = "None"
+          }
+        },
+        zindex = 50
+      }
+    },
   },
   -- ### File browser, FZF, Telescope
   { 'kyazdani42/nvim-tree.lua', -- Directory browser
