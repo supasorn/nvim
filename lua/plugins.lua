@@ -38,6 +38,7 @@ return {
         highlights = {
           ["HopNextKey1"] = {fg = '$yellow'},
           ["HopNextKey2"] = {fg = util.darken(colors.yellow, 0.8)},
+          ["IndentBlanklineContextChar"] = {fg = '$purple'},
         }, -- Override highlight groupscluster pixels into segments
 
         -- Plugins Config --
