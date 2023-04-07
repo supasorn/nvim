@@ -192,10 +192,10 @@ return {
   },
   { 'rhysd/clever-f.vim', -- fFtT with highlight
     keys = {
-      { "f", mode = { "n", "v" } },
-      { "F", mode = { "n", "v" } },
-      { "t", mode = { "n", "v" } },
-      { "T", mode = { "n", "v" } } },
+      { "f", mode = { "n", "v", "o" } },
+      { "F", mode = { "n", "v", "o" } },
+      { "t", mode = { "n", "v", "o" } },
+      { "T", mode = { "n", "v", "o" } } },
     -- enabled = false,
     config = function()
       vim.cmd [[
@@ -687,6 +687,7 @@ return {
             return ' '
           end
         end,
+        draw_empty = true,
         -- navic.get_location,
         -- cond = navic.is_available,
         padding = { left = 1, right = 0 },
@@ -697,46 +698,7 @@ return {
       my_filename.apply_icon = require('lualine.components.filetype').apply_icon
       my_filename.icon_hl_cache = {}
 
-      if navic_ok then
-        winbar_cfg = {
-          lualine_a = {},
-          lualine_b = { 
-            -- { 'filename' },
-            -- { filepath.get_file }
-            {
-              my_filename, colored = true,
-              -- color = {fg = string.format("#%06x", utils.getHl("Function").foreground) }
-            }
-          },
-          lualine_c = {
-            navic_context
-          },
-          lualine_x = {
-            -- { 
-              -- filepath.get_path,
-              -- padding = { left = 0, right = 0 },
-            -- }
-          },
-          lualine_y = {
-            -- {
-              -- my_filename, colored = true
-            -- }
-          },
-          lualine_z = {}
-        }
-        inactive_winbar_cfg = {
-          lualine_a = {},
-          lualine_b = {
-            {
-              my_filename, colored = true
-            }
-          },
-          lualine_c = {},
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {}
-        }
-      end
+      local util = require("onedark.util")
 
       require('lualine').setup {
 
@@ -856,21 +818,47 @@ return {
             return hn:gsub("vision", "v")
           end }
         },
-        inactive_sections = {
+        tabline = {},
+        winbar = {
           lualine_a = {},
-          lualine_b = {},
-          lualine_c = {
-            { 'filename',
-              color = { fg = 'lualine_c_normal' },
+          lualine_b = { 
+            -- { 'filename' },
+            -- { filepath.get_file }
+            {
+              my_filename, colored = true,
+              -- color = {fg = util.lighten(string.format("#%06x", utils.getHl("Function").foreground), 0.5) }
+              -- color = {fg = string.format("#%06x", utils.getHl("Function").foreground) }
             }
           },
-          lualine_x = { 'location' },
+          lualine_c = {
+            navic_context
+          },
+          lualine_x = {
+            { function() return ' ' end } -- needed to make sure that the bg extends all the way to the right
+            -- { 
+              -- filepath.get_path,
+              -- padding = { left = 0, right = 0 },
+            -- }
+          },
+          lualine_y = {
+            -- {
+              -- my_filename, colored = true
+            -- }
+          },
+          lualine_z = {}
+        },
+        inactive_winbar = {
+          lualine_a = {},
+          lualine_b = {
+            {
+              my_filename, colored = true
+            }
+          },
+          lualine_c = {},
+          lualine_x = {},
           lualine_y = {},
           lualine_z = {}
         },
-        tabline = {},
-        winbar = winbar_cfg,
-        inactive_winbar = inactive_winbar_cfg,
         extensions = {}
       }
 
