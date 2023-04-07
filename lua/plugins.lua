@@ -1,3 +1,5 @@
+local utils = require("utils")
+local map = utils.map
 return {
   -- ### System's plugin
   { 'navarasu/onedark.nvim', -- Colorscheme
@@ -159,7 +161,6 @@ return {
     config = function()
       -- you can configure Hop the way you like here; see :h hop-config
       require 'hop'.setup { keys = 'cvbnmtyghqweruiopasldkfj' }
-      local map = require("utils").map
       local rwt = require("utils").run_without_TSContext
 
       map({ "n", "v" }, "<c-j>",
@@ -312,7 +313,6 @@ return {
         end,
         fold_virt_text_handler = handler
       })
-      local map = require("utils").map
       map('n', 'zR', require('ufo').openAllFolds)
       map('n', 'zM', require('ufo').closeAllFolds)
     end
@@ -334,7 +334,6 @@ return {
           require('ccc_multiple_color')
         }
       }
-      local map = require("utils").map
       map('i', '<c-c>', '<Plug>(ccc-insert)')
     end
   },
@@ -552,7 +551,6 @@ return {
   { 'akinsho/bufferline.nvim', -- Bufferline
     enabled = false,
     config = function()
-      local map = require("utils").map
       for i = 1, 9 do
         map("n", "<leader>" .. i, ":BufferLineGoToBuffer " .. i .. "<cr>", { silent = true })
       end
@@ -693,27 +691,47 @@ return {
         -- cond = navic.is_available,
         padding = { left = 1, right = 0 },
       }
+      local filepath = require('filepath')
+
+      local my_filename = require('lualine.components.filename'):extend()
+      my_filename.apply_icon = require('lualine.components.filetype').apply_icon
+      my_filename.icon_hl_cache = {}
 
       if navic_ok then
         winbar_cfg = {
-          lualine_b = {},
-          lualine_a = { { 'filename' } },
+          lualine_a = {},
+          lualine_b = { 
+            -- { 'filename' },
+            -- { filepath.get_file }
+            {
+              my_filename, colored = true,
+              -- color = {fg = string.format("#%06x", utils.getHl("Function").foreground) }
+            }
+          },
           lualine_c = {
             navic_context
           },
           lualine_x = {
-            { function() return ' ' end, color = 'lualine_c_normal', draw_empty = true }
+            -- { 
+              -- filepath.get_path,
+              -- padding = { left = 0, right = 0 },
+            -- }
           },
-          lualine_y = {},
+          lualine_y = {
+            -- {
+              -- my_filename, colored = true
+            -- }
+          },
           lualine_z = {}
         }
         inactive_winbar_cfg = {
           lualine_a = {},
-          lualine_b = { { 'filename', color = 'lualine_b_normal', separator = { left = '', right = '' } } },
-          lualine_c = {
-            { function() return ' ' end, color = 'lualine_c_normal', draw_empty = true }
-            -- navic_context
+          lualine_b = {
+            {
+              my_filename, colored = true
+            }
           },
+          lualine_c = {},
           lualine_x = {},
           lualine_y = {},
           lualine_z = {}
@@ -768,7 +786,24 @@ return {
           },
           --]]
           lualine_c = {
-            { 'diff'},
+            { 'diff', separator = {} },
+            {
+              function()
+                -- return '⌂ ' .. vim.fn.getcwd()
+                return ' ' .. vim.fn.getcwd() .. ' '
+              end,
+              separator = {}
+            },
+            {
+              -- function()
+                -- return vim.fn.expand("%:p")
+              -- end,
+              filepath.get_path,
+              padding = { left = 0, right = 0 },
+              separator = ''
+              -- separator = {left='C'}
+            }
+
           },
           lualine_b = { 'branch' },
           lualine_x = {
@@ -841,11 +876,14 @@ return {
 
       local hl_groups = vim.fn.getcompletion('Navic*', 'highlight')
       local bgcolor = vim.api.nvim_get_hl_by_name('lualine_c_normal', true).background
+
       for _, group in ipairs(hl_groups) do
         local hl = vim.api.nvim_get_hl_by_name(group, true)
         hl.background = bgcolor
         vim.api.nvim_set_hl(0, group, hl)
       end
+      -- vim.api.nvim_set_hl(0, "WinBarPath", { fg = f.getHl("LineNR").fg, bg = bgcolor })
+
 
     end,
   },
@@ -1064,7 +1102,6 @@ return {
       require("telescope").load_extension "file_browser"
       require("telescope").load_extension "olddirs"
 
-      local map = require("utils").map
       map({ 'n' }, "<space>i",
         function() require "telescope".extensions.file_browser.file_browser({
             path = '%:p:h',

@@ -13,6 +13,10 @@ function M.map(mode, lhs, rhs, opts)
     vim.keymap.set(mode, lhs, rhs, options)
 end
 
+function M.isempty(s)
+    return s == nil or s == ''
+end
+
 
 M.run_without_TSContext = function(f, opts)
   opts = opts or {}
@@ -25,6 +29,10 @@ M.run_without_TSContext = function(f, opts)
       vim.api.nvim_feedkeys(opts["postcmd"], '', true)
     end
   end
+end
+
+function M.getHl(hlname)
+  return vim.api.nvim_get_hl_by_name(hlname, true)
 end
 
 return M
