@@ -155,6 +155,7 @@ return {
       { "<c-j>", mode = { "n", "v" } },
       { "<c-k>", mode = { "n", "v" } },
       { ";", mode = { "n", "v" } },
+      { "<space><space>", mode = { "n", "v" } },
       { "p", mode = { "o" } },
       { "L", mode = { "o", "v" } },
     },
@@ -171,7 +172,9 @@ return {
       -- map({ "o" }, "p", rwt(require 'hop'.hint_phrase, { ["postcmd"] = "p" }))
       map({ "o" }, "p", rwt(require 'hop'.hint_phrase))
       map({ "o", "v" }, "L", rwt(require 'hop'.hint_2lines))
+
       map({ "n", "v" }, ";", rwt(require 'hop'.hint_char1))
+      map({ "n", "v" }, "<space><space>", rwt(require 'hop'.hint_char1))
     end
   },
   { 'ggandor/leap.nvim', -- Experimenting..
