@@ -841,9 +841,11 @@ return {
             -- navic_context
           },
           lualine_x = {
-            { function() return ' ' end,
-              separator = {}
-            } 
+            -- filepath.get_path,
+            -- { function() return ' ' end,
+              -- separator = {}
+            -- } 
+
             -- { 
               -- filepath.get_path,
               -- padding = { left = 0, right = 0 },
