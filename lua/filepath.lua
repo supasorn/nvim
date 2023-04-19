@@ -53,7 +53,8 @@ M.get_path = function()
       value = value .. file_path_list[i] .. '/'
     end
   end
-  return '' .. value
+  -- return '' .. value
+  return value
 end
 
 local excludes = function()

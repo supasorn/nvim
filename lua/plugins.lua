@@ -768,15 +768,11 @@ return {
               end,
               separator = {}
             },
-            {
-              -- function()
-                -- return vim.fn.expand("%:p")
-              -- end,
-              filepath.get_path,
-              padding = { left = 0, right = 0 },
-              separator = ''
-              -- separator = {left='C'}
-            },
+            -- {
+              -- filepath.get_path,
+              -- padding = { left = 0, right = 0 },
+              -- separator = ''
+            -- },
             {
               'diagnostics',
               sources = { 'nvim_diagnostic' },
@@ -846,10 +842,12 @@ return {
               -- separator = {}
             -- } 
 
-            -- { 
-              -- filepath.get_path,
-              -- padding = { left = 0, right = 0 },
-            -- }
+            { 
+              filepath.get_path,
+              padding = { left = 0, right = 0 },
+              -- color = 'red'
+              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.8) }
+            }
           },
           lualine_y = {
             {
@@ -859,9 +857,7 @@ return {
               -- separator = {left = '' },
               -- separator = {},
               padding = { left = 1, right = 1 },
-
             },
-
           },
           lualine_z = {}
         },
@@ -872,7 +868,14 @@ return {
           lualine_b = {
           },
           lualine_c = {},
-          lualine_x = {},
+          lualine_x = {
+            { 
+              filepath.get_path,
+              padding = { left = 0, right = 0 },
+              -- color = 'red'
+              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.8) }
+            }
+          },
           lualine_y = {
             {
               my_filename, colored = true,
@@ -915,7 +918,7 @@ return {
     lazy = true,
   },
   { 'b0o/incline.nvim',
-    disabled = true,
+    enabled = false,
     dependencies = {
       'nvim-lualine/lualine.nvim'
     },
@@ -955,7 +958,8 @@ return {
           unlisted_buffers = true,
           wintypes = "special"
         },
-        render = my_filename(),
+        -- render = my_filename(),
+        render = "basic",
         window = {
           margin = {
             horizontal = 1,
