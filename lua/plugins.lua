@@ -547,6 +547,7 @@ return {
         highlight = true,
         separator = "  ",
         -- separator = " › ",
+        -- separator = " 》 ",
         depth_limit = 0,
         depth_limit_indicator = "..",
         safe_output = true
@@ -754,7 +755,12 @@ return {
           },
           --]]
           lualine_c = {
-            { 'diff', separator = {} },
+            -- { 'diff', separator = {} },
+            navic_context,
+
+          },
+          lualine_b = { {'branch', separator = ""}, {'diff' }},
+          lualine_x = {
             {
               function()
                 -- return '⌂ ' .. vim.fn.getcwd()
@@ -770,11 +776,7 @@ return {
               padding = { left = 0, right = 0 },
               separator = ''
               -- separator = {left='C'}
-            }
-
-          },
-          lualine_b = { 'branch' },
-          lualine_x = {
+            },
             {
               'diagnostics',
               sources = { 'nvim_diagnostic' },
@@ -824,10 +826,11 @@ return {
             return hn:gsub("vision", "v")
           end }
         },
+        -- tabline = { lualine_c = {navic_context} },
         tabline = {},
         winbar = {
           lualine_a = {},
-          lualine_b = { 
+          lualine_b = {
             -- {
               -- my_filename, colored = true,
               -- color = {fg = util.lighten(string.format("#%06x", utils.getHl("Function").foreground), 0.5) }
@@ -835,12 +838,12 @@ return {
             -- }
           },
           lualine_c = {
-            navic_context
+            -- navic_context
           },
           lualine_x = {
             { function() return ' ' end,
               separator = {}
-            } -- needed to make sure that the bg extends all the way to the right
+            } 
             -- { 
               -- filepath.get_path,
               -- padding = { left = 0, right = 0 },
@@ -860,6 +863,8 @@ return {
           },
           lualine_z = {}
         },
+        -- winbar = {},
+        --]]
         inactive_winbar = {
           lualine_a = {},
           lualine_b = {
@@ -875,6 +880,7 @@ return {
           },
           lualine_z = {}
         },
+        -- inactive_winbar = {},
         extensions = {}
       }
 
@@ -907,68 +913,79 @@ return {
     lazy = true,
   },
   { 'b0o/incline.nvim',
-    enabled = false,
-    opts = {
-      debounce_threshold = {
-        falling = 50,
-        rising = 10
-      },
-      hide = {
-        cursorline = false,
-        focused_win = false,
-        only_win = false
-      },
-      highlight = {
-        groups = {
-          InclineNormal = {
-            default = true,
-            group = "NormalFloat"
-          },
-          InclineNormalNC = {
-            default = true,
-            group = "NormalFloat"
-          }
-        }
-      },
-      ignore = {
-        buftypes = "special",
-        filetypes = {},
-        floating_wins = true,
-        unlisted_buffers = true,
-        wintypes = "special"
-      },
-      render = "basic",
-      window = {
-        margin = {
-          horizontal = 1,
-          vertical = 1
-        },
-        options = {
-          signcolumn = "no",
-          wrap = false
-        },
-        padding = 1,
-        padding_char = " ",
-        placement = {
-          horizontal = "right",
-          vertical = "top"
-        },
-        width = "fit",
-        winhighlight = {
-          active = {
-            EndOfBuffer = "None",
-            Normal = "InclineNormal",
-            Search = "None"
-          },
-          inactive = {
-            EndOfBuffer = "None",
-            Normal = "InclineNormalNC",
-            Search = "None"
-          }
-        },
-        zindex = 50
-      }
+    disabled = true,
+    dependencies = {
+      'nvim-lualine/lualine.nvim'
     },
+    -- enabled = false,
+    config = function()
+
+      local my_filename = require('lualine.components.filename'):extend()
+      my_filename.apply_icon = require('lualine.components.filetype').apply_icon
+      my_filename.icon_hl_cache = {}
+
+      require('incline').setup({
+        debounce_threshold = {
+          falling = 50,
+          rising = 10
+        },
+        hide = {
+          cursorline = false,
+          focused_win = false,
+          only_win = false
+        },
+        highlight = {
+          groups = {
+            InclineNormal = {
+              default = true,
+              group = "NormalFloat"
+            },
+            InclineNormalNC = {
+              default = true,
+              group = "NormalFloat"
+            }
+          }
+        },
+        ignore = {
+          buftypes = "special",
+          filetypes = {},
+          floating_wins = true,
+          unlisted_buffers = true,
+          wintypes = "special"
+        },
+        render = my_filename(),
+        window = {
+          margin = {
+            horizontal = 1,
+            vertical = 1
+          },
+          options = {
+            signcolumn = "no",
+            wrap = false
+          },
+          padding = 1,
+          padding_char = " ",
+          placement = {
+            horizontal = "right",
+            vertical = "top"
+          },
+          width = "fit",
+          winhighlight = {
+            active = {
+              EndOfBuffer = "None",
+              Normal = "InclineNormal",
+              Search = "None"
+            },
+            inactive = {
+              EndOfBuffer = "None",
+              Normal = "InclineNormalNC",
+              Search = "None"
+            }
+          },
+          zindex = 50
+        }
+      })
+    end
   },
   -- ### File browser, FZF, Telescope
   { 'kyazdani42/nvim-tree.lua', -- Directory browser
@@ -981,11 +998,11 @@ return {
         sort_by = "case_sensitive",
         view = {
           adaptive_size = false,
-          mappings = {
-            list = {
-              { key = "u", action = "dir_up" },
-            },
-          },
+          -- mappings = {
+            -- list = {
+              -- { key = "u", action = "dir_up" },
+            -- },
+          -- },
         },
         renderer = {
           group_empty = true,

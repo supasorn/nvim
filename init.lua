@@ -41,19 +41,16 @@ opt.winblend = 0
 opt.cursorline = true
 opt.cursorlineopt = "number"
 opt.signcolumn = "yes"
--- opt.laststatus = 3
-
 vim.g.python_recommended_style = 0
--- vim.g.mapleader = " "
-
 opt.foldcolumn = '0'
 opt.foldlevel = 99
 opt.foldlevelstart = 99
 opt.foldenable = true
+-- opt.title = true
+-- opt.laststatus = 3
+-- vim.g.mapleader = " "
 -- opt.foldmethod = "expr"
 -- opt.foldexpr = "nvim_treesitter#foldexpr()"
-
--- vim.g.is_pythonsense_suppress_object_keymaps = 1
 
 require("lazy").setup("plugins", {
   performance = {
@@ -203,6 +200,11 @@ augroup highlight_yank
 augroup END
 
 au BufNewFile,BufRead *.ejs set filetype=html
+
+" augroup TitleString
+  " autocmd!
+  " autocmd BufEnter,FileReadPost * let &titlestring = 'pwd: %{expand("%:p:h")}'
+" augroup END
 ]]
 
 vim.cmd "source ~/.config/nvim/extra.vim"
