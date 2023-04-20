@@ -546,12 +546,23 @@ return {
         },
         highlight = true,
         separator = "  ",
-        -- separator = " › ",
+        -- separator = " ⏵ ",
         -- separator = " 》 ",
         depth_limit = 0,
         depth_limit_indicator = "..",
         safe_output = true
       })
+      vim.cmd [[
+        function! NavicColor()
+          highlight NavicSeparator guifg=#4e5876 
+        endfunction
+
+        augroup NavicColorGroup
+            autocmd!
+            autocmd ColorScheme * call NavicColor() 
+        augroup END
+        call NavicColor() 
+      ]]
     end,
   },
   { 'akinsho/bufferline.nvim', -- Bufferline
@@ -845,7 +856,6 @@ return {
             { 
               filepath.get_path,
               padding = { left = 0, right = 0 },
-              -- color = 'red'
               color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.8) }
             }
           },
@@ -869,12 +879,11 @@ return {
           },
           lualine_c = {},
           lualine_x = {
-            { 
-              filepath.get_path,
-              padding = { left = 0, right = 0 },
-              -- color = 'red'
-              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.8) }
-            }
+            -- { 
+              -- filepath.get_path,
+              -- padding = { left = 0, right = 0 },
+              -- color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.8) }
+            -- }
           },
           lualine_y = {
             {
