@@ -19,8 +19,8 @@ return {
         cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
         -- toggle theme style ---
-        -- toggle_style_key = "<leader>s", -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
-        -- toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
+        toggle_style_key = "<leader>s", -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+        toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
 
         -- Change code style ---
         -- Options are italic, bold, underline, none
@@ -718,11 +718,18 @@ return {
 
       local util = require("onedark.util")
 
+      -- local custom_theme = require'lualine.themes.onedark'
+      -- local custom_theme = require'onedark.lualine.themes.onedark'
+      -- local c = require('onedark.colors')
+      -- local lighterB = 
+      -- custom_theme.normal.b.bg = util.lighten(c.bg3, 0.95)
+      --
       require('lualine').setup {
 
         options = {
           icons_enabled = true,
-          theme = 'onedark',
+          theme = 'onedark2',
+          -- theme = custom_theme,
           -- component_separators = { left = '', right = '' },
           component_separators = { left = '|', right = '|' },
           -- component_separators = { left = '', right = '' },
@@ -770,7 +777,14 @@ return {
             navic_context,
 
           },
-          lualine_b = { {'branch', separator = ""}, {'diff' }},
+          lualine_b = {
+            {
+              'branch',
+              separator = "",
+            }, {
+            'diff',
+            }
+          },
           lualine_x = {
             {
               function()
@@ -906,6 +920,7 @@ return {
         hl.background = bgcolor
         vim.api.nvim_set_hl(0, group, hl)
       end
+      -- vim.api.nvim_set_hl(0, "lualine_b_normal", { bg = 'red'})
       -- vim.api.nvim_set_hl(0, "WinBarPath", { fg = f.getHl("LineNR").fg, bg = bgcolor })
 
 
@@ -1558,7 +1573,7 @@ return {
     cmd = "StartupTime"
   },
   { 'tpope/vim-eunuch', -- :Rename :Delete :SudoWrite
-    cmd = { "Remove", "Delete", "Move", "SudoWrite", "SudoEdit", "Chmod", "Mkdir" }
+    cmd = { "Remove", "Delete", "Move", "SudoWrite", "SudoEdit", "Chmod", "Mkdir", "Rename" }
   },
   { 'wesQ3/vim-windowswap', -- \ww swap two windows
     keys = "<leader>ww"
