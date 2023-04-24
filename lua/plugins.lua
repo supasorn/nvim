@@ -870,7 +870,7 @@ return {
             { 
               filepath.get_path,
               padding = { left = 0, right = 0 },
-              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.8) }
+              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.9) }
             }
           },
           lualine_y = {
@@ -941,7 +941,7 @@ return {
   { 'WhoIsSethDaniel/lualine-lsp-progress.nvim',
     lazy = true,
   },
-  { 'b0o/incline.nvim',
+  { 'b0o/incline.nvim', -- floating filenames
     enabled = false,
     dependencies = {
       'nvim-lualine/lualine.nvim'
