@@ -1261,7 +1261,12 @@ return {
       -- map(, "<leader>f", vim.lsp.buf.format)
       require("null-ls").setup({
         sources = {
-          require("null-ls").builtins.formatting.black,
+          -- require("null-ls").builtins.formatting.black,
+          require("null-ls").builtins.formatting.autopep8.with({
+            extra_args = {
+              "--indent-size", "2"
+            }
+          }),
         },
       })
     end
@@ -1290,7 +1295,8 @@ return {
           "cssls",
           "tsserver",
           "eslint",
-          "lua_ls"
+          "lua_ls",
+          "autopep8",
         },
         automatic_installation = true
       })
