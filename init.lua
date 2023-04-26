@@ -161,6 +161,9 @@ end
 
 vim.cmd [[
 set shm+=I
+command! W write
+command! Q quit
+
 vnoremap // y/\V<c-r>=escape(@",'/\')<cr><cr>
 nnoremap gy /\V<c-r>=escape(@",'/\')<cr><cr>
 

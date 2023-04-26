@@ -870,7 +870,7 @@ return {
             { 
               filepath.get_path,
               padding = { left = 0, right = 0 },
-              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.9) }
+              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.93) }
             }
           },
           lualine_y = {
@@ -1296,7 +1296,7 @@ return {
           "tsserver",
           "eslint",
           "lua_ls",
-          "autopep8",
+          -- "autopep8",
         },
         automatic_installation = true
       })
@@ -1589,6 +1589,7 @@ return {
       { "<leader>gs", ":Git<cr>" },
       { "<leader>gc", ':Git commit -m "auto commit"<cr>' },
       { "<leader>gp", ":Git push<cr>" },
+      { "<leader>gq", 'gq :Git commit -m "auto commit" | Git push<cr>' },
     },
     cmd = { "Git" },
   },
