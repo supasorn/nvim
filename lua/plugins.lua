@@ -1589,7 +1589,7 @@ return {
       { "<leader>gs", ":Git<cr>" },
       { "<leader>gc", ':Git commit -m "auto commit"<cr>' },
       { "<leader>gp", ":Git push<cr>" },
-      { "<leader>gq", 'gq :Git commit -m "auto commit" | Git push<cr>' },
+      { "<leader>gq", 'gq :Git commit -m "auto commit" | Git push<cr>', remap = true},
     },
     cmd = { "Git" },
   },
