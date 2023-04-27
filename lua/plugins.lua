@@ -1272,10 +1272,12 @@ return {
     end
   },
   { 'rmagatti/goto-preview', -- Goto preview with nested!
+    event = "VeryLazy",
     keys = {
       { "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>" },
       { "gP", "<cmd>lua require('goto-preview').close_all_win()<CR>" },
-      { "gr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>" }
+      -- { "gr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>" }
+      { "gr", "<cmd>lua vim.lsp.buf.references()<CR>" }
     },
     opts = {
       -- width = 150,
@@ -1439,7 +1441,20 @@ return {
     keys = {
       { "<f9>", "<cmd>TroubleToggle document_diagnostics<cr>" }
     },
-    config = true,
+    opts = {
+      position = "right",
+      signs = {
+        error = "",
+        warning = "",
+        hint = "",
+        information = "",
+        other = "﫠"
+      },
+    }
+  },
+  { 'kevinhwang91/nvim-bqf',
+    opts = {
+    }
   },
   -- ### All things cmp-related (autocomplete)
   { "L3MON4D3/LuaSnip",
