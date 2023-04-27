@@ -1147,7 +1147,7 @@ return {
     },
     cmd = { "Telescope" },
     -- keys = { "<f2>", "gr", "<leader>od" },
-    keys = { "<space>i", "gr", "<leader>od" },
+    keys = { "<space>i", "<space>d" },
 
     config = function()
       local actions = require("telescope.actions")
@@ -1225,7 +1225,7 @@ return {
             hide_parent_dir = true, grouped = true
           })
         end)
-      map({ 'n' }, "<leader>od", require "telescope".extensions.olddirs.picker)
+      map({ 'n' }, "<space>d", require "telescope".extensions.olddirs.picker)
 
       vim.cmd [[
 
@@ -1277,7 +1277,9 @@ return {
       { "gP", "<cmd>lua require('goto-preview').close_all_win()<CR>" },
       { "gr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>" }
     },
-    config = true,
+    opts = {
+      -- width = 150,
+    }
   },
   { "williamboman/mason.nvim", -- Lsp Installer
     cmd = { "Mason", "MasonLog", "MasonInstall", "MasonUninstall" },
