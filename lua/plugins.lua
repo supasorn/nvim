@@ -715,6 +715,13 @@ return {
       local my_filename = require('lualine.components.filename'):extend()
       my_filename.apply_icon = require('lualine.components.filetype').apply_icon
       my_filename.icon_hl_cache = {}
+      my_filename.update_status = function(self)
+        local super = getmetatable(getmetatable(self).__index)
+        if vim.bo.filetype == 'oil' then
+          self.options.path = 1
+        end
+        return super.update_status(self)
+      end
 
       local util = require("onedark.util")
 
@@ -1018,6 +1025,10 @@ return {
     end
   },
   -- ### File browser, FZF, Telescope
+  { 'stevearc/oil.nvim', -- file explorer as vim buffer. support ssh
+    opts = {
+    },
+  },
   { 'kyazdani42/nvim-tree.lua', -- Directory browser
     keys = {
       { "<c-n>", ":NvimTreeToggle %:p:h<cr>" }
@@ -1453,6 +1464,7 @@ return {
     }
   },
   { 'kevinhwang91/nvim-bqf',
+    event = "VeryLazy",
     opts = {
     }
   },
