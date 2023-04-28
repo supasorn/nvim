@@ -859,11 +859,10 @@ return {
         winbar = {
           lualine_a = {},
           lualine_b = {
-            -- {
-              -- my_filename, colored = true,
-              -- color = {fg = util.lighten(string.format("#%06x", utils.getHl("Function").foreground), 0.5) }
-              -- color = {fg = string.format("#%06x", utils.getHl("Function").foreground) }
-            -- }
+            {
+              my_filename, colored = true,
+              cond = function() return vim.bo.filetype == 'oil' end
+            },
           },
           lualine_c = {
             -- navic_context
@@ -888,6 +887,7 @@ return {
               -- separator = {left = '' },
               -- separator = {},
               padding = { left = 1, right = 1 },
+              cond = function() return vim.bo.filetype ~= 'oil' end
             },
           },
           lualine_z = {}
