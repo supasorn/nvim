@@ -186,7 +186,8 @@ au BufReadPost plugins.lua :%g/^  {/ normal! f{zf%
 function! CustomHighlight()
   " hi clear CursorLineNr
   " hi CursorLineNr guifg=#e5c07b
-  hi MatchParen guibg=orange guifg=black
+  " hi MatchParen guibg=orange guifg=black 
+  hi MatchParen gui=underline guibg=NONE guifg=red
   hi TreesitterContextBottom gui=underline guisp=Grey
   hi HighlightCurrentSearch guibg=#ed6623 guifg=black
 endfunction
