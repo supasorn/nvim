@@ -156,7 +156,7 @@ return {
     keys = {
       { "<c-j>", mode = { "n", "v" } },
       { "<c-k>", mode = { "n", "v" } },
-      { ";", mode = { "n", "v" } },
+      -- { ";", mode = { "n", "v" } },
       { "<space><space>", mode = { "n", "v" } },
       { "p", mode = { "o" } },
       { "L", mode = { "o", "v" } },
@@ -175,7 +175,7 @@ return {
       map({ "o" }, "p", rwt(require 'hop'.hint_phrase))
       map({ "o", "v" }, "L", rwt(require 'hop'.hint_2lines))
 
-      map({ "n", "v" }, ";", rwt(require 'hop'.hint_char1))
+      -- map({ "n", "v" }, ";", rwt(require 'hop'.hint_char1))
       map({ "n", "v" }, "<space><space>", rwt(require 'hop'.hint_char1))
     end
   },
@@ -186,7 +186,7 @@ return {
     },
   },
   { 'kevinhwang91/nvim-fFHighlight', -- highlight fF
-    enabled = false,
+    -- enabled = false,
     opts = {
       disable_keymap = false,
       disable_words_hl = false,
@@ -195,13 +195,13 @@ return {
     },
     keys = {{'f', mode = {"n", "v"}}, {'f', mode = {"n", "v"}}}
   },
-  { 'rhysd/clever-f.vim', -- fFtT with highlight
+  { 'rhysd/clever-f.vim', -- (UNUSED) fFtT with highlight
+    enabled = false,
     keys = {
       { "f", mode = { "n", "v", "o" } },
       { "F", mode = { "n", "v", "o" } },
       { "t", mode = { "n", "v", "o" } },
       { "T", mode = { "n", "v", "o" } } },
-    -- enabled = false,
     config = function()
       vim.cmd [[
       let g:clever_f_not_overwrites_standard_mappings = 1
@@ -1130,7 +1130,7 @@ return {
           ['--layout'] = 'reverse-list',
           -- hide tabnr
           -- ['--delimiter'] = ":",
-          -- ["--with-nth"]  = '1',
+          -- ["--with-nth"]  = '0',
         }
       },
       oldfiles = {
