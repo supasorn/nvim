@@ -401,6 +401,7 @@ return {
   },
   { 'lukas-reineke/indent-blankline.nvim', -- Indent guideline
     -- event = "BufEnter",
+    version = "2.20.8",
     event = "VeryLazy",
     config = function()
       require('indent_blankline').setup({
@@ -1464,6 +1465,7 @@ return {
     }
   },
   { 'kevinhwang91/nvim-bqf',
+    -- enabled = false,
     event = "VeryLazy",
     opts = {
     }
