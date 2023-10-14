@@ -493,6 +493,7 @@ return {
         current_only = true,
         winblend = 90,
         base = 'right',
+        signs_on_startup = {''},
         column = 1
       })
       vim.cmd [[
