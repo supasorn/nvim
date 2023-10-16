@@ -86,8 +86,8 @@ map("n", "cina", 'cIna', { remap = true })
 
 map("n", "<c-q>", ':q<CR>')
 
-map("n", "gD", vim.lsp.buf.definition)
-map("n", "gs", vim.lsp.buf.hover)
+map("n", "gD", vim.lsp.buf.definition, {desc="buf.definition"})
+map("n", "gs", vim.lsp.buf.hover, {desc="buf.hover"})
 
 -- this is used with autocmd InsertLeave, every word under cursor is copy when
 -- leaving insert mode and can be pasted with "W

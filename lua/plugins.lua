@@ -1026,11 +1026,20 @@ return {
       })
     end
   },
-  { "folke/which-key.nvim",
+  { 'lewis6991/gitsigns.nvim', -- Show git diff, etc.
+    event = "VeryLazy",
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    keys = { { "<leader>gg", ":Gitsigns toggle_signs<cr>" } },
+    cmd = "Gitsigns",
+    opts = {
+      signcolumn = true,
+    },
+  },
+  { "folke/which-key.nvim", -- show keymap desc
     event = "VeryLazy",
     init = function()
       vim.o.timeout = true
-      vim.o.timeoutlen = 300
+      vim.o.timeoutlen = 1000
     end,
     opts = {
       -- your configuration comes here
@@ -1038,7 +1047,6 @@ return {
       -- refer to the configuration section below
     }
   },
-
   -- ### File browser, FZF, Telescope
   { 'stevearc/oil.nvim', -- file explorer as vim buffer. support ssh
     opts = {
@@ -1123,7 +1131,7 @@ return {
     keys = {
       { "?", ':lua require("fzf-lua").blines({prompt=" > "})<cr>' },
       { "<s-r>", ':lua require("fzf-lua").command_history({prompt=" > "})<cr>' },
-      { "<space>o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n" },
+      { "<space>o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n", desc="buffers"},
     },
     opts = {
       winopts = {
@@ -1287,7 +1295,7 @@ return {
       -- map(, "<leader>f", vim.lsp.buf.format)
       require("null-ls").setup({
         sources = {
-          -- require("null-ls").builtins.formatting.black,
+          -- require("null-ls").builtins.formatting.stylua,
           require("null-ls").builtins.formatting.autopep8.with({
             extra_args = {
               "--indent-size", "2"
@@ -1478,7 +1486,7 @@ return {
       },
     }
   },
-  { 'kevinhwang91/nvim-bqf',
+  { 'kevinhwang91/nvim-bqf', -- make quickfix list fancy, preview, fzf
     -- enabled = false,
     event = "VeryLazy",
     opts = {
@@ -1637,15 +1645,6 @@ return {
       { "<leader>gq", 'gq :Git commit -m "auto commit" | Git push<cr>', remap = true, desc="git commit + push"},
     },
     cmd = { "Git" },
-  },
-  { 'lewis6991/gitsigns.nvim', -- Show git diff, etc.
-    event = "VeryLazy",
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    keys = { { "<leader>gg", ":Gitsigns toggle_signs<cr>" } },
-    cmd = "Gitsigns",
-    opts = {
-      signcolumn = true,
-    },
   },
   { 'sindrets/diffview.nvim',
     cmd = {'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles', 'DiffviewRefresh'},
