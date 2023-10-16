@@ -113,7 +113,7 @@ local toggle_diagnostics = function()
   end
 end
 
-map("n", "\\dd", toggle_diagnostics) -- ":lua vim.diagnostic.disable()<cr>")
+map("n", "\\dd", toggle_diagnostics, {desc="disable diagnostics"}) -- ":lua vim.diagnostic.disable()<cr>")
 
 local signs = {
   Error = " ",

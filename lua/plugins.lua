@@ -157,7 +157,7 @@ return {
       { "<c-j>", mode = { "n", "v" } },
       { "<c-k>", mode = { "n", "v" } },
       -- { ";", mode = { "n", "v" } },
-      { "<space><space>", mode = { "n", "v" } },
+      { "<space><space>", mode = { "n", "v" }, desc="hop" },
       { "p", mode = { "o" } },
       { "L", mode = { "o", "v" } },
     },
@@ -254,7 +254,7 @@ return {
   { 'Wansmer/treesj', -- splitting/joining blocks of code like arrays
     cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
     keys = {
-      { "\\l", ":TSJToggle<cr>" },
+      { "\\l", ":TSJToggle<cr>", desc="list to single/multiple lines"},
     },
     config = true,
   },
@@ -262,11 +262,11 @@ return {
   { "AckslD/nvim-neoclip.lua", -- \p shows yank registers with fzf
     event = "VeryLazy",
     dependencies = "fzf-lua",
-    keys = { { "\\p", ":lua require('neoclip.fzf')()<cr>" } },
+    keys = { { "\\p", ":lua require('neoclip.fzf')()<cr>", desc="show yank list"} },
     config = true,
   },
   { 'ojroques/vim-oscyank', -- \c to copy to system's clipboard. works inside tmux inside ssh
-    keys = { { "\\c", ":OSCYankVisual<cr>", mode = "v" } }
+    keys = { { "\\c", ":OSCYankVisual<cr>", mode = "v", desc="yank to system's clipboard" } }
   },
   { 'svermeulen/vim-yoink', -- <c-p> to cycle through previous yank register
     event = "VeryLazy",
@@ -1026,6 +1026,19 @@ return {
       })
     end
   },
+  { "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    }
+  },
+
   -- ### File browser, FZF, Telescope
   { 'stevearc/oil.nvim', -- file explorer as vim buffer. support ssh
     opts = {
@@ -1160,7 +1173,7 @@ return {
     },
     cmd = { "Telescope" },
     -- keys = { "<f2>", "gr", "<leader>od" },
-    keys = { "<space>i", "<space>d" },
+    keys = { {"<space>i", desc="file browser"}, {"<space>d", desc="old directories"} },
 
     config = function()
       local actions = require("telescope.actions")
@@ -1238,7 +1251,7 @@ return {
             hide_parent_dir = true, grouped = true
           })
         end)
-      map({ 'n' }, "<space>d", require "telescope".extensions.olddirs.picker)
+      map({ 'n' }, "<space>d", require "telescope".extensions.olddirs.picker, {desc = "old directories"})
 
       vim.cmd [[
 
@@ -1267,7 +1280,7 @@ return {
   -- ### LSP, Treesitter, Tags
   { "jose-elias-alvarez/null-ls.nvim", -- For adding format() to lsp, etc
     keys = {
-      { "<leader>f", vim.lsp.buf.format, mode = { "n", "v" } }
+      { "<leader>f", vim.lsp.buf.format, mode = { "n", "v" }, desc="format code" }
     },
     config = function()
       -- local map = require("utils").map
@@ -1614,14 +1627,14 @@ return {
     cmd = { "Remove", "Delete", "Move", "SudoWrite", "SudoEdit", "Chmod", "Mkdir", "Rename" }
   },
   { 'wesQ3/vim-windowswap', -- \ww swap two windows
-    keys = "<leader>ww"
+    keys = {{"<leader>ww", desc="swap two windows"}}
   },
   { 'tpope/vim-fugitive', -- For git
     keys = {
-      { "<leader>gs", ":Git<cr>" },
-      { "<leader>gc", ':Git commit -m "auto commit"<cr>' },
-      { "<leader>gp", ":Git push<cr>" },
-      { "<leader>gq", 'gq :Git commit -m "auto commit" | Git push<cr>', remap = true},
+      { "<leader>gs", ":Git<cr>", desc="git" },
+      { "<leader>gc", ':Git commit -m "auto commit"<cr>', desc="git auto commit" },
+      { "<leader>gp", ":Git push<cr>", desc="git push" },
+      { "<leader>gq", 'gq :Git commit -m "auto commit" | Git push<cr>', remap = true, desc="git commit + push"},
     },
     cmd = { "Git" },
   },
