@@ -1149,12 +1149,18 @@ return {
       },
       buffers = {
         previewer = false,
-        fzf_opts = {
-          ['--layout'] = 'reverse-list',
+        headers = {},
+        fzf_opts={
+          ["--delimiter"]="' '",
+          ["--with-nth"]="-1..",
+          ["--header-lines"] = false,
+        }
+        -- fzf_opts = {
+          -- ['--layout'] = 'reverse-list',
           -- hide tabnr
           -- ['--delimiter'] = ":",
           -- ["--with-nth"]  = '0',
-        }
+        -- }
       },
       oldfiles = {
         previewer = false,
