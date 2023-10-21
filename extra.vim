@@ -1,8 +1,8 @@
 " Rule: tmux send -t 2 ls Enter
 " Rule: tmux send -t 2 '!!' Enter Enter
 "
-nnoremap gf :call RgWithPath(expand("<cword>"))<CR>
-nnoremap <c-f> :call RgWithPath("")<CR>
+nnoremap gf :call RgCwd(expand("<cword>"))<CR>
+nnoremap <space>/ :call RgCwd("")<CR>
 
 " nmap <F6> :call FilesAtGitRoot()<cr>
 " imap <F6> <esc>:call FilesAtGitRoot()<cr>
@@ -10,8 +10,8 @@ nnoremap <c-f> :call RgWithPath("")<CR>
 nmap <F5> :FzfLua grep<cr>
 imap <F5> <esc>:FzfLua grep<cr>
 
-nnoremap <F6> :call FilesWithPath()<cr>
-inoremap <F6> <esc>:call FilesWithPath()<cr>
+nnoremap <space>f :call FilesWithPath()<cr>
+inoremap <space>f <esc>:call FilesWithPath()<cr>
 
 nmap <F7> :call RgModeFZF()<CR>
 imap <F7> <esc>:call RgModeFZF()<CR>
@@ -115,6 +115,13 @@ function! RgWithPath(query)
   let g:rgmode_rgopt = "-g '!tags' --column --line-number --no-heading --color=always --smart-case"
 
   lua require'fzf-lua'.grep({rg_opts=vim.g.rgmode_rgopt, cwd=vim.g.rgmode_path, search=vim.g.rgmode_query, fzf_cli_args = '--nth 3.. -d :'}) 
+endfunction
+
+function! RgCwd(query)
+  let g:rgmode_query = a:query
+  let g:rgmode_rgopt = "-g '!tags' --column --line-number --no-heading --color=always --smart-case"
+
+  lua require'fzf-lua'.grep({rg_opts=vim.g.rgmode_rgopt, cwd=vim.fn.getcwd(), search=vim.g.rgmode_query, fzf_cli_args = '--nth 3.. -d :'}) 
 endfunction
 
 

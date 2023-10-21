@@ -795,13 +795,6 @@ return {
             }
           },
           lualine_x = {
-            {
-              function()
-                -- return '⌂ ' .. vim.fn.getcwd()
-                return ' ' .. vim.fn.getcwd() .. ' '
-              end,
-              separator = {}
-            },
             -- {
               -- filepath.get_path,
               -- padding = { left = 0, right = 0 },
@@ -810,7 +803,7 @@ return {
             {
               'diagnostics',
               sources = { 'nvim_diagnostic' },
-              symbols = { error = ' ', warn = ' ', info = ' ' },
+              symbols = { error = ' ', warn = ' ', info = ' ', hint = '' },
               diagnostics_color = {
                 color_error = { fg = colors.red },
                 color_warn = { fg = colors.yellow },
@@ -822,13 +815,25 @@ return {
               display_components = { { 'title', 'percentage', 'message' } },
               spinner_symbols = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏', },
             },
+            {
+              function()
+                -- return '⌂ ' .. vim.fn.getcwd()
+                return ' ' .. vim.fn.getcwd() .. ' '
+              end,
+              separator = {}
+            },
             -- { require("lsp-progress").progress, },
             -- { require('lsp_spinner').status },
           },
           lualine_y = {
+            { 'filetype',
+              separator = "",
+              padding = {left = 0, right = 0}, -- We don't need space before this
+            },
             {
               function()
-                local msg = 'no lsp'
+                -- local msg = 'no lsp'
+                local msg = '-'
                 local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
                 local clients = vim.lsp.get_active_clients()
                 if next(clients) == nil then
@@ -837,20 +842,23 @@ return {
                 for _, client in ipairs(clients) do
                   local filetypes = client.config.filetypes
                   if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-                    return client.name
+                    -- return ' ' -- client.name
+                    return '⛩' -- client.name
                   end
                 end
                 return msg
               end,
-              icon = ' ',
+              -- icon = ' ',
+              separator = "",
+              padding = {left = 1, right = 1 }, -- We don't need space before this
               -- color = { fg = '#ffffff', gui = 'bold' },
             },
-            { 'filetype' } },
+          },
           lualine_z = { function()
             local hn = vim.loop.os_gethostname()
             if hn == 'Supasorns-MacBook-Pro.local' then
               return 'MBP'
-            elseif hn == 'Supasorns-M2X.local' then
+            elseif hn == 'ssmb.local' then
               return 'MBP'
             end
             return hn:gsub("vision", "v")
