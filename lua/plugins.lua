@@ -68,10 +68,10 @@ return {
       vim.g.surround_funk_create_mappings = 0
     end,
     keys = {
-      { "af", "<Plug>(SelectWholeFUNCTION)", mode = { "o", "x" } },
-      { "iF", "<Plug>(SelectFunctionName)", mode = { "o", "x" } },
-      { "if", "<Plug>(SelectFunctionNAME)", mode = { "o", "x" } },
-      { "daj", "di(vafp", mode = "n", remap = true },
+      { "af",  "<Plug>(SelectWholeFUNCTION)", mode = { "o", "x" } },
+      { "iF",  "<Plug>(SelectFunctionName)",  mode = { "o", "x" } },
+      { "if",  "<Plug>(SelectFunctionNAME)",  mode = { "o", "x" } },
+      { "daj", "di(vafp",                     mode = "n",         remap = true },
     },
   },
   { 'PeterRincker/vim-argumentative', -- argument textobject, and swapping
@@ -790,9 +790,10 @@ return {
             {
               'branch',
               separator = "",
-            }, {
-            'diff',
-            }
+            }, 
+            -- {
+            -- 'diff', -- git diff status
+            -- }
           },
           lualine_x = {
             -- {
@@ -808,19 +809,23 @@ return {
                 color_error = { fg = colors.red },
                 color_warn = { fg = colors.yellow },
                 color_info = { fg = colors.cyan },
-              }
+              },
+              separator = {},
+              padding = {right = 0, left = 1},
             },
             {
               'lsp_progress',
               display_components = { { 'title', 'percentage', 'message' } },
               spinner_symbols = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏', },
+              separator = {},
             },
             {
               function()
                 -- return '⌂ ' .. vim.fn.getcwd()
                 return ' ' .. vim.fn.getcwd() .. ' '
               end,
-              separator = {}
+              separator = {},
+              padding = {right = 0, left = 1},
             },
             -- { require("lsp-progress").progress, },
             -- { require('lsp_spinner').status },
@@ -854,15 +859,21 @@ return {
               -- color = { fg = '#ffffff', gui = 'bold' },
             },
           },
-          lualine_z = { function()
-            local hn = vim.loop.os_gethostname()
-            if hn == 'Supasorns-MacBook-Pro.local' then
-              return 'MBP'
-            elseif hn == 'ssmb.local' then
-              return 'MBP'
-            end
-            return hn:gsub("vision", "v")
-          end }
+          lualine_z = { 
+            { 
+              function()
+                local hn = vim.loop.os_gethostname()
+                if hn == 'Supasorns-MacBook-Pro.local' then
+                  return 'MBP'
+                elseif hn == 'ssmb.local' then
+                  return '⌂'
+                  -- return '⌘'
+                end
+                return hn:gsub("vision", "v")
+              end,
+              padding = {left = 0, right = 1 }, -- We don't need space before this
+            }
+          }
         },
         -- tabline = { lualine_c = {navic_context} },
         tabline = {},
