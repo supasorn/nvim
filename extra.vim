@@ -7,8 +7,8 @@ nnoremap <space>/ :call RgCwd("")<CR>
 " nmap <F6> :call FilesAtGitRoot()<cr>
 " imap <F6> <esc>:call FilesAtGitRoot()<cr>
 
-nmap <F5> :FzfLua grep<cr>
-imap <F5> <esc>:FzfLua grep<cr>
+" nmap <F5> :FzfLua grep<cr>
+" imap <F5> <esc>:FzfLua grep<cr>
 
 nnoremap <space>f :call FilesWithPath()<cr>
 inoremap <space>f <esc>:call FilesWithPath()<cr>
@@ -108,6 +108,10 @@ endfunction
 " ----------- Utility functions --------------
 function! FilesWithPath()
   lua require'fzf-lua'.files({cwd=vim.g.rgmode_path}) 
+endfunction
+
+function! FilesCwd()
+  lua require'fzf-lua'.files({cwd=vim.fn.getcwd()}) 
 endfunction
 
 function! RgWithPath(query)
