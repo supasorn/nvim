@@ -1151,6 +1151,9 @@ return {
       { "?", ':lua require("fzf-lua").blines({prompt=" > "})<cr>' },
       { "<s-r>", ':lua require("fzf-lua").command_history({prompt=" > "})<cr>' },
       { "<space>o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n", desc="buffers"},
+      { "<space>f", ':lua require("fzf-lua").files({cwd=vim.fn.getcwd()})<cr>', mode = "n", desc="find files"},
+      { "<space>/", ':lua require("fzf-lua").grep({rg_opts=vim.g.rgmode_rgopt, cwd=vim.fn.getcwd(), search="", fzf_cli_args="--nth 3.. -d :"})<cr>', mode = "n", desc="search"},
+
     },
     opts = {
       winopts = {

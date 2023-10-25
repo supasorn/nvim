@@ -2,7 +2,8 @@
 " Rule: tmux send -t 2 '!!' Enter Enter
 "
 nnoremap gf :call RgCwd(expand("<cword>"))<CR>
-nnoremap <space>/ :call RgCwd("")<CR>
+" nnoremap <space>/ :call RgCwd("")<CR>
+" nnoremap <space>f :call FilesWithPath()<cr>
 
 " nmap <F6> :call FilesAtGitRoot()<cr>
 " imap <F6> <esc>:call FilesAtGitRoot()<cr>
@@ -10,8 +11,6 @@ nnoremap <space>/ :call RgCwd("")<CR>
 " nmap <F5> :FzfLua grep<cr>
 " imap <F5> <esc>:FzfLua grep<cr>
 
-nnoremap <space>f :call FilesWithPath()<cr>
-inoremap <space>f <esc>:call FilesWithPath()<cr>
 
 nmap <F7> :call RgModeFZF()<CR>
 imap <F7> <esc>:call RgModeFZF()<CR>
