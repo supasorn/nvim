@@ -1153,6 +1153,7 @@ return {
       { "<space>o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n", desc="buffers"},
       { "<space>f", ':lua require("fzf-lua").files({cwd=vim.fn.getcwd()})<cr>', mode = "n", desc="find files"},
       { "<space>/", ':lua require("fzf-lua").grep({rg_opts=vim.g.rgmode_rgopt, cwd=vim.fn.getcwd(), search="", fzf_cli_args="--nth 3.. -d :"})<cr>', mode = "n", desc="search"},
+      { "<space>c", ':lua require("extra").fzf_change_dir()<cr>', mode = "n", desc="search"},
 
     },
     opts = {
