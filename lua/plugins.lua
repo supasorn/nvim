@@ -1066,6 +1066,24 @@ return {
       -- refer to the configuration section below
     }
   },
+  { "utilyre/barbecue.nvim",
+    enabled = false,
+    name = "barbecue",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    opts = {
+      -- configurations go here
+    },
+  },
+  { 'Bekaboo/dropbar.nvim', -- context bar for nvim >= 10
+    enabled = false,
+    dependencies = {
+      'nvim-telescope/telescope-fzf-native.nvim'
+    }
+  },
+
   -- ### File browser, FZF, Telescope
   { 'stevearc/oil.nvim', -- file explorer as vim buffer. support ssh
     opts = {
