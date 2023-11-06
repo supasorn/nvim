@@ -1546,6 +1546,10 @@ return {
     opts = {
     }
   },
+  { "supasorn/qfview.nvim",
+    event = "UIEnter",
+    config = true,
+  },
   -- ### All things cmp-related (autocomplete)
   { "L3MON4D3/LuaSnip",
     dependencies = "rafamadriz/friendly-snippets",
