@@ -1187,6 +1187,11 @@ return {
           -- layout = 'horizontal',
         },
       },
+      keymap = {
+        fzf = {
+          ["å"]       = "toggle-all",
+        }
+      },
       fzf_opts = {
         ['--layout'] = false,
       },
