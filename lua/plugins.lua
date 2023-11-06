@@ -509,6 +509,9 @@ return {
       ]]
     end
   },
+  { 'nmac427/guess-indent.nvim',
+    config = true,
+  },
   -- ### UI Interface
   { "SmiteshP/nvim-navic", -- show current code context
     -- enabled = false,
@@ -1083,7 +1086,6 @@ return {
       'nvim-telescope/telescope-fzf-native.nvim'
     }
   },
-
   -- ### File browser, FZF, Telescope
   { 'stevearc/oil.nvim', -- file explorer as vim buffer. support ssh
     opts = {
@@ -1434,7 +1436,7 @@ return {
         highlight = {
           enable = true, -- false will disable the whole extension
           disable = function(lang, bufnr)
-            if vim.api.nvim_buf_line_count(0) > 5000 then
+            if vim.api.nvim_buf_line_count(0) > 5000 or vim.fn.getfsize(vim.fn.expand('%')) > 1024 * 200 then
               return true
             end
             return false
