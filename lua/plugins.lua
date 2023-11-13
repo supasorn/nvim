@@ -1230,6 +1230,7 @@ return {
         build = 'make'
       },
       { 'supasorn/telescope-file-browser.nvim' },
+      -- { 'nvim-telescope/telescope-file-browser.nvim' },
       { 'marcuscaisey/olddirs.nvim' },
       { 'junegunn/fzf' },
     },
@@ -1310,7 +1311,11 @@ return {
             path = '%:p:h',
             -- previewer = true,
             hidden = true,
-            hide_parent_dir = true, grouped = true
+            hide_parent_dir = true, grouped = true,
+            display_stat = false,
+            preview = {
+              ls_short = true,
+            }
           })
         end)
       map({ 'n' }, "<space>d", require "telescope".extensions.olddirs.picker, {desc = "old directories"})
@@ -1338,6 +1343,10 @@ return {
 
     ]]
     end
+  },
+  { 'echasnovski/mini.files', 
+    version = '*',
+    config = true,
   },
   -- ### LSP, Treesitter, Tags
   { "jose-elias-alvarez/null-ls.nvim", -- For adding format() to lsp, etc
