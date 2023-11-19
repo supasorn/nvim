@@ -1351,6 +1351,11 @@ return {
     },
     version = '*',
     config = true,
+    opts = {
+      mappings = {
+        go_in_plus = '<enter>',
+      },
+    },
   },
   -- ### LSP, Treesitter, Tags
   { "jose-elias-alvarez/null-ls.nvim", -- For adding format() to lsp, etc
