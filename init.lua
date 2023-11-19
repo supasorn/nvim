@@ -205,6 +205,12 @@ augroup END
 
 au BufNewFile,BufRead *.ejs set filetype=html
 
+
+augroup MyAutocmds
+  autocmd!
+  autocmd BufWinEnter * if &filetype == 'MiniFiles' | setlocal cursorline cursorlineopt=line | endif
+  highlight MiniFilesCursorLine guifg=NONE guibg=#1c1c1c
+augroup END
 " augroup TitleString
   " autocmd!
   " autocmd BufEnter,FileReadPost * let &titlestring = 'pwd: %{expand("%:p:h")}'

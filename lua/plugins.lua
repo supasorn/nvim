@@ -1345,6 +1345,10 @@ return {
     end
   },
   { 'echasnovski/mini.files', 
+    keys = {
+      { "<f2>", ":lua MiniFiles.open()<CR>", mode = { "n", "v" } }, 
+      { "<f2>", "<esc>:lua MiniFiles.open()<CR>", mode = { "i" } }, 
+    },
     version = '*',
     config = true,
   },
