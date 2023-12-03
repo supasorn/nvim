@@ -211,6 +211,13 @@ augroup MyAutocmds
   autocmd BufWinEnter * if &filetype == 'MiniFiles' | setlocal cursorline cursorlineopt=line | endif
   highlight MiniFilesCursorLine guifg=NONE guibg=#1c1c1c
 augroup END
+
+augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave * mkview
+  autocmd BufWinEnter * silent! loadview
+augroup END
+
 " augroup TitleString
   " autocmd!
   " autocmd BufEnter,FileReadPost * let &titlestring = 'pwd: %{expand("%:p:h")}'

@@ -1723,7 +1723,7 @@ return {
     },
     cmd = { "Git" },
   },
-  { 'sindrets/diffview.nvim',
+  { 'sindrets/diffview.nvim', -- for git diff
     cmd = {'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles', 'DiffviewRefresh'},
 
   },
