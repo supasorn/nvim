@@ -480,6 +480,7 @@ return {
 
         zindex = 20, -- The Z-index of the context window
         mode = 'topline', -- Line used to calculate context. Choices: 'cursor', 'topline'
+        multiline_threshold = 1,
         -- separator = "─",
         -- separator = "-",
       }
@@ -1344,10 +1345,10 @@ return {
     ]]
     end
   },
-  { 'echasnovski/mini.files', 
+  { 'echasnovski/mini.files',
     keys = {
-      { "<f2>", ":lua MiniFiles.open()<CR>", mode = { "n", "v" } }, 
-      { "<f2>", "<esc>:lua MiniFiles.open()<CR>", mode = { "i" } }, 
+      { "<f2>", ":lua MiniFiles.open()<CR>", mode = { "n", "v" } },
+      { "<f2>", "<esc>:lua MiniFiles.open()<CR>", mode = { "i" } },
     },
     version = '*',
     config = true,
