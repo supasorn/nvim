@@ -128,7 +128,7 @@ for type, icon in pairs(signs) do
 end
 
 function LaunchHttpServerHere(directory)
-  local port = 1111
+  local port = 5555
   local cmd = string.format("cd %s && python3 -m http.server %d", directory, port)
   -- local cmd = string.format("python3 -m http.server %d", port)
   -- vim.fn.termopen(cmd)
@@ -138,6 +138,10 @@ function LaunchHttpServerHere(directory)
 
   -- Print a message to the user
   print(string.format("Started HTTP server on port %d serving directory %s", port, directory))
+end
+
+function LaunchHttpServerPwd()
+  LaunchHttpServerHere(vim.fn.getcwd())
 end
 
 -- local color_schemes = {'onedark', 'tokyonight', 'tokyonight-night' }
@@ -168,7 +172,12 @@ command! Q quit
 vnoremap // y/\V<c-r>=escape(@",'/\')<cr><cr>
 nnoremap gy /\V<c-r>=escape(@",'/\')<cr><cr>
 
-command! -nargs=+ H lua LaunchHttpServerHere(<f-args>)
+" command! -nargs=+ H lua LaunchHttpServerHere(<f-args>)
+" command! Vscode execute '!' . "ssh $(echo $SSH_CLIENT | awk '\{ print $1 \}') '/usr/local/bin/code --folder-uri \"vscode-remote://ssh-remote+$(hostname -I | awk '\{print $1\}')$(pwd)\"'"
+command! H lua LaunchHttpServerPwd()
+command! Vscode execute '!' . "ssh $(echo $SSH_CLIENT | awk '\{ print $1 \}') '/usr/local/bin/code --folder-uri \"vscode-remote://ssh-remote+'$(hostname -I | awk '{print $1}')''$(pwd)'\"'"
+
+
 
 command! To2spaces %s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g
 command! To4spaces %s/^\s*/&&/g
