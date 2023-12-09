@@ -85,6 +85,7 @@ map("i", "<c-h>", '<esc>g-i')
 map("n", "cina", 'cIna', { remap = true })
 
 map("n", "<c-q>", ':q<CR>')
+map("n", "zz", "za")
 
 map("n", "gD", vim.lsp.buf.definition, {desc="buf.definition"})
 map("n", "gs", vim.lsp.buf.hover, {desc="buf.hover"})
@@ -212,11 +213,12 @@ augroup MyAutocmds
   highlight MiniFilesCursorLine guifg=NONE guibg=#1c1c1c
 augroup END
 
-augroup remember_folds
+augroup AutoSaveGroup
   autocmd!
-  autocmd BufWinLeave * mkview
-  autocmd BufWinEnter * silent! loadview
-augroup END
+  " https://vi.stackexchange.com/questions/13864/bufwinleave-mkview-with-unnamed-file-error-32
+  autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre ?* nested silent! mkview!
+  autocmd BufWinEnter ?* silent! loadview
+augroup end
 
 " augroup TitleString
   " autocmd!
