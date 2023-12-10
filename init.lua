@@ -85,7 +85,7 @@ map("i", "<c-h>", '<esc>g-i')
 map("n", "cina", 'cIna', { remap = true })
 
 map("n", "<c-q>", ':q<CR>')
-map("n", "zz", "za")
+-- map("n", "zz", "za")
 
 map("n", "gD", vim.lsp.buf.definition, {desc="buf.definition"})
 map("n", "gs", vim.lsp.buf.hover, {desc="buf.hover"})
