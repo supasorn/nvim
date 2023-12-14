@@ -131,6 +131,9 @@ return {
       { "X", "<cmd>lua require('substitute.exchange').visual()<cr>", mode = "x" },
     },
     opts = {
+      on_substitute = function()
+        vim.cmd("call yoink#startUndoRepeatSwap()")
+      end,
       exchange = {
         motion = false,
         use_esc_to_cancel = true,
@@ -1094,7 +1097,7 @@ return {
   },
   { 'kyazdani42/nvim-tree.lua', -- Directory browser
     keys = {
-      { "<c-n>", ":NvimTreeToggle %:p:h<cr>" }
+      { "<space>t", ":NvimTreeToggle %:p:h<cr>" }
     },
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     config = function()
