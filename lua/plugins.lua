@@ -888,7 +888,6 @@ return {
         -- tabline = { lualine_c = {navic_context} },
         tabline = {},
 
-        --[[
         winbar = {
           lualine_a = {},
           lualine_b = {
@@ -925,7 +924,6 @@ return {
           },
           lualine_z = {}
         },
-        --]]
         inactive_winbar = {
           lualine_a = {},
           lualine_b = {
@@ -1089,7 +1087,7 @@ return {
     },
   },
   { 'Bekaboo/dropbar.nvim', -- context bar for nvim >= 10
-    enabled = true,
+    enabled = false,
     dependencies = {
       'nvim-telescope/telescope-fzf-native.nvim'
     }
