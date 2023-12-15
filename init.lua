@@ -1,7 +1,7 @@
 local fn = vim.fn
 local map = require("utils").map
 local opt = vim.opt
-Myleader = '<cr>'
+Myleader = '<tab>'
 
 local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
