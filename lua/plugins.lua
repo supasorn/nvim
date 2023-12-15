@@ -160,7 +160,8 @@ return {
       { "<c-j>", mode = { "n", "v" } },
       { "<c-k>", mode = { "n", "v" } },
       -- { ";", mode = { "n", "v" } },
-      { "<space><space>", mode = { "n", "v" }, desc="hop" },
+      { "<space>", mode = { "n", "v" }, desc="hop" },
+      -- { "<cr>", mode = { "n", "v" }, desc="hop" },
       { "p", mode = { "o" } },
       { "L", mode = { "o", "v" } },
     },
@@ -179,7 +180,8 @@ return {
       map({ "o", "v" }, "L", rwt(require 'hop'.hint_2lines))
 
       -- map({ "n", "v" }, ";", rwt(require 'hop'.hint_char1))
-      map({ "n", "v" }, "<space><space>", rwt(require 'hop'.hint_char1))
+      map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
+      -- map({ "n", "v" }, "<cr>", rwt(require 'hop'.hint_char1))
     end
   },
   { 'ggandor/leap.nvim', -- Experimenting..
@@ -275,6 +277,7 @@ return {
     event = "VeryLazy",
     keys = {
       { "<c-p>", "<plug>(YoinkPostPasteSwapBack)" },
+      { "<c-n>", "<plug>(YoinkPostPasteSwapForward)" },
       { "p", "<plug>(YoinkPaste_p)" },
       { "P", "<plug>(YoinkPaste_P)" },
     },
@@ -1097,7 +1100,7 @@ return {
   },
   { 'kyazdani42/nvim-tree.lua', -- Directory browser
     keys = {
-      { "<space>t", ":NvimTreeToggle %:p:h<cr>" }
+      { Myleader .. "t", ":NvimTreeToggle %:p:h<cr>", desc="NvimTreeToggle" }
     },
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     config = function()
@@ -1166,7 +1169,7 @@ return {
     dependencies = "fzf",
     cmd = "FZFMru",
     -- keys = { { "<f4>", ":FZFMru --no-sort<CR>" } },
-    keys = { { "<space>p", ":FZFMru --no-sort<CR>", mode = "n" } },
+    keys = { { Myleader .. "p", ":FZFMru --no-sort<CR>", mode = "n" } },
   },
   { 'ibhagwan/fzf-lua', -- fzf with native preview, etc
     cmd = { "FzfLua" },
@@ -1174,10 +1177,10 @@ return {
     keys = {
       { "?", ':lua require("fzf-lua").blines({prompt=" > "})<cr>' },
       { "<s-r>", ':lua require("fzf-lua").command_history({prompt=" > "})<cr>' },
-      { "<space>o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n", desc="buffers"},
-      { "<space>f", ':lua require("fzf-lua").files({cwd=vim.fn.getcwd()})<cr>', mode = "n", desc="find files"},
-      { "<space>/", ':lua require("fzf-lua").grep({rg_opts=vim.g.rgmode_rgopt, cwd=vim.fn.getcwd(), search="", fzf_cli_args="--nth 3.. -d :"})<cr>', mode = "n", desc="search"},
-      { "<space>c", ':lua require("extra").fzf_change_dir()<cr>', mode = "n", desc="search"},
+      { Myleader .. "o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n", desc="buffers"},
+      { Myleader .. "f", ':lua require("fzf-lua").files({cwd=vim.fn.getcwd()})<cr>', mode = "n", desc="find files"},
+      { Myleader .. "/", ':lua require("fzf-lua").grep({rg_opts=vim.g.rgmode_rgopt, cwd=vim.fn.getcwd(), search="", fzf_cli_args="--nth 3.. -d :"})<cr>', mode = "n", desc="search"},
+      { Myleader .. "c", ':lua require("extra").fzf_change_dir()<cr>', mode = "n", desc="search"},
 
     },
     opts = {
@@ -1240,7 +1243,7 @@ return {
     },
     cmd = { "Telescope" },
     -- keys = { "<f2>", "gr", "<leader>od" },
-    keys = { {"<space>i", desc="file browser"}, {"<space>d", desc="old directories"} },
+    keys = { {Myleader .. "i", desc="file browser"}, {Myleader .. "d", desc="old directories"} },
 
     config = function()
       local actions = require("telescope.actions")
@@ -1310,7 +1313,7 @@ return {
       require("telescope").load_extension "file_browser"
       require("telescope").load_extension "olddirs"
 
-      map({ 'n' }, "<space>i",
+      map({ 'n' }, Myleader .. "i",
         function() require "telescope".extensions.file_browser.file_browser({
             path = '%:p:h',
             -- previewer = true,
@@ -1322,7 +1325,7 @@ return {
             }
           })
         end)
-      map({ 'n' }, "<space>d", require "telescope".extensions.olddirs.picker, {desc = "old directories"})
+      map({ 'n' }, Myleader .. "d", require "telescope".extensions.olddirs.picker, {desc = "old directories"})
 
       vim.cmd [[
 
@@ -1479,7 +1482,7 @@ return {
           enable = false
         },
         incremental_selection = {
-          enable = true,
+          enable = false,
           keymaps = {
             -- init_selection = "gnn",
             -- node_incremental = "grn",

@@ -1,6 +1,7 @@
 local fn = vim.fn
 local map = require("utils").map
 local opt = vim.opt
+Myleader = '<cr>'
 
 local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -226,7 +227,7 @@ augroup AutoSaveGroup
   autocmd!
   " https://vi.stackexchange.com/questions/13864/bufwinleave-mkview-with-unnamed-file-error-32
   autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre ?* nested silent! mkview!
-  autocmd BufWinEnter ?* silent! loadview
+  autocmd BufWinEnter ?* if &filetype != 'lua' | silent! loadview | endif
 augroup end
 
 " augroup TitleString
