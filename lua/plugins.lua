@@ -811,6 +811,13 @@ return {
               -- padding = { left = 0, right = 0 },
               -- separator = ''
             -- },
+            --
+            {
+              'lsp_progress',
+              display_components = { { 'title', 'percentage', 'message' } },
+              spinner_symbols = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏', },
+              separator = {},
+            },
             {
               'diagnostics',
               sources = { 'nvim_diagnostic' },
@@ -822,12 +829,6 @@ return {
               },
               separator = {},
               padding = {right = 0, left = 1},
-            },
-            {
-              'lsp_progress',
-              display_components = { { 'title', 'percentage', 'message' } },
-              spinner_symbols = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏', },
-              separator = {},
             },
             {
               function()
