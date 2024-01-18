@@ -1065,6 +1065,7 @@ return {
     },
   },
   { "folke/which-key.nvim", -- show keymap desc
+    enabled=false,
     event = "VeryLazy",
     init = function()
       vim.o.timeout = true
@@ -1074,6 +1075,9 @@ return {
       -- your configuration comes here
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
+      triggers_blacklist = {
+        n = { "y", "yp" },
+      },
     }
   },
   { "utilyre/barbecue.nvim",
