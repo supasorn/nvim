@@ -498,22 +498,11 @@ return {
       require('scrollview').setup({
         excluded_filetypes = { 'nerdtree' },
         current_only = true,
-        winblend = 90,
+        -- scrollview_winblend_gui = 90,
         base = 'right',
         signs_on_startup = {''},
         column = 1
       })
-      vim.cmd [[
-        function! ScrollViewColor()
-          highlight ScrollView ctermbg=159 guibg=LightCyan
-        endfunction
-
-        augroup ScrollViewCustomHighlight
-            autocmd!
-            autocmd ColorScheme * call ScrollViewColor() 
-        augroup END
-        call ScrollViewColor() 
-      ]]
     end
   },
   { 'nmac427/guess-indent.nvim',
