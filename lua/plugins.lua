@@ -498,22 +498,11 @@ return {
       require('scrollview').setup({
         excluded_filetypes = { 'nerdtree' },
         current_only = true,
-        winblend = 90,
+        -- scrollview_winblend_gui = 90,
         base = 'right',
         signs_on_startup = {''},
         column = 1
       })
-      vim.cmd [[
-        function! ScrollViewColor()
-          highlight ScrollView ctermbg=159 guibg=LightCyan
-        endfunction
-
-        augroup ScrollViewCustomHighlight
-            autocmd!
-            autocmd ColorScheme * call ScrollViewColor() 
-        augroup END
-        call ScrollViewColor() 
-      ]]
     end
   },
   { 'nmac427/guess-indent.nvim',
@@ -1069,6 +1058,7 @@ return {
     },
   },
   { "folke/which-key.nvim", -- show keymap desc
+    enabled=false,
     event = "VeryLazy",
     init = function()
       vim.o.timeout = true
@@ -1078,6 +1068,9 @@ return {
       -- your configuration comes here
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
+      triggers_blacklist = {
+        n = { "y", "yp" },
+      },
     }
   },
   { "utilyre/barbecue.nvim",
