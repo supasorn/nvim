@@ -520,6 +520,10 @@ return {
     config = true,
   },
   -- ### UI Interface
+  { "3rd/image.nvim",
+    enabled=false,
+    config=true,
+  },
   { "SmiteshP/nvim-navic", -- show current code context
     -- enabled = false,
     event = "VeryLazy",
@@ -1482,7 +1486,7 @@ return {
           enable = false
         },
         incremental_selection = {
-          enable = false,
+          enable = true,
           keymaps = {
             -- init_selection = "gnn",
             -- node_incremental = "grn",
@@ -1490,7 +1494,7 @@ return {
             -- node_decremental = "grm",
             init_selection = "<CR>",
             node_incremental = "<CR>",
-            scope_incremental = "<tab>",
+            -- scope_incremental = "<tab>",
             node_decremental = "<BS>",
           },
         },
