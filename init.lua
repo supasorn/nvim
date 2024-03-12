@@ -14,6 +14,9 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
+package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
+
 vim.opt.rtp:prepend(lazypath)
 
 opt.termguicolors = true
@@ -177,7 +180,7 @@ nnoremap gy /\V<c-r>=escape(@",'/\')<cr><cr>
 command! H lua LaunchHttpServerPwd()
 
 " command! Vscode execute '!' . "ssh $(echo $SSH_CLIENT | awk '\{ print $1 \}') '/usr/local/bin/code --folder-uri \"vscode-remote://ssh-remote+'$(hostname -I | awk '{print $1}')''$(pwd)'\"'"
-command! Vscode execute '!' . "ssh -o StrictHostKeyChecking=no $(if [ -s ~/ssh_client_info.txt ]; then cat ~/ssh_client_info.txt | awk '\{ print $1 \}'; else echo $SSH_CLIENT | awk '\{ print $1 \}'; fi) '/usr/local/bin/code --folder-uri \"vscode-remote://ssh-remote+'$(hostname -I | awk '{print $1}')''$(pwd)'\"'"
+command! Vscode execute '!' . "ssh -o StrictHostKeyChecking=no $(if [ -s ~/ssh_client_info.txt ]; then cat ~/ssh_client_info.txt | awk '\{ print $1 \}'; else echo $SSH_CLIENT | awk '\{ print $1 \}'; fi) '/usr/local/bin/code --folder-uri \"vscode-remote://ssh-remote+'$(hostname -I | awk '{print $1}')''$(pwd)'\"'" | quit
 
 
 
