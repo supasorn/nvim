@@ -1730,9 +1730,10 @@ return {
     cmd = {'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles', 'DiffviewRefresh'},
 
   },
+
   { 'github/copilot.vim',
+    enabled = false,
     keys = { { "<f10>", "<esc>:Copilot<cr>", mode = { "i" } }, { "<f10>", ":Copilot<cr>", mode = { "n", "v" } } },
-    -- enabled = false,
     config = function()
       vim.g.copilot_no_tab_map = true
       vim.g.copilot_assume_mapped = true
@@ -1744,5 +1745,65 @@ return {
         imap <silent><script><expr> <c-n> copilot#Accept("\<CR>")
       ]]
     end,
+  },
+  { 'zbirenbaum/copilot.lua',
+    enabled = true,
+    cmd = "Copilot",
+    event = "InsertEnter",
+    opts = {
+      panel = {
+        enabled = true,
+        auto_refresh = false,
+        keymap = {
+          jump_prev = "[[",
+          jump_next = "]]",
+          accept = "<CR>",
+          refresh = "gr",
+          open = "<M-CR>"
+        },
+        layout = {
+          position = "bottom", -- | top | left | right
+          ratio = 0.4
+        },
+      },
+      suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        debounce = 75,
+        keymap = {
+          accept = "<c-n>",
+          accept_word = false,
+          accept_line = false,
+          next = "<c-,>",
+          prev = "<c-.>",
+          dismiss = "<c-m>",
+        },
+      },
+      filetypes = {
+        yaml = false,
+        markdown = false,
+        help = false,
+        gitcommit = false,
+        gitrebase = false,
+        hgcommit = false,
+        svn = false,
+        cvs = false,
+        ["."] = false,
+      },
+      copilot_node_command = 'node', -- Node.js version must be > 18.x
+      server_opts_overrides = {},
+    },
+  },
+  { 'CopilotC-Nvim/CopilotChat.nvim',
+    enabled = true,
+    branch = "canary",
+    dependencies = {
+      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+    },
+    opts = {
+      debug = true, -- Enable debugging
+      -- See Configuration section for rest
+    },
   },
 }
