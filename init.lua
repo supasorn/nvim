@@ -180,7 +180,7 @@ nnoremap gy /\V<c-r>=escape(@",'/\')<cr><cr>
 command! H lua LaunchHttpServerPwd()
 
 " command! Vscode execute '!' . "ssh $(echo $SSH_CLIENT | awk '\{ print $1 \}') '/usr/local/bin/code --folder-uri \"vscode-remote://ssh-remote+'$(hostname -I | awk '{print $1}')''$(pwd)'\"'"
-command! Vscode execute '!' . "ssh -o StrictHostKeyChecking=no $(if [ -s ~/ssh_client_info.txt ]; then cat ~/ssh_client_info.txt | awk '\{ print $1 \}'; else echo $SSH_CLIENT | awk '\{ print $1 \}'; fi) '/usr/local/bin/code --folder-uri \"vscode-remote://ssh-remote+'$(hostname -I | awk '{print $1}')''$(pwd)'\"'" 
+command! Vscode execute '!' . "ssh -o StrictHostKeyChecking=no $(if [ -s ~/ssh_client_info.txt ]; then cat ~/ssh_client_info.txt | awk '\{ print $1 \}'; else echo $SSH_CLIENT | awk '\{ print $1 \}'; fi) '/usr/local/bin/code --folder-uri \"vscode-remote://ssh-remote+'$(hostname -I | tr \' \' \'\\n\' | grep '^10\.204\.100\.' | head -n 1)''$(pwd)'\"'" 
 
 
 
