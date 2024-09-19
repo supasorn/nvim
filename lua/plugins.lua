@@ -1014,9 +1014,9 @@ return {
               then
                 if messages_map[cli.name] then
                   table.insert(builder, stringify(cli.name, messages_map[cli.name]))
-                else
+                -- else
                   -- table.insert(builder, stringify(cli.name))
-                  table.insert(builder, '')
+                  -- table.insert(builder, '')
                 end
               end
             end
