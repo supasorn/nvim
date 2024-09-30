@@ -1261,7 +1261,7 @@ return {
         previewer = false,
         headers = {},
         fzf_opts={
-          ["--delimiter"]="' '",
+          ["--delimiter"]=" ",
           ["--with-nth"]="-1..",
           ["--header-lines"] = false,
         }
