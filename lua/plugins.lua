@@ -1490,6 +1490,18 @@ return {
                 }
               }
             }
+          elseif server_name == 'pyright' then
+            opts.settings = {
+              python = {
+                analysis = {
+                  autoSearchPaths = true,
+                  diagnosticMode = 'openFilesOnly',
+                  useLibraryCodeForTypes = true,
+                  typeCheckingMode = 'off'
+                }
+              }
+            }
+            return
           end
           opts.on_attach = function(client, bufnr)
             local navic = require("nvim-navic")
