@@ -1772,6 +1772,9 @@ return {
   { 'tpope/vim-eunuch', -- :Rename :Delete :SudoWrite
     cmd = { "Remove", "Delete", "Move", "SudoWrite", "SudoEdit", "Chmod", "Mkdir", "Rename" }
   },
+  { 'lambdalisue/vim-suda',
+    cmd = { "SudaWrite" }
+  },
   { 'wesQ3/vim-windowswap', -- \ww swap two windows
     keys = {{"<leader>ww", desc="swap two windows"}}
   },
