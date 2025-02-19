@@ -508,6 +508,37 @@ return {
   { 'nmac427/guess-indent.nvim',
     config = true,
   },
+  { 'bassamsdata/namu.nvim',
+    enabled = false,
+    config = function()
+      require("namu").setup({
+        -- Enable the modules you want
+        namu_symbols = {
+          enable = true,
+          options = {}, -- here you can configure namu
+        },
+        -- Optional: Enable other modules if needed
+        ui_select = { enable = false }, -- vim.ui.select() wrapper
+        colorscheme = {
+          enable = false,
+          options = {
+            -- NOTE: if you activate persist, then please remove any vim.cmd("colorscheme ...") in your config, no needed anymore
+            persist = true, -- very efficient mechanism to Remember selected colorscheme
+            write_shada = false, -- If you open multiple nvim instances, then probably you need to enable this
+          },
+        },
+      })
+      -- === Suggested Keymaps: ===
+      vim.keymap.set("n", "<leader>ss",":Namu symbols<cr>" , {
+        desc = "Jump to LSP symbol",
+        silent = true,
+      })
+      vim.keymap.set("n", "<leader>th", ":Namu colorscheme<cr>", {
+        desc = "Colorscheme Picker",
+        silent = true,
+      })
+    end,
+  },
   -- ### UI Interface
   { "3rd/image.nvim",
     enabled=false,
@@ -1494,14 +1525,14 @@ return {
             opts.settings = {
               python = {
                 analysis = {
-                  autoSearchPaths = true,
-                  diagnosticMode = 'openFilesOnly',
-                  useLibraryCodeForTypes = true,
-                  typeCheckingMode = 'off'
+                  -- autoSearchPaths = true,
+                  -- diagnosticMode = 'openFilesOnly',
+                  -- useLibraryCodeForTypes = true,
+                  -- typeCheckingMode = 'off'
                 }
               }
             }
-            return
+            -- return
           end
           opts.on_attach = function(client, bufnr)
             local navic = require("nvim-navic")
