@@ -184,12 +184,6 @@ return {
       -- map({ "n", "v" }, "<cr>", rwt(require 'hop'.hint_char1))
     end
   },
-  { 'ggandor/leap.nvim', -- Experimenting..
-    enabled = false,
-    keys = {
-      { "<space>", ":lua require('leap').leap { target_windows = { vim.fn.win_getid() } }<cr>", mode = { "n", "v" } }
-    },
-  },
   { 'kevinhwang91/nvim-fFHighlight', -- highlight fF
     -- enabled = false,
     opts = {
@@ -199,28 +193,6 @@ return {
       prompt_sign_define = { text = '✹' }
     },
     keys = {{'f', mode = {"n", "v"}}, {'f', mode = {"n", "v"}}}
-  },
-  { 'rhysd/clever-f.vim', -- (UNUSED) fFtT with highlight
-    enabled = false,
-    keys = {
-      { "f", mode = { "n", "v", "o" } },
-      { "F", mode = { "n", "v", "o" } },
-      { "t", mode = { "n", "v", "o" } },
-      { "T", mode = { "n", "v", "o" } } },
-    config = function()
-      vim.cmd [[
-      let g:clever_f_not_overwrites_standard_mappings = 1
-      nmap <expr> f reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-f)" : "f"
-      vmap <expr> f reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-f)" : "f"
-      nmap <expr> F reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-F)" : "F"
-      vmap <expr> F reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-F)" : "F"
-      nmap <expr> t reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-t)" : "t"
-      vmap <expr> t reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-t)" : "t"
-      nmap <expr> T reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-T)" : "T"
-      vmap <expr> T reg_recording() .. reg_executing() == "" ? "<Plug>(clever-f-T)" : "T"
-      " map <c-;> ;
-      ]]
-    end,
   },
   { 'monaqa/dial.nvim', -- enhanced increment/decrement
     keys = {
@@ -505,7 +477,7 @@ return {
       })
     end
   },
-  { 'nmac427/guess-indent.nvim',
+  { 'nmac427/guess-indent.nvim', -- set the indent size automatically
     config = true,
   },
   { 'bassamsdata/namu.nvim',
@@ -540,10 +512,6 @@ return {
     end,
   },
   -- ### UI Interface
-  { "3rd/image.nvim",
-    enabled=false,
-    config=true,
-  },
   { "SmiteshP/nvim-navic", -- show current code context
     -- enabled = false,
     event = "VeryLazy",
@@ -1160,23 +1128,6 @@ return {
       triggers_blacklist = {
         n = { "y", "yp" },
       },
-    }
-  },
-  { "utilyre/barbecue.nvim",
-    enabled = false,
-    name = "barbecue",
-    dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
-    },
-    opts = {
-      -- configurations go here
-    },
-  },
-  { 'Bekaboo/dropbar.nvim', -- context bar for nvim >= 10
-    enabled = false,
-    dependencies = {
-      'nvim-telescope/telescope-fzf-native.nvim'
     }
   },
   -- ### File browser, FZF, Telescope
