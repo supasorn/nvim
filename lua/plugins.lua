@@ -61,6 +61,9 @@ return {
   { 'nvim-tree/nvim-web-devicons', -- Icons!
     lazy = true
   },
+  { 'rmagatti/logger.nvim',
+    lazy = true,
+  },
   -- ### Textobjects
   { 'Matt-A-Bennett/vim-surround-funk', -- af, if function objects
     lazy = false,
