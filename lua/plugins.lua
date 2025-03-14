@@ -1015,6 +1015,12 @@ return {
       { "<f3>", "<esc>:Oil<CR>", mode = { "i" } },
     },
     opts = {
+      columns = {
+        "icon",
+        "permissions",
+        "size",
+        "mtime",
+      },
     },
   },
   { 'kyazdani42/nvim-tree.lua', -- Directory browser
