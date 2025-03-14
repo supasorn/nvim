@@ -386,7 +386,7 @@ return {
       {"'t", "<cmd>BookmarksTree<cr>", mode = {"n", "v"}}
     },
     dependencies = {
-      {"kkharji/sqlite.lua"},
+      {"supasorn/sqlite.lua"},
       {"nvim-telescope/telescope.nvim"},
       {"stevearc/dressing.nvim"} -- optional: better UI
     },
