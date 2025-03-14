@@ -330,6 +330,7 @@ return {
     end
   },
   { 'chentoast/marks.nvim', -- show mark column
+    enabled = true,
     event = "VeryLazy",
     opts = {
       -- whether to map keybinds or not. default true
@@ -372,7 +373,7 @@ return {
         virt_text = "<<<<<<<<",
         -- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
         -- defaults to false.
-        annotate = false,
+        annotate = true,
       },
       mappings = {}
     },
@@ -479,37 +480,6 @@ return {
   },
   { 'nmac427/guess-indent.nvim', -- set the indent size automatically
     config = true,
-  },
-  { 'bassamsdata/namu.nvim',
-    enabled = false,
-    config = function()
-      require("namu").setup({
-        -- Enable the modules you want
-        namu_symbols = {
-          enable = true,
-          options = {}, -- here you can configure namu
-        },
-        -- Optional: Enable other modules if needed
-        ui_select = { enable = false }, -- vim.ui.select() wrapper
-        colorscheme = {
-          enable = false,
-          options = {
-            -- NOTE: if you activate persist, then please remove any vim.cmd("colorscheme ...") in your config, no needed anymore
-            persist = true, -- very efficient mechanism to Remember selected colorscheme
-            write_shada = false, -- If you open multiple nvim instances, then probably you need to enable this
-          },
-        },
-      })
-      -- === Suggested Keymaps: ===
-      vim.keymap.set("n", "<leader>ss",":Namu symbols<cr>" , {
-        desc = "Jump to LSP symbol",
-        silent = true,
-      })
-      vim.keymap.set("n", "<leader>th", ":Namu colorscheme<cr>", {
-        desc = "Colorscheme Picker",
-        silent = true,
-      })
-    end,
   },
   -- ### UI Interface
   { "SmiteshP/nvim-navic", -- show current code context
@@ -1029,82 +999,6 @@ return {
       }
     end,
   },
-  { 'b0o/incline.nvim', -- floating filenames
-    enabled = false,
-    dependencies = {
-      'nvim-lualine/lualine.nvim'
-    },
-    -- enabled = false,
-    config = function()
-
-      local my_filename = require('lualine.components.filename'):extend()
-      my_filename.apply_icon = require('lualine.components.filetype').apply_icon
-      my_filename.icon_hl_cache = {}
-
-      require('incline').setup({
-        debounce_threshold = {
-          falling = 50,
-          rising = 10
-        },
-        hide = {
-          cursorline = false,
-          focused_win = false,
-          only_win = false
-        },
-        highlight = {
-          groups = {
-            InclineNormal = {
-              default = true,
-              group = "NormalFloat"
-            },
-            InclineNormalNC = {
-              default = true,
-              group = "NormalFloat"
-            }
-          }
-        },
-        ignore = {
-          buftypes = "special",
-          filetypes = {},
-          floating_wins = true,
-          unlisted_buffers = true,
-          wintypes = "special"
-        },
-        -- render = my_filename(),
-        render = "basic",
-        window = {
-          margin = {
-            horizontal = 1,
-            vertical = 1
-          },
-          options = {
-            signcolumn = "no",
-            wrap = false
-          },
-          padding = 1,
-          padding_char = " ",
-          placement = {
-            horizontal = "right",
-            vertical = "top"
-          },
-          width = "fit",
-          winhighlight = {
-            active = {
-              EndOfBuffer = "None",
-              Normal = "InclineNormal",
-              Search = "None"
-            },
-            inactive = {
-              EndOfBuffer = "None",
-              Normal = "InclineNormalNC",
-              Search = "None"
-            }
-          },
-          zindex = 50
-        }
-      })
-    end
-  },
   { 'lewis6991/gitsigns.nvim', -- Show git diff, etc.
     event = "VeryLazy",
     dependencies = { 'nvim-lua/plenary.nvim' },
@@ -1114,24 +1008,12 @@ return {
       signcolumn = true,
     },
   },
-  { "folke/which-key.nvim", -- show keymap desc
-    enabled=false,
-    event = "VeryLazy",
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 1000
-    end,
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-      triggers_blacklist = {
-        n = { "y", "yp" },
-      },
-    }
-  },
   -- ### File browser, FZF, Telescope
   { 'stevearc/oil.nvim', -- file explorer as vim buffer. support ssh
+    keys = {
+      { "<f3>", ":Oil<CR>", mode = { "n", "v" } },
+      { "<f3>", "<esc>:Oil<CR>", mode = { "i" } },
+    },
     opts = {
     },
   },
@@ -1622,10 +1504,6 @@ return {
     event = "VeryLazy",
     opts = {
     }
-  },
-  { "supasorn/qfview.nvim",
-    event = "UIEnter",
-    config = true,
   },
   -- ### All things cmp-related (autocomplete)
   { "L3MON4D3/LuaSnip",
