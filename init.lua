@@ -206,6 +206,8 @@ function! CustomHighlight()
   hi MatchParen gui=underline guibg=NONE guifg=red
   hi TreesitterContextBottom gui=underline guisp=Grey
   hi HighlightCurrentSearch guibg=#ed6623 guifg=black
+
+  hi BookmarksNvimLine guibg=NONE
 endfunction
 
 augroup CustomHighlightGroup

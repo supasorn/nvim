@@ -378,6 +378,37 @@ return {
       mappings = {}
     },
   },
+  { "LintaoAmons/bookmarks.nvim",
+    event = "VeryLazy",
+    keys = {
+      {"mm", "<cmd>BookmarksMark<cr>", mode = {"n", "v"}},
+      {"'o", "<cmd>BookmarksGoto<cr>", mode = {"n", "v"}},
+      {"'t", "<cmd>BookmarksTree<cr>", mode = {"n", "v"}}
+    },
+    dependencies = {
+      {"kkharji/sqlite.lua"},
+      {"nvim-telescope/telescope.nvim"},
+      {"stevearc/dressing.nvim"} -- optional: better UI
+    },
+    config = function()
+      require('bookmarks').setup {
+        keymap = {
+          delete = {"dd"}
+        }
+      }
+      vim.cmd [[
+        function! BookmarkColor()
+          hi BookmarksNvimLine guibg=NONE
+        endfunction
+
+        augroup BookmarkCustomHighlight
+          autocmd!
+          autocmd ColorScheme * call BookmarkColor()
+        augroup END
+        call BookmarkColor()
+      ]]
+    end,
+  },
   { 'lukas-reineke/indent-blankline.nvim', -- Indent guideline
     -- event = "BufEnter",
     version = "2.20.8",
@@ -1311,7 +1342,7 @@ return {
     end
   },
   { 'rmagatti/goto-preview', -- Goto preview with nested!
-    event = "VeryLazy",
+    -- event = "VeryLazy",
     keys = {
       { "gp", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>" },
       { "gP", "<cmd>lua require('goto-preview').close_all_win()<CR>" },
