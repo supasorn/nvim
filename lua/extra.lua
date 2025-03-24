@@ -1,20 +1,7 @@
 local M = {}
 
 local function strip_quotes(s)
-  return s:gsub([["(.-)"]], "%1"):gsub([[\'(.-)\']], "%1")
-         :gsub("^['\"]", ""):gsub("['\"]$", "")
-end
-
-M.SetupDapPython = function(opts)
-  local dap_python = require('dap-python')
-  local python_path = vim.fn.system("which python"):gsub("\n", "")
-
-  if vim.fn.executable(python_path) == 1 then
-    dap_python.setup(python_path)
-    print("DAP Python set to: " .. python_path)
-  else
-    print("Python executable not found.")
-  end
+  return s and s:gsub("^['\"]", ""):gsub("['\"]$", "") or s
 end
 
 M.RunDebugFromComment = function()
