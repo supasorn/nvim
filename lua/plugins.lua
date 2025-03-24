@@ -1555,6 +1555,20 @@ return {
     opts = {
     }
   },
+  { 'mfussenegger/nvim-dap', -- debugger
+    dependencies = {
+      'mfussenegger/nvim-dap-python',
+      'rcarriga/nvim-dap-ui', -- (Optional: for a nice UI)
+      'nvim-neotest/nvim-nio'
+    },
+    keys = {
+      { "<F4>", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+      { "<leader>r", function() require("extra").RunDebugFromComment() end,         desc = "Start/Continue Debugging" },
+      { "<F5>", function() require("dap").continue() end,         desc = "Start/Continue Debugging" },
+      { "<F6>", function() require("dap").step_over() end,        desc = "Step Over" },
+      { "<F7>", function() require("dap").step_into() end,        desc = "Step Into" },
+    },
+  },
   -- ### All things cmp-related (autocomplete)
   { "L3MON4D3/LuaSnip",
     dependencies = "rafamadriz/friendly-snippets",

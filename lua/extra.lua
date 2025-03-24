@@ -1,4 +1,88 @@
 local M = {}
+
+M.SetupDapPython = function(opts)
+  local dap_python = require('dap-python')
+  local python_path = vim.fn.system("which python"):gsub("\n", "")
+
+  if vim.fn.executable(python_path) == 1 then
+    dap_python.setup(python_path)
+    print("DAP Python set to: " .. python_path)
+  else
+    print("Python executable not found.")
+  end
+end
+
+M.RunDebugFromComment = function()
+    -- Setup dap-python using 'which python'
+  local python_path = vim.fn.system("which python"):gsub("\n", "")
+  require("dap-python").setup(python_path)
+
+  -- Read current buffer lines
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local debug_cmd = nil
+
+  for _, line in ipairs(lines) do
+    local match = line:match("^%s*#%s*Debug:%s*(.+)")
+    if match then
+      debug_cmd = match
+      break
+    end
+  end
+
+  if not debug_cmd then
+    print("No '# Debug:' comment found in file.")
+    return
+  end
+
+  -- Split the command string into parts
+  local parts = {}
+  for part in debug_cmd:gmatch("%S+") do
+    table.insert(parts, part)
+  end
+
+  if #parts < 2 then
+    print("Invalid debug command.")
+    return
+  end
+
+  -- Parse environment variables (before the python executable)
+  local env = {}
+  local i = 1
+  while parts[i] and parts[i]:find("=") do
+    local key, val = parts[i]:match("^(.-)=(.*)$")
+    if key and val then
+      env[key] = tostring(val)
+    end
+    i = i + 1
+  end
+
+  local python_bin = parts[i]
+  local script = parts[i + 1]
+  local args = {}
+
+  for j = i + 2, #parts do
+    table.insert(args, parts[j])
+  end
+
+   -- Construct config
+  local config = {
+    type = "python",
+    request = "launch",
+    name = "Debug from comment",
+    program = script,
+    args = args,
+    pythonPath = python_bin,
+    console = "integratedTerminal",
+  }
+
+  -- Only add env if it's not empty
+  if next(env) ~= nil then
+    config.env = env
+  end
+  require("dap").run(config)
+end
+
+
 function GetParents(dir)
   dir = vim.fn.fnamemodify(dir, ':p:h')
   local arr = { dir }
