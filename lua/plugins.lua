@@ -1057,9 +1057,9 @@ return {
     opts = {
       columns = {
         "icon",
-        "permissions",
-        "size",
-        "mtime",
+        -- "permissions",
+        -- "size",
+        -- "mtime",
       },
     },
   },
