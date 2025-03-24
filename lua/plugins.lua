@@ -1562,7 +1562,8 @@ return {
       'nvim-neotest/nvim-nio'
     },
     keys = {
-      { "<F4>", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+      { "<leader>b", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+      { "<F4>", function() require("dap").step_out() end, desc = "Toggle Breakpoint" },
       { "<leader>r", function() require("extra").RunDebugFromComment() end,         desc = "Start/Continue Debugging" },
       { "<F5>", function() require("dap").continue() end,         desc = "Start/Continue Debugging" },
       { "<F6>", function() require("dap").step_over() end,        desc = "Step Over" },
