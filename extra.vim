@@ -12,8 +12,8 @@ nnoremap gf :call RgCwd(expand("<cword>"))<CR>
 " imap <F5> <esc>:FzfLua grep<cr>
 
 
-nmap <F7> :call RgModeFZF()<CR>
-imap <F7> <esc>:call RgModeFZF()<CR>
+" nmap <F7> :call RgModeFZF()<CR>
+" imap <F7> <esc>:call RgModeFZF()<CR>
 
 nmap <silent> ( :call JumpThroughParameter(-1)<CR>
 nmap <silent> ) :call JumpThroughParameter(1)<CR>

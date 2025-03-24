@@ -1039,6 +1039,15 @@ return {
       signcolumn = true,
     },
   },
+  { 'folke/which-key.nvim', -- Show keymaps
+    -- event = "VeryLazy",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+    cmd = "WhichKey",
+  },
   -- ### File browser, FZF, Telescope
   { 'stevearc/oil.nvim', -- file explorer as vim buffer. support ssh
     keys = {
@@ -1136,8 +1145,9 @@ return {
       { Myleader .. "o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n", desc="buffers"},
       { Myleader .. "f", ':lua require("fzf-lua").files()<cr>', mode = "n", desc="find files"},
       { Myleader .. "/", ':lua require("fzf-lua").grep_project()<cr>', mode = "n", desc="search"},
+      { Myleader .. "c", ':lua require("extra").fzf_change_dir()<cr>', mode = "n", desc="change current directory"},
+      { "g/", ':lua require("fzf-lua").grep_visual()<cr>', mode = "v", desc="grep current selection"},
       -- { Myleader .. "/", ':lua require("fzf-lua").grep({rg_opts=vim.g.rgmode_rgopt, cwd=vim.fn.getcwd(), search="", fzf_cli_args=""})<cr>', mode = "n", desc="search"},
-      { Myleader .. "c", ':lua require("extra").fzf_change_dir()<cr>', mode = "n", desc="search"},
 
     },
     opts = {
@@ -1200,7 +1210,10 @@ return {
     },
     cmd = { "Telescope" },
     -- keys = { "<f2>", "gr", "<leader>od" },
-    keys = { {Myleader .. "i", desc="file browser"}, {Myleader .. "d", desc="old directories"} },
+    keys = {
+      {Myleader .. "i", desc="file browser"},
+      {Myleader .. "d", desc="old directories"},
+    },
 
     config = function()
       local actions = require("telescope.actions")
