@@ -1374,61 +1374,78 @@ return {
   },
   { 'williamboman/mason-lspconfig.nvim', -- Mason-Lsp interface
     event = "VeryLazy",
-    dependencies = "mason.nvim",
-    config = function()
-      local mason_lspconfig = require("mason-lspconfig")
-      mason_lspconfig.setup({
-        ensure_installed = {
-          "pyright",
-          "html",
-          "cssls",
-          -- "tsserver",
-          "eslint",
-          "lua_ls",
-          -- "autopep8",
-        },
-        automatic_installation = true
-      })
-    end,
+    dependencies = { "williamboman/mason.nvim" },
+    opts = {
+      ensure_installed       = { "pyright", "html", "cssls", "eslint", "lua_ls" },
+      automatic_installation = true,
+    },
   },
   { 'neovim/nvim-lspconfig', -- Lspconfig
     event = "VeryLazy",
+    dependencies = {
+      "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/cmp-nvim-lsp",   -- for capabilities
+      "SmiteshP/nvim-navic",    -- you already use this in on_attach
+    },
     config = function()
-      local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-      local mason_lspconfig = require("mason-lspconfig")
+      local lspconfig    = require("lspconfig")
+      local mason_lsp    = require("mason-lspconfig")
+      local navic        = require("nvim-navic")
 
-      mason_lspconfig.setup_handlers({
-        function(server_name)
-          local opts = { capabilities = capabilities }
-          if server_name == 'lua_ls' then
-            opts.settings = {
-              Lua = {
-                diagnostics = { globals = { 'vim' }
-                }
-              }
-            }
-          elseif server_name == 'pyright' then
-            opts.settings = {
-              python = {
-                analysis = {
-                  autoSearchPaths = true,
-                  diagnosticMode = 'openFilesOnly',
-                  useLibraryCodeForTypes = true,
-                  typeCheckingMode = 'off'
-                }
-              }
-            }
-            -- return
-          end
-          opts.on_attach = function(client, bufnr)
-            local navic = require("nvim-navic")
-            navic.attach(client, bufnr)
-            client.server_capabilities.semanticTokensProvider = nil -- need this otherwise a lot of things will be highlighted red
-          end
-          require("lspconfig")[server_name].setup(opts)
-        end
+      local capabilities = require("cmp_nvim_lsp")
+                           .default_capabilities(vim.lsp.protocol
+                           .make_client_capabilities())
+
+      local function on_attach(client, bufnr)
+        navic.attach(client, bufnr)
+        client.server_capabilities.semanticTokensProvider = nil
+      end
+
+      mason_lsp.setup({
+        -- If you want Mason to *also* attach servers automatically, add
+        -- automatic_setup = true,
+        handlers = {
+          -- 1️⃣ default for every server -------------------------------
+          function(server_name)
+            lspconfig[server_name].setup({
+              capabilities = capabilities,
+              on_attach    = on_attach,
+            })
+          end,
+
+          -- 2️⃣ lua_ls override ----------------------------------------
+          lua_ls = function()
+            lspconfig.lua_ls.setup({
+              capabilities = capabilities,
+              on_attach    = on_attach,
+              settings     = {
+                Lua = {
+                  diagnostics = { globals = { "vim" } },
+                },
+              },
+            })
+          end,
+
+          -- 3️⃣ pyright override ---------------------------------------
+          pyright = function()
+            lspconfig.pyright.setup({
+              capabilities = capabilities,
+              on_attach    = on_attach,
+              settings     = {
+                python = {
+                  analysis = {
+                    autoSearchPaths        = true,
+                    diagnosticMode         = "openFilesOnly",
+                    useLibraryCodeForTypes = true,
+                    typeCheckingMode       = "off",
+                  },
+                },
+              },
+            })
+          end,
+        },
       })
-    end
+    end,
   },
   { 'majutsushi/tagbar', -- Tagbar! Show code tags
     dependencies = { 'ludovicchabant/vim-gutentags' },
