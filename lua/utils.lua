@@ -21,10 +21,10 @@ end
 M.run_without_TSContext = function(f, opts)
   opts = opts or {}
   return function()
-    vim.cmd ":TSContextDisable"
+    vim.cmd ":TSContext disable"
     f(opts)
     -- require'hop'.hint_char1()
-    vim.cmd ":TSContextEnable"
+    vim.cmd ":TSContext enable"
     if opts["postcmd"] ~= nil then
       vim.api.nvim_feedkeys(opts["postcmd"], '', true)
     end
