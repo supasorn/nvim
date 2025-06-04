@@ -300,8 +300,8 @@ return {
       map('n', 'zM', require('ufo').closeAllFolds)
     end
   },
-  { 'DarwinSenior/nvim-colorizer.lua', -- Shows color blocks when see hex code
-    event = "VeryLazy",
+  { 'catgoose/nvim-colorizer.lua', -- Shows color blocks when see hex code
+    event = "BufReadPre",
     config = function()
       require 'colorizer'.setup({ 'lua', 'css', 'javascript', 'html' }, {
         mode = "virtualtext"
