@@ -1607,7 +1607,7 @@ return {
       -- Python adapter
       dap.adapters.python = {
         type = "server",
-        host = "localhost",
+        host = "127.0.0.1",
         port = 5678,
       }
 
