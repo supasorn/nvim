@@ -1601,6 +1601,35 @@ return {
       { "<F6>", function() require("dap").step_over() end,        desc = "Step Over" },
       { "<F7>", function() require("dap").step_into() end,        desc = "Step Into" },
     },
+    config = function()
+      local dap = require("dap")
+
+      -- Python adapter
+      dap.adapters.python = {
+        type = "server",
+        host = "localhost",
+        port = 5678,
+      }
+
+      -- Debugpy attach configuration
+      dap.configurations.python = {
+        {
+          type = "python",
+          request = "attach",
+          name = "Attach to remote debugpy",
+          connect = {
+            host = "127.0.0.1",
+            port = 5678,
+          },
+          pathMappings = {
+            {
+              localRoot = vim.fn.getcwd(),           -- local project path
+              remoteRoot = "." -- remote path
+            },
+          },
+        },
+      }
+    end,
   },
   -- ### All things cmp-related (autocomplete)
   { "L3MON4D3/LuaSnip",
