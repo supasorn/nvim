@@ -1629,6 +1629,31 @@ return {
           },
         },
       }
+
+      require("dapui").setup({
+        layouts = {
+          {
+            elements = {
+              { id = "scopes", size = 0.35 },
+              "breakpoints",
+              "stacks",
+              "watches",
+            },
+            size = 40, position = "left",
+          },
+          {
+            elements = {
+              "repl",
+              "console",
+            },
+            size = 10, position = "bottom",
+          },
+        },
+        controls = {
+          enabled = true,     -- allowed because "repl" exists
+          element = "repl",   -- default; could omit
+        },
+      })
     end,
   },
   -- ### All things cmp-related (autocomplete)
