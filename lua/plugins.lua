@@ -749,7 +749,8 @@ return {
           section_separators = { left = '', right = '' },
           disabled_filetypes = {
             statusline = {},
-            winbar = {},
+            winbar = {'Avante', 'AvanteInput', 'AvanteTodos', 'AvanteSelectedFiles'},
+            -- winbar = {},
           },
           ignore_focus = {},
           always_divide_middle = true,
@@ -906,7 +907,8 @@ return {
             { 
               filepath.get_path,
               padding = { left = 0, right = 0 },
-              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.93) }
+              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.93) },
+              cond = function() return vim.bo.filetype ~= 'oil' end
             }
           },
           lualine_y = {
@@ -925,6 +927,10 @@ return {
         inactive_winbar = {
           lualine_a = {},
           lualine_b = {
+            {
+              my_filename, colored = true,
+              cond = function() return vim.bo.filetype == 'oil' end
+            },
           },
           lualine_c = {},
           lualine_x = {
@@ -1047,6 +1053,15 @@ return {
       -- refer to the configuration section below
     },
     cmd = "WhichKey",
+  },
+  { "echasnovski/mini.diff",
+    config = function()
+      local diff = require("mini.diff")
+      diff.setup({
+        -- Disabled by default
+        source = diff.gen_source.none(),
+      })
+    end,
   },
   -- ### File browser, FZF, Telescope
   { 'stevearc/oil.nvim', -- file explorer as vim buffer. support ssh
@@ -1768,6 +1783,7 @@ return {
     enabled = true,
     cmd = "Copilot",
     event = "InsertEnter",
+    cond = not vim.g.vscode,
     opts = {
       panel = {
         enabled = true,
@@ -1814,7 +1830,6 @@ return {
   },
   { 'CopilotC-Nvim/CopilotChat.nvim',
     enabled = true,
-    branch = "canary",
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
@@ -1823,16 +1838,72 @@ return {
       debug = true, -- Enable debugging
       -- See Configuration section for rest
     },
-    keys = {
-      { Myleader .. "q",
-        function()
-          local input = vim.fn.input("Quick Chat: ")
-          if input ~= "" then
-            require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
-          end
-        end,
-        desc = "CopilotChat - Quick chat",
-      }
+  },
+  { "olimorris/codecompanion.nvim",
+    enabled=true,
+    opts = {},
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+  },
+  { "yetone/avante.nvim",
+    enabled=true,
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    -- ⚠️ must add this setting! ! !
+    build = function()
+      -- conditionally use the correct build system for the current OS
+      if vim.fn.has("win32") == 1 then
+        return "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
+      else
+        return "make"
+      end
+    end,
+    event = "VeryLazy",
+    version = false, -- Never set this value to "*"! Never!
+    ---@module 'avante'
+    ---@type avante.Config
+    opts = {
+      provider = "copilot",
+    },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      --- The below dependencies are optional,
+      "echasnovski/mini.pick", -- for file_selector provider mini.pick
+      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+      "ibhagwan/fzf-lua", -- for file_selector provider fzf
+      "stevearc/dressing.nvim", -- for input provider dressing
+      "folke/snacks.nvim", -- for input provider snacks
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      "zbirenbaum/copilot.lua", -- for providers='copilot'
+      {
+        -- support for image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            -- required for Windows users
+            use_absolute_path = true,
+          },
+        },
+      },
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
     },
   },
 }

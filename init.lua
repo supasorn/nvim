@@ -17,6 +17,12 @@ end
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    vim.b.lualine_disable = true
+  end
+})
+
 vim.opt.rtp:prepend(lazypath)
 
 opt.termguicolors = true
