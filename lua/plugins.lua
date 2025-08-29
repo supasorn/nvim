@@ -1597,9 +1597,11 @@ return {
       { "<leader>b", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
       { "<leader>r", function() require("extra").RunDebugFromComment() end,         desc = "Start/Continue Debugging" },
       { "<F4>", function() require("dap").step_out() end, desc = "Step out" },
-      { "<F5>", function() require("dap").continue() end,         desc = "Start/Continue Debugging" },
+      { "<F5>", function() require("dap").continue() require("dapui").open() end,         desc = "Start/Continue Debugging" },
       { "<F6>", function() require("dap").step_over() end,        desc = "Step Over" },
       { "<F7>", function() require("dap").step_into() end,        desc = "Step Into" },
+      { "<leader>du", function() require("dapui").toggle() end,         desc = "toggle dapui" },
+      { "<leader>de", function() require("dapui").eval() end,         desc = "toggle dapui" },
     },
     config = function()
       local dap = require("dap")
