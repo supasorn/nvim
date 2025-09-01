@@ -1878,7 +1878,7 @@ return {
     },
   },
   { 'CopilotC-Nvim/CopilotChat.nvim',
-    enabled = true,
+    enabled = false,
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
@@ -1889,7 +1889,7 @@ return {
     },
   },
   { "olimorris/codecompanion.nvim",
-    enabled=false,
+    enabled=true,
     opts = {},
     dependencies = {
       "nvim-lua/plenary.nvim",
