@@ -1,5 +1,7 @@
 local utils = require("utils")
 local map = utils.map
+local in_singularity = vim.env.SINGULARITY_NAME ~= nil or vim.env.SINGULARITY_CONTAINER ~= nil
+
 return {
   -- ### System's plugin
   { 'navarasu/onedark.nvim', -- Colorscheme
@@ -1814,7 +1816,7 @@ return {
   },
 
   { 'github/copilot.vim',
-    enabled = false,
+    enabled = false and not in_singularity,
     keys = { { "<f10>", "<esc>:Copilot<cr>", mode = { "i" } }, { "<f10>", ":Copilot<cr>", mode = { "n", "v" } } },
     config = function()
       vim.g.copilot_no_tab_map = true
@@ -1829,7 +1831,7 @@ return {
     end,
   },
   { 'zbirenbaum/copilot.lua',
-    enabled = true,
+    enabled = true and not in_singularity,
     cmd = "Copilot",
     event = "InsertEnter",
     cond = not vim.g.vscode,
@@ -1889,7 +1891,7 @@ return {
     },
   },
   { "olimorris/codecompanion.nvim",
-    enabled=true,
+    enabled=true and not in_singularity,
     opts = {},
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -1897,7 +1899,7 @@ return {
     },
   },
   { "yetone/avante.nvim",
-    enabled=false,
+    enabled=false and not in_singularity,
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     -- ⚠️ must add this setting! ! !
     build = function()
