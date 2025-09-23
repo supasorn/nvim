@@ -1934,6 +1934,9 @@ return {
   { "olimorris/codecompanion.nvim",
     enabled=true and not in_singularity,
     opts = {},
+    keys = {
+      { "<leader>c", "<cmd>CodeCompanionChat toggle<CR>", mode = "n", desc = "Code Companion" },
+    },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
