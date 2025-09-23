@@ -738,6 +738,12 @@ return {
       -- local lighterB = 
       -- custom_theme.normal.b.bg = util.lighten(c.bg3, 0.95)
       --
+      local function not_in_filetypes(ft_list)
+        return function()
+          return not vim.tbl_contains(ft_list, vim.bo.filetype)
+        end
+      end
+
       require('lualine').setup {
 
         options = {
@@ -751,7 +757,7 @@ return {
           section_separators = { left = '', right = '' },
           disabled_filetypes = {
             statusline = {},
-            winbar = {'Avante', 'AvanteInput', 'AvanteTodos', 'AvanteSelectedFiles'},
+            winbar = {'Avante', 'AvanteInput', 'AvanteTodos', 'AvanteSelectedFiles', 'dap-view', 'dap-repl'},
             -- winbar = {},
           },
           ignore_focus = {},
@@ -910,7 +916,7 @@ return {
               filepath.get_path,
               padding = { left = 0, right = 0 },
               color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.93) },
-              cond = function() return vim.bo.filetype ~= 'oil' end
+              cond = not_in_filetypes({ 'oil' })
             }
           },
           lualine_y = {
@@ -921,7 +927,7 @@ return {
               -- separator = {left = '' },
               -- separator = {},
               padding = { left = 1, right = 1 },
-              cond = function() return vim.bo.filetype ~= 'oil' end
+              cond = not_in_filetypes({ 'oil' })
             },
           },
           lualine_z = {}
@@ -931,7 +937,7 @@ return {
           lualine_b = {
             {
               my_filename, colored = true,
-              cond = function() return vim.bo.filetype == 'oil' end
+              cond = not_in_filetypes({ 'oil' })
             },
           },
           lualine_c = {},
@@ -1593,16 +1599,19 @@ return {
     dependencies = {
       'mfussenegger/nvim-dap-python',
       'rcarriga/nvim-dap-ui', -- (Optional: for a nice UI)
-      'nvim-neotest/nvim-nio'
+      'nvim-neotest/nvim-nio',
+      'igorlfs/nvim-dap-view'
     },
     keys = {
       { "<leader>b", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
       { "<leader>r", function() require("extra").RunDebugFromComment() end,         desc = "Start/Continue Debugging" },
       { "<F4>", function() require("dap").step_out() end, desc = "Step out" },
-      { "<F5>", function() require("dap").continue() require("dapui").open() end,         desc = "Start/Continue Debugging" },
+      -- { "<F5>", function() require("dap").continue() require("dapui").open() end,         desc = "Start/Continue Debugging" },
+      { "<F5>", "<cmd>DapContinue<CR><cmd>DapViewOpen<CR>",         desc = "Start/Continue Debugging" },
       { "<F6>", function() require("dap").step_over() end,        desc = "Step Over" },
       { "<F7>", function() require("dap").step_into() end,        desc = "Step Into" },
-      { "<leader>du", function() require("dapui").toggle() end,         desc = "toggle dapui" },
+      -- { "<leader>du", function() require("dapui").toggle() end,         desc = "toggle dapui" },
+      { "<leader>du", "<cmd>DapViewToggle<CR>",         desc = "toggle dapview" },
       { "<leader>de", function() require("dapui").eval() end,         desc = "toggle dapui" },
     },
     init = function() 
