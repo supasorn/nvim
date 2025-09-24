@@ -1168,7 +1168,7 @@ return {
       { Myleader .. "o", ':lua require("fzf-lua").buffers({prompt=" > "})<cr>', mode = "n", desc="buffers"},
       { Myleader .. "f", ':lua require("fzf-lua").files()<cr>', mode = "n", desc="find files"},
       { Myleader .. "/", ':lua require("fzf-lua").grep_project()<cr>', mode = "n", desc="search"},
-      { Myleader .. "c", ':lua require("extra").fzf_change_dir()<cr>', mode = "n", desc="change current directory"},
+      { Myleader .. "d", ':lua require("extra").fzf_change_dir()<cr>', mode = "n", desc="change current directory"},
       { "g/", ':lua require("fzf-lua").grep_visual()<cr>', mode = "v", desc="grep current selection"},
       -- { Myleader .. "/", ':lua require("fzf-lua").grep({rg_opts=vim.g.rgmode_rgopt, cwd=vim.fn.getcwd(), search="", fzf_cli_args=""})<cr>', mode = "n", desc="search"},
 
@@ -1235,7 +1235,7 @@ return {
     -- keys = { "<f2>", "gr", "<leader>od" },
     keys = {
       {Myleader .. "i", desc="file browser"},
-      {Myleader .. "d", desc="old directories"},
+      -- {Myleader .. "d", desc="old directories"},
     },
 
     config = function()
@@ -1318,7 +1318,7 @@ return {
             }
           })
         end)
-      map({ 'n' }, Myleader .. "d", require "telescope".extensions.olddirs.picker, {desc = "old directories"})
+      -- map({ 'n' }, Myleader .. "d", require "telescope".extensions.olddirs.picker, {desc = "old directories"})
 
       vim.cmd [[
 
@@ -1935,7 +1935,8 @@ return {
     enabled=true and not in_singularity,
     opts = {},
     keys = {
-      { "<leader>c", "<cmd>CodeCompanionChat toggle<CR>", mode = "n", desc = "Code Companion" },
+      { Myleader .. "c", "<cmd>CodeCompanionChat toggle<CR>", mode = "n", desc = "Code Companion" },
+      { Myleader .. "c", ":CodeCompanionChat<CR>o", mode = "v", desc = "Code Companion (visual)" },
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
