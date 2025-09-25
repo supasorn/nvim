@@ -514,6 +514,9 @@ return {
   { 'nmac427/guess-indent.nvim', -- set the indent size automatically
     config = true,
   },
+  { 'MeanderingProgrammer/render-markdown.nvim',
+    ft = { "markdown", "codecompanion" }
+  },
   -- ### UI Interface
   { "SmiteshP/nvim-navic", -- show current code context
     -- enabled = false,
