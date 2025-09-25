@@ -515,7 +515,10 @@ return {
     config = true,
   },
   { 'MeanderingProgrammer/render-markdown.nvim',
-    ft = { "markdown", "codecompanion" }
+    ft = { "markdown", "codecompanion" },
+    config = function()
+      vim.api.nvim_set_hl(0, "RenderMarkdownH2Bg", { bg = "#4a1e51" })
+    end,
   },
   -- ### UI Interface
   { "SmiteshP/nvim-navic", -- show current code context
