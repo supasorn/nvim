@@ -73,7 +73,6 @@ return {
       { "af",  "<Plug>(SelectWholeFUNCTION)", mode = { "o", "x" } },
       { "iF",  "<Plug>(SelectFunctionName)",  mode = { "o", "x" } },
       { "if",  "<Plug>(SelectFunctionNAME)",  mode = { "o", "x" } },
-      { "daj", "di(vafp",                     mode = "n",         remap = true },
     },
   },
   { 'PeterRincker/vim-argumentative', -- argument textobject, and swapping
