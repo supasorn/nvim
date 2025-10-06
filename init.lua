@@ -113,29 +113,32 @@ map("n", "\\[", ":cp<cr>")
 map("n", "\\]", ":cn<cr>")
 
 local diagnostics_active = true
-local toggle_diagnostics = function()
+local function toggle_diagnostics()
   diagnostics_active = not diagnostics_active
+
   if diagnostics_active then
-    vim.api.nvim_echo({ { "Show diagnostics" } }, false, {})
-    vim.diagnostic.enable()
+    vim.api.nvim_echo({ { "Diagnostics enabled", "ModeMsg" } }, false, {})
+    vim.diagnostic.enable(true)  -- <-- enable globally
   else
-    vim.api.nvim_echo({ { "Disable diagnostics" } }, false, {})
-    vim.diagnostic.disable()
+    vim.api.nvim_echo({ { "Diagnostics disabled", "WarningMsg" } }, false, {})
+    vim.diagnostic.enable(false) -- <-- disable globally
   end
 end
 
 map("n", "\\dd", toggle_diagnostics, {desc="disable diagnostics"}) -- ":lua vim.diagnostic.disable()<cr>")
 
-local signs = {
-  Error = " ",
-  Warn = " ",
-  Hint = " ",
-  Info = " ",
-}
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-end
+vim.diagnostic.config({
+  signs = {
+    active = true,
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN]  = "",
+      [vim.diagnostic.severity.HINT]  = "",
+      [vim.diagnostic.severity.INFO]  = "",
+    },
+  },
+  -- other settings …
+})
 
 function LaunchHttpServerHere(directory)
   local port = 5555

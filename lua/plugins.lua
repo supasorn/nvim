@@ -519,6 +519,14 @@ return {
       vim.api.nvim_set_hl(0, "RenderMarkdownH2Bg", { bg = "#4a1e51" })
     end,
   },
+  { 'rachartier/tiny-inline-diagnostic.nvim',
+    event = "VeryLazy",
+    priority = 1000,
+    config = function()
+        require('tiny-inline-diagnostic').setup()
+        vim.diagnostic.config({ virtual_text = false }) -- Disable default virtual text
+    end
+  },
   -- ### UI Interface
   { "SmiteshP/nvim-navic", -- show current code context
     -- enabled = false,
@@ -1430,62 +1438,63 @@ return {
     },
     config = function()
       local lspconfig    = require("lspconfig")
-      local mason_lsp    = require("mason-lspconfig")
       local navic        = require("nvim-navic")
-
       local capabilities = require("cmp_nvim_lsp")
                            .default_capabilities(vim.lsp.protocol
                            .make_client_capabilities())
 
       local function on_attach(client, bufnr)
-        navic.attach(client, bufnr)
+        if client.server_capabilities.documentSymbolProvider then
+          navic.attach(client, bufnr)
+        end
         client.server_capabilities.semanticTokensProvider = nil
       end
 
-      mason_lsp.setup({
-        -- If you want Mason to *also* attach servers automatically, add
-        -- automatic_setup = true,
-        handlers = {
-          -- 1️⃣ default for every server -------------------------------
-          function(server_name)
-            lspconfig[server_name].setup({
-              capabilities = capabilities,
-              on_attach    = on_attach,
-            })
-          end,
+      -- Default config for all servers
+      vim.lsp.config("*", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
 
-          -- 2️⃣ lua_ls override ----------------------------------------
-          lua_ls = function()
-            lspconfig.lua_ls.setup({
-              capabilities = capabilities,
-              on_attach    = on_attach,
-              settings     = {
-                Lua = {
-                  diagnostics = { globals = { "vim" } },
-                },
-              },
-            })
-          end,
+      -- Language-specific configs
 
-          -- 3️⃣ pyright override ---------------------------------------
-          pyright = function()
-            lspconfig.pyright.setup({
-              capabilities = capabilities,
-              on_attach    = on_attach,
-              settings     = {
-                python = {
-                  analysis = {
-                    autoSearchPaths        = true,
-                    diagnosticMode         = "openFilesOnly",
-                    useLibraryCodeForTypes = true,
-                    typeCheckingMode       = "off",
-                  },
-                },
-              },
-            })
-          end,
+      -- 𝗟𝗨𝗔 (lua_ls)
+      vim.lsp.config("lua_ls", {
+        settings = {
+          Lua = {
+            runtime = {
+              version = "LuaJIT",
+            },
+            diagnostics = {
+              globals = { "vim" },
+            },
+            workspace = {
+              library = vim.api.nvim_get_runtime_file("", true),
+              checkThirdParty = false,
+            },
+            completion = {
+              callSnippet = "Replace",
+            },
+            telemetry = {
+              enable = false,
+            },
+          },
         },
       })
+
+      -- 𝗣𝗬𝗥𝗜𝗚𝗛𝗧
+      vim.lsp.config("pyright", {
+        settings = {
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              diagnosticMode = "openFilesOnly",
+              useLibraryCodeForTypes = true,
+              typeCheckingMode = "off",
+            },
+          },
+        },
+      }) 
     end,
   },
   { 'majutsushi/tagbar', -- Tagbar! Show code tags
