@@ -246,6 +246,10 @@ augroup AutoSaveGroup
   autocmd BufWinEnter ?* if &filetype != 'lua' | silent! loadview | endif
 augroup end
 
+" ip for selecting python function's content
+autocmd FileType python onoremap <buffer> ip if
+autocmd FileType python xnoremap <buffer> ip if
+
 " augroup TitleString
   " autocmd!
   " autocmd BufEnter,FileReadPost * let &titlestring = 'pwd: %{expand("%:p:h")}'
