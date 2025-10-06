@@ -911,10 +911,10 @@ return {
         winbar = {
           lualine_a = {},
           lualine_b = {
-            {
-              my_filename, colored = true,
-              cond = function() return vim.bo.filetype == 'oil' end
-            },
+            -- {
+              -- my_filename, colored = true,
+              -- cond = function() return vim.bo.filetype == 'oil' end
+            -- },
           },
           lualine_c = {
             -- navic_context
@@ -948,18 +948,19 @@ return {
         inactive_winbar = {
           lualine_a = {},
           lualine_b = {
-            {
-              my_filename, colored = true,
-              cond = not_in_filetypes({ 'oil' })
-            },
+            -- {
+              -- my_filename, colored = true,
+              -- cond = not_in_filetypes({ 'oil' })
+            -- },
           },
           lualine_c = {},
           lualine_x = {
-            -- { 
-              -- filepath.get_path,
-              -- padding = { left = 0, right = 0 },
-              -- color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.8) }
-            -- }
+            { 
+              filepath.get_path,
+              padding = { left = 0, right = 0 },
+              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.93) },
+              cond = not_in_filetypes({ 'oil' })
+            }
           },
           lualine_y = {
             {
