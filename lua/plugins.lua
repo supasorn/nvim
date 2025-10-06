@@ -1240,6 +1240,7 @@ return {
     -- keys = { "<f2>", "gr", "<leader>od" },
     keys = {
       {Myleader .. "i", desc="file browser"},
+      {Myleader .. "I", desc="file browser (cwd)"}, -- <-- Add this line
       -- {Myleader .. "d", desc="old directories"},
     },
 
@@ -1315,6 +1316,18 @@ return {
         function() require "telescope".extensions.file_browser.file_browser({
             path = '%:p:h',
             -- previewer = true,
+            hidden = true,
+            hide_parent_dir = true, grouped = true,
+            display_stat = false,
+            preview = {
+              ls_short = true,
+            }
+          })
+        end)
+
+      map({ 'n' }, Myleader .. "I",
+        function() require "telescope".extensions.file_browser.file_browser({
+            path = vim.fn.getcwd(),
             hidden = true,
             hide_parent_dir = true, grouped = true,
             display_stat = false,
@@ -1600,9 +1613,12 @@ return {
     opts = {
     }
   },
+  { 'mfussenegger/nvim-dap-python',
+    enabled = false, -- use nvim-dap instead
+    dependencies = { 'mfussenegger/nvim-dap' },
+  },
   { 'mfussenegger/nvim-dap', -- debugger
     dependencies = {
-      'mfussenegger/nvim-dap-python',
       'rcarriga/nvim-dap-ui', -- (Optional: for a nice UI)
       'nvim-neotest/nvim-nio',
       'igorlfs/nvim-dap-view'
@@ -1860,7 +1876,7 @@ return {
     cmd = {'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles', 'DiffviewRefresh'},
 
   },
-
+  -- ### AI coding
   { 'github/copilot.vim',
     enabled = false and not in_singularity,
     keys = { { "<f10>", "<esc>:Copilot<cr>", mode = { "i" } }, { "<f10>", ":Copilot<cr>", mode = { "n", "v" } } },
