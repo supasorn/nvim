@@ -1624,7 +1624,7 @@ return {
     }
   },
   { 'mfussenegger/nvim-dap-python',
-    enabled = false, -- use nvim-dap instead
+    enabled = true, -- use nvim-dap instead
     dependencies = { 'mfussenegger/nvim-dap' },
   },
   { 'mfussenegger/nvim-dap', -- debugger
