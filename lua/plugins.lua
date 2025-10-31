@@ -1068,8 +1068,10 @@ return {
     },
   },
   { 'folke/which-key.nvim', -- Show keymaps
-    -- event = "VeryLazy",
+    event = "VeryLazy",
     opts = {
+      preset = "helix",
+      delay = 1000,
       -- your configuration comes here
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
@@ -1636,14 +1638,14 @@ return {
     keys = {
       { "<leader>b", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
       { "<leader>r", function() require("extra").RunDebugFromComment() end,         desc = "Start/Continue Debugging" },
-      { "<F4>", function() require("dap").step_out() end, desc = "Step out" },
+      { "<F4>", function() require("dap").step_out() end, desc = "Step Out" },
       -- { "<F5>", function() require("dap").continue() require("dapui").open() end,         desc = "Start/Continue Debugging" },
       { "<F5>", "<cmd>DapContinue<CR><cmd>DapViewOpen<CR>",         desc = "Start/Continue Debugging" },
       { "<F6>", function() require("dap").step_over() end,        desc = "Step Over" },
       { "<F7>", function() require("dap").step_into() end,        desc = "Step Into" },
       -- { "<leader>du", function() require("dapui").toggle() end,         desc = "toggle dapui" },
-      { "<leader>du", "<cmd>DapViewToggle<CR>",         desc = "toggle dapview" },
-      { "<leader>de", function() require("dapui").eval() end,         desc = "toggle dapui" },
+      { "<leader>du", "<cmd>DapViewToggle<CR>",         desc = "Toggle Debug UI" },
+      { "<leader>de", function() require("dapui").eval() end,         desc = "Evaluate" },
     },
     init = function() 
       local grp = vim.api.nvim_create_augroup("dap_colors", { clear = true })
@@ -1723,6 +1725,28 @@ return {
           element = "repl",   -- default; could omit
         },
       })
+
+      -- local dapui = require("dapui")
+        -- local eval_timer = nil
+
+      -- local function show_hover_value()
+          -- if not dap.session() then return end
+          -- dapui.eval(nil, { enter = false })
+      -- end
+
+      -- vim.o.updatetime = 500  -- makes CursorHold trigger faster
+      -- vim.api.nvim_create_autocmd("CursorHold", {
+        -- pattern = "*",
+        -- callback = function()
+          -- if eval_timer then
+            -- eval_timer:stop()
+            -- eval_timer:close()
+          -- end
+          -- eval_timer = vim.loop.new_timer()
+          -- eval_timer:start(100, 0, vim.schedule_wrap(show_hover_value))
+        -- end,
+      -- })
+
     end,
   },
   -- ### All things cmp-related (autocomplete)
