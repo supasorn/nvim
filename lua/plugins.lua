@@ -42,6 +42,10 @@ return {
           ["HopNextKey2"] = {fg = util.darken(colors.yellow, 0.8)},
           ["IndentBlanklineContextChar"] = { fg = '$purple' },
           ["IndentBlanklineContextStart"] = { fmt = 'underline' },
+          -- 🔥 Disable Treesitter spell highlighting
+          ["@spell"] = { fg = 'none', undercurl = false, underline = false },
+          ["@nospell"] = { fg = "none" },
+
         }, -- Override highlight groupscluster pixels into segments
 
         -- Plugins Config --

@@ -195,8 +195,6 @@ command! Vsc :!zsh -i -c "vsc"
 command! Finder :!zsh -i -c "finder"
 
 
-
-
 command! To2spaces %s;^\(\s\+\);\=repeat(' ', len(submatch(0))/2);g
 command! To4spaces %s/^\s*/&&/g
 
