@@ -1642,6 +1642,14 @@ return {
       winbar = {
         controls = {
           enabled = true,
+          buttons = {
+            "step_out",
+            "play",
+            "step_over",
+            "step_into",
+            "terminate",
+          },
+          custom_buttons = {},
         },
       },
       icons = {
@@ -1651,12 +1659,12 @@ return {
         filter = "󰈲",
         negate = " ",
         pause = "",
-        play = "",
+        play = "-5",
         run_last = "",
         step_back = "",
-        step_into = "",
-        step_out = "",
-        step_over = "",
+        step_into = "-7",
+        step_out = "-4",
+        step_over = "-6",
         terminate = "",
       },
     },
