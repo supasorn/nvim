@@ -1379,8 +1379,8 @@ return {
   },
   { 'echasnovski/mini.files',
     keys = {
-      { "<f2>", ":lua MiniFiles.open()<CR>", mode = { "n", "v" } },
-      { "<f2>", "<esc>:lua MiniFiles.open()<CR>", mode = { "i" } },
+      { "<f2>", ":lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>", mode = { "n", "v" } },
+      { "<f2>", "<esc>:lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>", mode = { "i" } },
     },
     version = '*',
     config = true,
@@ -1541,6 +1541,10 @@ return {
         },
         incremental_selection = {
           enable = true,
+          disable = function(lang, buf)
+            -- Don’t use incremental_selection in CodeCompanion chat buffers
+            return vim.bo[buf].filetype == "codecompanion"
+          end,
           keymaps = {
             -- init_selection = "gnn",
             -- node_incremental = "grn",
@@ -1632,6 +1636,30 @@ return {
   { 'mfussenegger/nvim-dap-python',
     enabled = true, -- use nvim-dap instead
     dependencies = { 'mfussenegger/nvim-dap' },
+  },
+  { 'igorlfs/nvim-dap-view',
+    opts = {
+      winbar = {
+        controls = {
+          enabled = true,
+        },
+      },
+      icons = {
+        disabled = "",
+        disconnect = "",
+        enabled = "",
+        filter = "󰈲",
+        negate = " ",
+        pause = "",
+        play = "",
+        run_last = "",
+        step_back = "",
+        step_into = "",
+        step_out = "",
+        step_over = "",
+        terminate = "",
+      },
+    },
   },
   { 'mfussenegger/nvim-dap', -- debugger
     dependencies = {
