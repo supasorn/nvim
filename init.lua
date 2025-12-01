@@ -182,8 +182,8 @@ set shm+=I
 command! W write
 command! Q quit
 
-vnoremap // y/\V<c-r>=escape(@",'/\')<cr><cr>
-nnoremap gy /\V<c-r>=escape(@",'/\')<cr><cr>
+vnoremap // y/\V\<<c-r>=escape(@",'/\')<cr>\><cr>
+" nnoremap // /\V\<C-R>=expand('<cword>')<CR>\><CR>
 
 " command! -nargs=+ H lua LaunchHttpServerHere(<f-args>)
 command! H lua LaunchHttpServerPwd()
