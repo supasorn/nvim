@@ -1206,7 +1206,7 @@ return {
       },
       keymap = {
         fzf = {
-          ["å"]       = "toggle-all",
+          ["ctrl-a"] = "toggle-all",
         }
       },
       fzf_opts = {
@@ -2026,16 +2026,27 @@ return {
       -- See Configuration section for rest
     },
   },
-  { "olimorris/codecompanion.nvim",
-    enabled=true and not in_singularity,
-    opts = {},
-    keys = {
-      { Myleader .. "c", "<cmd>CodeCompanionChat toggle<CR>", mode = "n", desc = "Code Companion" },
-      { Myleader .. "c", ":CodeCompanionChat<CR>o", mode = "v", desc = "Code Companion (visual)" },
-    },
+  { 'olimorris/codecompanion.nvim',
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      "ravitemer/codecompanion-history.nvim"
+    },
+    enabled=true and not in_singularity,
+    opts = {
+      extensions = {
+        history = {
+          enabled = true,
+          opts = {
+            keymap = "gh",
+            save_chat_keymap = "sc",
+          },
+        }
+      }
+    },
+    keys = {
+      { Myleader .. "c", "<cmd>CodeCompanionChat toggle<CR>", mode = "n", desc = "Code Companion" },
+      { Myleader .. "c", ":CodeCompanionChat<CR>o", mode = "v", desc = "Code Companion (visual)" },
     },
   },
   { "yetone/avante.nvim",
