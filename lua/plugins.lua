@@ -383,7 +383,7 @@ return {
       mappings = {}
     },
   },
-  { "LintaoAmons/bookmarks.nvim",
+  { "LintaoAmons/bookmarks.nvim", -- bookmark that allows naming
     event = "VeryLazy",
     keys = {
       {"mm", "<cmd>BookmarksMark<cr>", mode = {"n", "v"}},
@@ -2034,6 +2034,7 @@ return {
     },
     enabled=true and not in_singularity,
     opts = {
+      ignore_warnings = true,
       extensions = {
         history = {
           enabled = true,
