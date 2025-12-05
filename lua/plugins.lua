@@ -856,7 +856,7 @@ return {
             {
               function()
                 -- return '⌂ ' .. vim.fn.getcwd()
-                return ' ' .. vim.fn.getcwd() .. ' '
+                return ' ' .. vim.fn.getcwd(-1, -1) .. ' '
               end,
               separator = {},
               padding = {right = 0, left = 1},
@@ -1342,7 +1342,7 @@ return {
 
       map({ 'n' }, Myleader .. "I",
         function() require "telescope".extensions.file_browser.file_browser({
-            path = vim.fn.getcwd(),
+            path = vim.fn.getcwd(-1, -1),
             hidden = true,
             hide_parent_dir = true, grouped = true,
             display_stat = false,
@@ -1677,10 +1677,12 @@ return {
     },
     keys = {
       { "<leader>b", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
-      { "<leader>r", function() require("extra").RunDebugFromComment() end,         desc = "Start/Continue Debugging" },
+      -- { "<leader>r", function() require("extra").RunDebugFromComment() end,         desc = "Start/Continue Debugging" },
       { "<F4>", function() require("dap").step_out() end, desc = "Step Out" },
       -- { "<F5>", function() require("dap").continue() require("dapui").open() end,         desc = "Start/Continue Debugging" },
-      { "<F5>", "<cmd>DapContinue<CR><cmd>DapViewOpen<CR>",         desc = "Start/Continue Debugging" },
+      -- { "<F5>", "<cmd>DapContinue<CR><cmd>DapViewOpen<CR>",         desc = "Start/Continue Debugging" },
+      { "<F5>", function() require("extra").StartDebugging() end, desc = "Start/Continue Debugging" },
+      { "<leader>t", function() require("dap").terminate() end, desc = "Terminate Debugging" },
       { "<F6>", function() require("dap").step_over() end,        desc = "Step Over" },
       { "<F7>", function() require("dap").step_into() end,        desc = "Step Into" },
       -- { "<leader>du", function() require("dapui").toggle() end,         desc = "toggle dapui" },
@@ -1741,7 +1743,7 @@ return {
           },
           pathMappings = {
             {
-              localRoot = function() return vim.loop.cwd() end,
+              localRoot = function() return vim.fn.getcwd(-1, -1) end,
               remoteRoot = "." -- remote path
             },
           },

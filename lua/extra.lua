@@ -4,6 +4,39 @@ local function strip_quotes(s)
   return s and s:gsub("^['\"]", ""):gsub("['\"]$", "") or s
 end
 
+local function is_debugpy_running(cb)
+  local uv = vim.loop
+  local sock = uv.new_tcp()
+
+  sock:connect("127.0.0.1", 5678, function(err)
+    if err then
+      cb(false)
+    else
+      sock:shutdown()
+      sock:close()
+      cb(true)
+    end
+  end)
+end
+
+
+-- Main entry point
+function M.StartDebugging()
+  is_debugpy_running(function(running)
+    -- Must schedule all vim.cmd(...) or nvim API calls!
+    vim.schedule(function()
+      if not running then
+        vim.notify("Launching debugpy → running FirstLineCompile()", vim.log.levels.INFO)
+        vim.cmd("call FirstLineCompile()")
+      end
+
+      vim.cmd("DapContinue")
+      vim.cmd("DapViewOpen")
+    end)
+  end)
+end
+
+
 M.RunDebugFromComment = function()
     -- Setup dap-python using 'which python'
   local python_path = vim.fn.system("which python"):gsub("\n", "")
