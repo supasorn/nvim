@@ -1659,12 +1659,12 @@ return {
         filter = "󰈲",
         negate = " ",
         pause = "",
-        play = "-5",
+        play = " 5",
         run_last = "",
         step_back = "",
-        step_into = "-7",
-        step_out = "-4",
-        step_over = "-6",
+        step_into = " 7",
+        step_out = " 4",
+        step_over = " 6",
         terminate = "",
       },
     },
@@ -1741,7 +1741,7 @@ return {
           },
           pathMappings = {
             {
-              localRoot = vim.fn.getcwd(),           -- local project path
+              localRoot = function() return vim.loop.cwd() end,
               remoteRoot = "." -- remote path
             },
           },
