@@ -531,7 +531,6 @@ return {
         vim.diagnostic.config({ virtual_text = false }) -- Disable default virtual text
     end
   },
-  -- ### UI Interface
   { "SmiteshP/nvim-navic", -- show current code context
     -- enabled = false,
     event = "VeryLazy",
@@ -589,6 +588,7 @@ return {
       ]]
     end,
   },
+  -- ### UI Interface
   { 'akinsho/bufferline.nvim', -- Bufferline
     enabled = false,
     config = function()
@@ -1082,7 +1082,7 @@ return {
     },
     cmd = "WhichKey",
   },
-  { "echasnovski/mini.diff",
+  { 'echasnovski/mini.diff',
     config = function()
       local diff = require("mini.diff")
       diff.setup({
@@ -1633,6 +1633,7 @@ return {
     opts = {
     }
   },
+  -- ### Debugger (DAP)
   { 'mfussenegger/nvim-dap-python',
     enabled = true, -- use nvim-dap instead
     dependencies = { 'mfussenegger/nvim-dap' },
@@ -1950,7 +1951,6 @@ return {
   },
   { 'sindrets/diffview.nvim', -- for git diff
     cmd = {'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles', 'DiffviewRefresh'},
-
   },
   -- ### AI coding
   { 'github/copilot.vim',
