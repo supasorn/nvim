@@ -2041,6 +2041,7 @@ return {
           opts = {
             keymap = "gh",
             save_chat_keymap = "sc",
+            auto_save = false,
           },
         }
       }
