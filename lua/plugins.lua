@@ -1208,7 +1208,7 @@ return {
       },
       keymap = {
         fzf = {
-          ["ctrl-a"] = "toggle-all",
+          ["ctrl-q"] = "toggle-all",
         }
       },
       fzf_opts = {
