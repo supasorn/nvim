@@ -431,6 +431,7 @@ return {
           "lazy",
           "NvimTree",
           "Trouble",
+          "VoltWindow",
           "",
         },
         buftype_exclude = { "terminal" },
