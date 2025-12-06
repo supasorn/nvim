@@ -2053,7 +2053,7 @@ return {
     },
     keys = {
       { Myleader .. "c", "<cmd>CodeCompanionChat toggle<CR>", mode = "n", desc = "Code Companion" },
-      { Myleader .. "c", ":CodeCompanionChat<CR>o", mode = "v", desc = "Code Companion (visual)" },
+      { Myleader .. "c", ":CodeCompanionChat add<CR>o", mode = "v", desc = "Code Companion (visual)" },
     },
   },
   { "yetone/avante.nvim",
