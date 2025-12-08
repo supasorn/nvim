@@ -314,7 +314,10 @@ return {
     end
   },
   { 'uga-rosa/ccc.nvim', -- Color picker
-    keys = { { "<c-c>", mode = "i" }, { '\\\\c', ':CccPick<cr>' } },
+    keys = { {
+      "<m-c>", "<cmd>CccPick<CR>", mode = { "n", "i", "v" }, desc = "Edit color under cursor" }
+    },
+    -- keys = { { "<c-c>", mode = "i" }, { '\\\\c', ':CccPick<cr>' } },
     cmd = { "CccPick", "CccHighlighterToggle", "CccHighlighterEnable", "CccHighlighterDisable" },
     config = function()
       require('ccc').setup {
@@ -322,7 +325,7 @@ return {
           require('ccc_multiple_color')
         }
       }
-      map('i', '<c-c>', '<Plug>(ccc-insert)')
+      -- map('i', '<c-c>', '<Plug>(ccc-insert)')
     end
   },
   { 'romainl/vim-cool', -- Automatically disable highlights when search
