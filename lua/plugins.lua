@@ -511,7 +511,7 @@ return {
     
         },
         highlight = true,
-        separator = "  ",
+        separator = " ",
         -- separator = " ⏵ ",
         -- separator = " 》 ",
         depth_limit = 0,
