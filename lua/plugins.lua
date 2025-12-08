@@ -496,6 +496,20 @@ return {
           Operator      = " ",
           TypeParameter = " ",
         },
+        lsp = {
+          auto_attach = true,
+          preference = {
+            "pyright", "basedpyright",
+            "lua_ls",
+            "clangd",
+            "tsserver",
+            "html",
+            "cssls",
+            "jsonls",
+            "copilot",
+          },
+    
+        },
         highlight = true,
         separator = "  ",
         -- separator = " ⏵ ",
