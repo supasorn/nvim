@@ -90,7 +90,7 @@ return {
     config = function()
       vim.cmd [[
         function! AfterEquationObject()
-          normal! $F=w
+          normal! ^f=w
           let head_pos = getpos('.')
           normal! $
           let tail_pos = getpos('.')
@@ -297,7 +297,12 @@ return {
 
       require('ufo').setup({
         provider_selector = function(bufnr, filetype, buftype)
-          return { 'treesitter', 'indent' }
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ':t')
+          if filename == 'plugins.lua' then
+            return ''
+          else
+            return { 'treesitter', 'indent' }
+          end
         end,
         fold_virt_text_handler = handler
       })
@@ -336,86 +341,6 @@ return {
     config = function()
       vim.g.current_search_match = 'HighlightCurrentSearch'
     end
-  },
-  { 'chentoast/marks.nvim', -- show mark column
-    enabled = true,
-    event = "VeryLazy",
-    opts = {
-      -- whether to map keybinds or not. default true
-      default_mappings = true,
-      -- which builtin marks to show. default {}
-      -- builtin_marks = { ".", "<", ">", "^" },
-      builtin_marks = {},
-      -- whether movements cycle back to the beginning/end of buffer. default true
-      cyclic = true,
-      -- whether the shada file is updated after modifying uppercase marks. default false
-      force_write_shada = true,
-      -- how often (in ms) to redraw signs/recompute mark positions.
-      -- higher values will have better performance but may cause visual lag,
-      -- while lower values may cause performance penalties. default 150.
-      refresh_interval = 250,
-      -- sign priorities for each type of mark - builtin marks, uppercase marks, lowercase
-      -- marks, and bookmarks.
-      -- can be either a table with all/none of the keys, or a single number, in which case
-      -- the priority applies to all marks.
-      -- default 10.
-      sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
-      -- disables mark tracking for specific filetypes. default {}
-      excluded_filetypes = {
-        "help",
-        "terminal",
-        "packer",
-        "lspinfo",
-        "TelescopePrompt",
-        "TelescopeResults",
-        "mason",
-        "",
-        "fzf"
-      },
-      -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own
-      -- sign/virttext. Bookmarks can be used to group together positions and quickly move
-      -- across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and
-      -- default virt_text is "".
-      bookmark_0 = {
-        sign = "⚑",
-        virt_text = "<<<<<<<<",
-        -- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
-        -- defaults to false.
-        annotate = true,
-      },
-      mappings = {}
-    },
-  },
-  { "LintaoAmons/bookmarks.nvim", -- bookmark that allows naming
-    event = "VeryLazy",
-    keys = {
-      {"mm", "<cmd>BookmarksMark<cr>", mode = {"n", "v"}},
-      {"'o", "<cmd>BookmarksGoto<cr>", mode = {"n", "v"}},
-      {"'t", "<cmd>BookmarksTree<cr>", mode = {"n", "v"}}
-    },
-    dependencies = {
-      {"supasorn/sqlite.lua"},
-      {"nvim-telescope/telescope.nvim"},
-      {"stevearc/dressing.nvim"} -- optional: better UI
-    },
-    config = function()
-      require('bookmarks').setup {
-        keymap = {
-          delete = {"dd"}
-        }
-      }
-      vim.cmd [[
-        function! BookmarkColor()
-          hi BookmarksNvimLine guibg=NONE
-        endfunction
-
-        augroup BookmarkCustomHighlight
-          autocmd!
-          autocmd ColorScheme * call BookmarkColor()
-        augroup END
-        call BookmarkColor()
-      ]]
-    end,
   },
   { 'lukas-reineke/indent-blankline.nvim', -- Indent guideline
     -- event = "BufEnter",
@@ -521,13 +446,13 @@ return {
   { 'nmac427/guess-indent.nvim', -- set the indent size automatically
     config = true,
   },
-  { 'MeanderingProgrammer/render-markdown.nvim',
+  { 'MeanderingProgrammer/render-markdown.nvim', -- markdown preview for code companion
     ft = { "markdown", "codecompanion" },
     config = function()
       vim.api.nvim_set_hl(0, "RenderMarkdownH2Bg", { bg = "#4a1e51" })
     end,
   },
-  { 'rachartier/tiny-inline-diagnostic.nvim',
+  { 'rachartier/tiny-inline-diagnostic.nvim', -- show diagnostic message as inline virtual text
     event = "VeryLazy",
     priority = 1000,
     config = function()
@@ -589,6 +514,87 @@ return {
             autocmd ColorScheme * call NavicColor() 
         augroup END
         call NavicColor() 
+      ]]
+    end,
+  },
+  -- ### Bookmarks and mark column
+  { 'chentoast/marks.nvim', -- show mark column
+    enabled = true,
+    event = "VeryLazy",
+    opts = {
+      -- whether to map keybinds or not. default true
+      default_mappings = true,
+      -- which builtin marks to show. default {}
+      -- builtin_marks = { ".", "<", ">", "^" },
+      builtin_marks = {},
+      -- whether movements cycle back to the beginning/end of buffer. default true
+      cyclic = true,
+      -- whether the shada file is updated after modifying uppercase marks. default false
+      force_write_shada = true,
+      -- how often (in ms) to redraw signs/recompute mark positions.
+      -- higher values will have better performance but may cause visual lag,
+      -- while lower values may cause performance penalties. default 150.
+      refresh_interval = 250,
+      -- sign priorities for each type of mark - builtin marks, uppercase marks, lowercase
+      -- marks, and bookmarks.
+      -- can be either a table with all/none of the keys, or a single number, in which case
+      -- the priority applies to all marks.
+      -- default 10.
+      sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
+      -- disables mark tracking for specific filetypes. default {}
+      excluded_filetypes = {
+        "help",
+        "terminal",
+        "packer",
+        "lspinfo",
+        "TelescopePrompt",
+        "TelescopeResults",
+        "mason",
+        "",
+        "fzf"
+      },
+      -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own
+      -- sign/virttext. Bookmarks can be used to group together positions and quickly move
+      -- across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and
+      -- default virt_text is "".
+      bookmark_0 = {
+        sign = "⚑",
+        virt_text = "<<<<<<<<",
+        -- explicitly prompt for a virtual line annotation when setting a bookmark from this group.
+        -- defaults to false.
+        annotate = true,
+      },
+      mappings = {}
+    },
+  },
+  { "LintaoAmons/bookmarks.nvim", -- bookmark that allows naming
+    event = "VeryLazy",
+    keys = {
+      {"mm", "<cmd>BookmarksMark<cr>", mode = {"n", "v"}},
+      {"'o", "<cmd>BookmarksGoto<cr>", mode = {"n", "v"}},
+      {"'t", "<cmd>BookmarksTree<cr>", mode = {"n", "v"}}
+    },
+    dependencies = {
+      {"supasorn/sqlite.lua"},
+      {"nvim-telescope/telescope.nvim"},
+      {"stevearc/dressing.nvim"} -- optional: better UI
+    },
+    config = function()
+      require('bookmarks').setup {
+        keymap = {
+          delete = {"dd"}
+        }
+      }
+      vim.cmd [[
+        function! BookmarkColor()
+          hi BookmarksNvimLine guibg=NONE
+        endfunction
+
+        augroup BookmarkCustomHighlight
+          autocmd!
+          autocmd ColorScheme * call BookmarkColor()
+        augroup END
+        call BookmarkColor()
       ]]
     end,
   },
@@ -1085,15 +1091,6 @@ return {
       -- refer to the configuration section below
     },
     cmd = "WhichKey",
-  },
-  { 'echasnovski/mini.diff',
-    config = function()
-      local diff = require("mini.diff")
-      diff.setup({
-        -- Disabled by default
-        source = diff.gen_source.none(),
-      })
-    end,
   },
   -- ### File browser, FZF, Telescope
   { 'stevearc/oil.nvim', -- file explorer as vim buffer. support ssh
@@ -2056,7 +2053,7 @@ return {
     },
     keys = {
       { Myleader .. "c", "<cmd>CodeCompanionChat toggle<CR>", mode = "n", desc = "Code Companion" },
-      { Myleader .. "c", ":CodeCompanionChat add<CR>o", mode = "v", desc = "Code Companion (visual)" },
+      { Myleader .. "c", ":CodeCompanionChat add<CR>", mode = "v", desc = "Code Companion (visual)" },
     },
   },
   { "yetone/avante.nvim",
