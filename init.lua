@@ -126,6 +126,7 @@ local function toggle_diagnostics()
 end
 
 map("n", "\\dd", toggle_diagnostics, {desc="disable diagnostics"}) -- ":lua vim.diagnostic.disable()<cr>")
+map('n', '\\D', ':diffthis<CR>', { noremap = true, silent = true })
 
 vim.diagnostic.config({
   signs = {
