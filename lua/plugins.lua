@@ -164,9 +164,7 @@ return {
     keys = {
       { "<c-j>", mode = { "n", "v" } },
       { "<c-k>", mode = { "n", "v" } },
-      -- { ";", mode = { "n", "v" } },
       { "<space>", mode = { "n", "v" }, desc="hop" },
-      -- { "<cr>", mode = { "n", "v" }, desc="hop" },
       { "p", mode = { "o" } },
       { "L", mode = { "o", "v" } },
     },
@@ -184,9 +182,7 @@ return {
       map({ "o" }, "p", rwt(require 'hop'.hint_phrase))
       map({ "o", "v" }, "L", rwt(require 'hop'.hint_2lines))
 
-      -- map({ "n", "v" }, ";", rwt(require 'hop'.hint_char1))
       map({ "n", "v" }, "<space>", rwt(require 'hop'.hint_char1))
-      -- map({ "n", "v" }, "<cr>", rwt(require 'hop'.hint_char1))
     end
   },
   { 'kevinhwang91/nvim-fFHighlight', -- highlight fF
@@ -1968,6 +1964,18 @@ return {
   },
   { 'sindrets/diffview.nvim', -- for git diff
     cmd = {'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles', 'DiffviewRefresh'},
+  },
+  { 'folke/persistence.nvim',
+    event = "BufReadPre", -- this will only start session saving when an actual file was opened
+    opts = {
+      -- add any custom options here
+    },
+    keys = {
+      { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
+      { "<leader>qS", function() require("persistence").select() end,desc = "Select Session" },
+      { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
+      { "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Current Session" },
+    },
   },
   -- ### AI coding
   { 'github/copilot.vim',
