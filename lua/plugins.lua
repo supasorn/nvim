@@ -1854,7 +1854,7 @@ return {
         },
         window = {
           completion = cmp.config.window.bordered({
-            -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+            winhighlight = "Normal:Normal,FloatBorder:Normal,Search:None",
             col_offset = -3,
             side_padding = 0,
 
