@@ -356,6 +356,7 @@ return {
           "NvimTree",
           "Trouble",
           "VoltWindow",
+          "blink-cmp-menu",
           "",
         },
         buftype_exclude = { "terminal" },
@@ -1453,15 +1454,16 @@ return {
     event = "VeryLazy",
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
-      "hrsh7th/cmp-nvim-lsp",   -- for capabilities
       "SmiteshP/nvim-navic",    -- you already use this in on_attach
+      -- "hrsh7th/cmp-nvim-lsp",   -- for capabilities
     },
     config = function()
       local lspconfig    = require("lspconfig")
       local navic        = require("nvim-navic")
-      local capabilities = require("cmp_nvim_lsp")
-                           .default_capabilities(vim.lsp.protocol
-                           .make_client_capabilities())
+      -- local capabilities = require("cmp_nvim_lsp")
+                           -- .default_capabilities(vim.lsp.protocol
+                           -- .make_client_capabilities())
+      local blink     = require("blink.cmp")
 
       local function on_attach(client, bufnr)
         if client.server_capabilities.documentSymbolProvider then
@@ -1472,7 +1474,7 @@ return {
 
       -- Default config for all servers
       vim.lsp.config("*", {
-        capabilities = capabilities,
+        capabilities = blink.get_lsp_capabilities(),
         on_attach = on_attach,
       })
 
@@ -1482,22 +1484,14 @@ return {
       vim.lsp.config("lua_ls", {
         settings = {
           Lua = {
-            runtime = {
-              version = "LuaJIT",
-            },
-            diagnostics = {
-              globals = { "vim" },
-            },
+            runtime = { version = "LuaJIT" },
+            diagnostics = { globals = { "vim" } },
             workspace = {
               library = vim.api.nvim_get_runtime_file("", true),
               checkThirdParty = false,
             },
-            completion = {
-              callSnippet = "Replace",
-            },
-            telemetry = {
-              enable = false,
-            },
+            completion = { callSnippet = "Replace" },
+            telemetry = { enable = false },
           },
         },
       })
@@ -1515,6 +1509,10 @@ return {
           },
         },
       }) 
+
+      for _, server in ipairs({ "html", "cssls", "eslint" }) do
+        vim.lsp.enable(server)
+      end
     end,
   },
   { 'majutsushi/tagbar', -- Tagbar! Show code tags
@@ -1532,7 +1530,7 @@ return {
           enable = true
         },
         ensure_installed = { "c", "python", "css", "cpp", "go", "html", "java", "javascript", "json", "lua", "make",
-          "php", "vim", "typescript", "vimdoc" },
+          "php", "vim", "typescript", "vimdoc", "markdown", "markdown_inline", "yaml" },
         ignore_install = { "haskell" }, -- List of parsers to ignore installing
         highlight = {
           enable = true, -- false will disable the whole extension
@@ -1818,6 +1816,7 @@ return {
     end,
   },
   { "hrsh7th/nvim-cmp",
+    enabled = false,
     event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {
       "hrsh7th/cmp-buffer",
@@ -1938,6 +1937,80 @@ return {
       })
 
 
+    end,
+  },
+  { 'Saghen/blink.cmp',
+    version = '1.*',
+    opts = {
+      sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'codecompanion' },
+
+        providers = {
+          codecompanion = {
+            name = "CodeCompanion",
+            module = "codecompanion.providers.completion.blink",
+            enabled = true,
+            -- Force blink to show the menu immediately when these are typed
+            score_offset = 100, -- Give it higher priority
+            transform_items = function(ctx, items)
+              for _, item in ipairs(items) do
+                -- If the menu was triggered by # or @, prepend it to the label
+                if ctx.trigger.initial_character == "#" or ctx.trigger.initial_character == "@" then
+                  item.label = ctx.trigger.initial_character .. item.label
+                end
+              end
+              return items
+            end,
+          },
+        },
+      },
+      keymap = {
+        preset = 'none',
+        ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
+        ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+        ['<CR>'] = { 'select_and_accept', 'fallback' },
+      },
+      completion = { 
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 500,
+        },
+      },
+      cmdline = {
+        keymap = {
+          ['<CR>'] = { 'accept_and_enter', 'fallback' },
+        },
+        completion = {
+          list = {
+            selection = {
+              preselect = false,
+              auto_insert = true,
+            },
+          },
+          menu = { auto_show = true },
+        },
+      },
+    },
+    config = function(_, opts)
+      local function set_blink_highlights()
+        local visual_hl = vim.api.nvim_get_hl(0, { name = 'Visual' })
+        
+        vim.api.nvim_set_hl(0, 'BlinkCmpMenuSelection', { 
+          bg = visual_hl.bg, 
+          fg = 'NONE',
+          bold = true 
+        })
+        
+        -- -- Optional: Ensure the fuzzy match is linked to a bright color (like Keyword)
+        -- vim.api.nvim_set_hl(0, 'BlinkCmpLabelMatch', { link = 'Keyword', bold = true })
+      end
+
+      set_blink_highlights()
+
+      vim.api.nvim_create_autocmd('ColorScheme', {
+        callback = set_blink_highlights,
+      })
+      require('blink.cmp').setup(opts)
     end,
   },
   -- ### Utilities
