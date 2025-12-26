@@ -77,6 +77,7 @@ local function run_fzf(mode, selected)
         header = "filetype",
       },
     },
+    formatter = "path.filename_first",
   }
 
   if not vim.tbl_contains(selected, "all files") then
