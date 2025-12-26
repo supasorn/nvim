@@ -1185,6 +1185,7 @@ return {
     build = './install --bin'
   },
   { 'pbogut/fzf-mru.vim', -- F4 fzf MRU
+    enabled = true,
     lazy = false, -- otherwise, it won't remember any files
     dependencies = "fzf",
     cmd = "FZFMru",
@@ -1255,6 +1256,24 @@ return {
       },
     },
     -- " nmap <f4> :lua require('fzf-lua').oldfiles({prompt="> "})<cr>
+  },
+  { 'elanmed/fzf-lua-frecency.nvim',
+    enabled = false,
+    dependencies = { "ibhagwan/fzf-lua" },
+    lazy = false,
+    keys = { { Myleader .. "p", function() require("fzf-lua-frecency").frecency() end, mode = "n" } },
+    config = function()
+      local frecency = require('fzf-lua-frecency')
+      
+      -- 1. Run the standard setup to start the background listeners
+      frecency.setup({})
+      
+      vim.api.nvim_create_autocmd("BufReadPost", {
+        callback = function(args)
+          print("ENTER:", args.file)
+        end
+      })
+    end,
   },
   { 'nvim-telescope/telescope.nvim', -- Telescope
     dependencies = {
