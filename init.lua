@@ -258,4 +258,4 @@ autocmd FileType python xnoremap <buffer> ip if
 " augroup END
 ]]
 
-vim.cmd "source ~/.config/nvim/extra.vim"
+vim.cmd("source " .. vim.fn.stdpath("config") .. "/extra.vim")
