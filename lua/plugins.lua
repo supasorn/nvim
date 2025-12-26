@@ -1455,7 +1455,7 @@ return {
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
       "SmiteshP/nvim-navic",    -- you already use this in on_attach
-      -- "hrsh7th/cmp-nvim-lsp",   -- for capabilities
+      "hrsh7th/cmp-nvim-lsp",   -- for capabilities
     },
     config = function()
       local lspconfig    = require("lspconfig")
@@ -1463,7 +1463,7 @@ return {
       -- local capabilities = require("cmp_nvim_lsp")
                            -- .default_capabilities(vim.lsp.protocol
                            -- .make_client_capabilities())
-      local blink     = require("blink.cmp")
+      -- local blink     = require("blink.cmp")
 
       local function on_attach(client, bufnr)
         if client.server_capabilities.documentSymbolProvider then
@@ -1474,7 +1474,10 @@ return {
 
       -- Default config for all servers
       vim.lsp.config("*", {
-        capabilities = blink.get_lsp_capabilities(),
+        -- capabilities = require("blink.cmp").get_lsp_capabilities(),
+        capabilities = require("cmp_nvim_lsp")
+                           .default_capabilities(vim.lsp.protocol
+                           .make_client_capabilities()),
         on_attach = on_attach,
       })
 
@@ -1816,7 +1819,7 @@ return {
     end,
   },
   { "hrsh7th/nvim-cmp",
-    enabled = false,
+    enabled = true,
     event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {
       "hrsh7th/cmp-buffer",
@@ -1853,7 +1856,7 @@ return {
         },
         window = {
           completion = cmp.config.window.bordered({
-            winhighlight = "Normal:Normal,FloatBorder:Normal,Search:None",
+            winhighlight = "Normal:Normal,FloatBorder:CmpItemAbbrMatch,Search:None",
             col_offset = -3,
             side_padding = 0,
 
@@ -1863,7 +1866,9 @@ return {
             -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
             -- border = { "", "", "", "│", "╯", "─", "╰", "│" },
           }),
-          documentation = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered({
+            winhighlight = "Normal:Normal,FloatBorder:Normal,Search:None",
+          }),
         },
         mapping = {
           ["<cr>"] = cmp.mapping.confirm({ select = false }),
@@ -1936,15 +1941,16 @@ return {
         },
       })
 
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#61afef", bg = "NONE" })
 
     end,
   },
-  { 'Saghen/blink.cmp',
+  { 'Saghen/blink.cmp', -- completion engine. right now has this bug where searching "bqf" in "nvim-bqf" doesn't work
+    enabled = false,
     version = '1.*',
     opts = {
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer', 'codecompanion' },
-
         providers = {
           codecompanion = {
             name = "CodeCompanion",
@@ -1980,6 +1986,14 @@ return {
         keymap = {
           ['<CR>'] = { 'accept_and_enter', 'fallback' },
         },
+        sources = function()
+          local type = vim.fn.getcmdtype()
+          -- Search mode: use 'buffer' to find your plugin strings
+          if type == '/' or type == '?' then return { 'buffer' } end
+          -- Command mode: use 'cmdline' for commands
+          if type == ':' then return { 'cmdline' } end
+          return {}
+        end,
         completion = {
           list = {
             selection = {
