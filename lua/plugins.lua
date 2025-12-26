@@ -1233,7 +1233,9 @@ return {
           ["--delimiter"]=" ",
           ["--with-nth"]="-1..",
           ["--header-lines"] = false,
-        }
+        },
+
+        formatter = "path.filename_first",
         -- fzf_opts = {
           -- ['--layout'] = 'reverse-list',
           -- hide tabnr
