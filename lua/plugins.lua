@@ -1257,7 +1257,7 @@ return {
     },
     -- " nmap <f4> :lua require('fzf-lua').oldfiles({prompt="> "})<cr>
   },
-  { 'supasorn/fzf-lua-frecency.nvim',
+  { 'supasorn/fzf-lua-frecency.nvim', -- fzf-lua MRU
     lazy = false,
     keys = { { Myleader .. "p", function() require("fzf-lua-frecency").frecency() end, mode = "n" } },
     opts = {
