@@ -921,8 +921,9 @@ return {
                 if hn == 'Supasorns-MacBook-Pro.local' then
                   return 'MBP'
                 elseif hn == 'ssmb.local' then
-                  return '⌂'
-                  -- return '⌘'
+                  -- return '⌂'
+                  -- return '🛖'
+                  return '⌘'
                 end
                 return hn:gsub("vision", "v")
               end,
@@ -2064,7 +2065,7 @@ return {
   { 'sindrets/diffview.nvim', -- for git diff
     cmd = {'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles', 'DiffviewRefresh'},
   },
-  { 'folke/persistence.nvim',
+  { 'folke/persistence.nvim', -- for saving / loading sessions
     event = "BufReadPre", -- this will only start session saving when an actual file was opened
     opts = {
       -- add any custom options here
