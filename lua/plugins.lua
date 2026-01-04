@@ -121,9 +121,9 @@ return {
   { 'supasorn/targets.vim', -- Many more textobjects
     event = "VeryLazy"
   },
-  { 'nvim-treesitter/nvim-treesitter-textobjects', -- for im, am textobject. (Around method's)
-    event = "VeryLazy"
-  },
+  -- { 'nvim-treesitter/nvim-treesitter-textobjects', -- for im, am textobject. (Around method's)
+    -- event = "VeryLazy"
+  -- },
   -- ### Text edit / motion
   { 'gbprod/substitute.nvim', -- subversive + exchange: quick substitutions and exchange.
     keys = {
@@ -1537,7 +1537,12 @@ return {
     keys = { { "<f8>", ":TagbarToggle<CR>" } },
   },
   { 'nvim-treesitter/nvim-treesitter', -- Neovim's Treesitter
-    event = "VeryLazy",
+    -- event = "VeryLazy",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      lazy = true,
+    },
+    event = { "BufReadPost", "BufNewFile" },
     build = function() require("nvim-treesitter.install").update { with_sync = true } end,
     -- cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSEnable", "TSDisable", "TSModuleInfo" },
     config = function()
