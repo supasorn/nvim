@@ -578,7 +578,8 @@ return {
       require('bookmarks').setup {
         keymap = {
           delete = {"dd"}
-        }
+        },
+        db_dir = vim.fs.joinpath(vim.fn.stdpath("config"), "data", "bookmarks"),
       }
       vim.cmd [[
         function! BookmarkColor()
