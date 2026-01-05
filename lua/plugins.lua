@@ -1534,23 +1534,12 @@ return {
         "json", "lua", "make", "php", "vim", "typescript", "vimdoc", 
         "markdown", "markdown_inline", "yaml", "query" 
       })
-      vim.api.nvim_create_autocmd("FileType", {
-        group = vim.api.nvim_create_augroup("TreesitterSetup", { clear = true }),
-        callback = function(args)
-          local lang = vim.treesitter.language.get_lang(vim.bo[args.buf].filetype)
-          if not lang then return end
-
-          -- Enable Highlighting
-          -- Note: Only starts if a highlight query exists for the language
-          pcall(vim.treesitter.start, args.buf, lang)
-
-          -- Enable Indentation (Experimental in main branch)
-          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-        end,
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { '<filetype>' },
+        callback = function() vim.treesitter.start() end,
+        -- vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        -- vim.wo[0][0].foldmethod = 'expr'
       })
-      vim.opt.foldmethod = "expr"
-      vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-      vim.opt.foldenable = false -- Prevent folds from closing by default
     end,
   },
   { 'daliusd/incr.nvim', -- Treesitter incremental selection
