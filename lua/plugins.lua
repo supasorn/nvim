@@ -1551,9 +1551,12 @@ return {
         "markdown", "markdown_inline", "yaml", "query" 
       })
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = { '<filetype>' },
-        callback = function() 
-          vim.treesitter.start() 
+        callback = function(args)
+          -- Check if a parser exists for the current filetype
+          local lang = vim.treesitter.language.get_lang(vim.bo[args.buf].filetype)
+          if lang then
+            pcall(vim.treesitter.start, args.buf, lang)
+          end
         end,
       })
     end,
