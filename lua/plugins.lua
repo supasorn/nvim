@@ -338,7 +338,38 @@ return {
       vim.g.current_search_match = 'HighlightCurrentSearch'
     end
   },
+  { "folke/snacks.nvim",
+    enabled = false,
+    opts = {
+      indent = {
+        enabled = true,
+        hl = {
+          "SnacksIndent1",
+          "SnacksIndent2",
+        },
+      }
+    },
+    config = function(_, opts)
+      vim.cmd [[
+        function! IndentBlanklineColor()
+          highlight SnacksIndent1 guifg=#707070 gui=nocombine
+          highlight SnacksIndent2 guifg=#444444 gui=nocombine
+        endfunction
+
+        augroup IndentBlanklineCustomHighlight
+          autocmd!
+          autocmd ColorScheme * call IndentBlanklineColor()
+        augroup END
+        call IndentBlanklineColor()
+      ]]
+      require("snacks").setup(opts)
+    end,
+  },
   { 'lukas-reineke/indent-blankline.nvim', -- Indent guideline
+    enabled = true,
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+    },
     -- event = "BufEnter",
     version = "2.20.8",
     event = "VeryLazy",
@@ -384,48 +415,46 @@ return {
   },
   { 'nvim-treesitter/nvim-treesitter-context', -- Show context at the top. Cool!
     event = "VeryLazy",
-    config = function()
-      require 'treesitter-context'.setup {
-        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-        max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-        patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-          -- For all filetypes
-          -- Note that setting an entry here replaces all other patterns for this entry.
-          -- By setting the 'default' entry below, you can control which nodes you want to
-          -- appear in the context window.
-          default = {
-            'class',
-            'function',
-            'method',
-            'for', -- These won't appear in the context
-            'while',
-            'if',
-            -- 'switch',
-            -- 'case',
-          },
-          lua = {
-            'table',
-          },
-          -- Example for a specific filetype.
-          -- If a pattern is missing, *open a PR* so everyone can benefit.
-          --   rust = {
-          --       'impl_item',
-          --   },
+    opts = {
+      enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+      max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+      trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+      patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+        -- For all filetypes
+        -- Note that setting an entry here replaces all other patterns for this entry.
+        -- By setting the 'default' entry below, you can control which nodes you want to
+        -- appear in the context window.
+        default = {
+          'class',
+          'function',
+          'method',
+          'for', -- These won't appear in the context
+          'while',
+          'if',
+          -- 'switch',
+          -- 'case',
         },
-        exact_patterns = {
+        lua = {
+          'table',
         },
+        -- Example for a specific filetype.
+        -- If a pattern is missing, *open a PR* so everyone can benefit.
+        --   rust = {
+        --       'impl_item',
+        --   },
+      },
+      exact_patterns = {
+      },
 
-        -- [!] The options below are exposed but shouldn't require your attention,
-        --     you can safely ignore them.
+      -- [!] The options below are exposed but shouldn't require your attention,
+      --     you can safely ignore them.
 
-        zindex = 20, -- The Z-index of the context window
-        mode = 'topline', -- Line used to calculate context. Choices: 'cursor', 'topline'
-        multiline_threshold = 1,
-        -- separator = "─",
-        -- separator = "-",
-      }
-    end,
+      zindex = 20, -- The Z-index of the context window
+      mode = 'topline', -- Line used to calculate context. Choices: 'cursor', 'topline'
+      multiline_threshold = 1,
+      -- separator = "─",
+      -- separator = "-",
+    },
   },
   { 'dstein64/nvim-scrollview', -- Scrollbar
     event = "VeryLazy",
@@ -1537,108 +1566,106 @@ return {
     keys = { { "<f8>", ":TagbarToggle<CR>" } },
   },
   { 'nvim-treesitter/nvim-treesitter', -- Neovim's Treesitter
-    -- event = "VeryLazy",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      lazy = true,
-    },
-    event = { "BufReadPost", "BufNewFile" },
-    build = function() require("nvim-treesitter.install").update { with_sync = true } end,
+    lazy = false,
+    -- dependencies = {
+      -- 'nvim-treesitter/nvim-treesitter-textobjects',
+    -- },
+    -- event = { "BufReadPost", "BufNewFile" },
+    -- build = function() require("nvim-treesitter.install").update { with_sync = true } end,
+    build = ':TSUpdate',
     -- cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSEnable", "TSDisable", "TSModuleInfo" },
-    config = function()
-      require 'nvim-treesitter.configs'.setup {
-        context_commentstring = {
-          enable = true
+    opts = {
+      context_commentstring = {
+        enable = true
+      },
+      ensure_installed = { "c", "python", "css", "cpp", "go", "html", "java", "javascript", "json", "lua", "make",
+        "php", "vim", "typescript", "vimdoc", "markdown", "markdown_inline", "yaml" },
+      ignore_install = { "haskell" }, -- List of parsers to ignore installing
+      highlight = {
+        enable = true, -- false will disable the whole extension
+        disable = function(lang, bufnr)
+          if vim.api.nvim_buf_line_count(0) > 5000 or vim.fn.getfsize(vim.fn.expand('%')) > 1024 * 200 then
+            return true
+          end
+          return false
+        end,
+        -- disable = {}, -- list of language that will be disabled
+        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+        -- Using this option may slow down your editor, and you may see some duplicate highlights.
+        -- Instead of true it can also be a list of languages
+        additional_vim_regex_highlighting = false,
+      },
+      indent = {
+        enable = false
+      },
+      incremental_selection = {
+        enable = true,
+        disable = function(lang, buf)
+          -- Don’t use incremental_selection in CodeCompanion chat buffers
+          return vim.bo[buf].filetype == "codecompanion"
+        end,
+        keymaps = {
+          -- init_selection = "gnn",
+          -- node_incremental = "grn",
+          -- scope_incremental = "grc",
+          -- node_decremental = "grm",
+          init_selection = "<CR>",
+          node_incremental = "<CR>",
+          -- scope_incremental = "<tab>",
+          node_decremental = "<BS>",
         },
-        ensure_installed = { "c", "python", "css", "cpp", "go", "html", "java", "javascript", "json", "lua", "make",
-          "php", "vim", "typescript", "vimdoc", "markdown", "markdown_inline", "yaml" },
-        ignore_install = { "haskell" }, -- List of parsers to ignore installing
-        highlight = {
-          enable = true, -- false will disable the whole extension
-          disable = function(lang, bufnr)
-            if vim.api.nvim_buf_line_count(0) > 5000 or vim.fn.getfsize(vim.fn.expand('%')) > 1024 * 200 then
-              return true
-            end
-            return false
-          end,
-          -- disable = {}, -- list of language that will be disabled
-          -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-          -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-          -- Using this option may slow down your editor, and you may see some duplicate highlights.
-          -- Instead of true it can also be a list of languages
-          additional_vim_regex_highlighting = false,
-        },
-        indent = {
-          enable = false
-        },
-        incremental_selection = {
+      },
+      textobjects = {
+        --[[ This doesn't support dot repeat yet as of Sept 2022
+        swap = {
           enable = true,
-          disable = function(lang, buf)
-            -- Don’t use incremental_selection in CodeCompanion chat buffers
-            return vim.bo[buf].filetype == "codecompanion"
-          end,
-          keymaps = {
-            -- init_selection = "gnn",
-            -- node_incremental = "grn",
-            -- scope_incremental = "grc",
-            -- node_decremental = "grm",
-            init_selection = "<CR>",
-            node_incremental = "<CR>",
-            -- scope_incremental = "<tab>",
-            node_decremental = "<BS>",
+          swap_next = {
+            [">,"] = "@parameter.inner",
+          },
+          swap_previous = {
+            ["<,"] = "@parameter.inner",
           },
         },
-        textobjects = {
-          --[[ This doesn't support dot repeat yet as of Sept 2022
-          swap = {
-            enable = true,
-            swap_next = {
-              [">,"] = "@parameter.inner",
-            },
-            swap_previous = {
-              ["<,"] = "@parameter.inner",
-            },
-          },
-          --]]
-          select = {
-            enable = true,
-            -- Automatically jump forward to textobj, similar to targets.vim
-            lookahead = true,
+        --]]
+        select = {
+          enable = true,
+          -- Automatically jump forward to textobj, similar to targets.vim
+          lookahead = true,
 
-            keymaps = {
-              -- You can use the capture groups defined in textobjects.scm
-              ["am"] = "@function.outer",
-              ["im"] = "@function.inner",
-              -- ["ac"] = "@class.outer",
-              -- ["ic"] = "@class.inner",
-            },
+          keymaps = {
+            -- You can use the capture groups defined in textobjects.scm
+            ["am"] = "@function.outer",
+            ["im"] = "@function.inner",
+            -- ["ac"] = "@class.outer",
+            -- ["ic"] = "@class.inner",
           },
-          move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
-            goto_next_start = {
-              ["]]"] = "@function.outer",
-              ["]m"] = "@class.outer",
-            },
-            goto_next_end = {
-              ["]["] = "@function.outer",
-              ["]M"] = "@class.outer",
-            },
-            goto_previous_start = {
-              ["[["] = "@function.outer",
-              ["[m"] = "@class.outer",
-            },
-            goto_previous_end = {
-              ["[]"] = "@function.outer",
-              ["[M"] = "@class.outer",
-            },
-          },
-          matchup = {
-            enable = true,
-          }
         },
-      }
-    end,
+        move = {
+          enable = true,
+          set_jumps = true, -- whether to set jumps in the jumplist
+          goto_next_start = {
+            ["]]"] = "@function.outer",
+            ["]m"] = "@class.outer",
+          },
+          goto_next_end = {
+            ["]["] = "@function.outer",
+            ["]M"] = "@class.outer",
+          },
+          goto_previous_start = {
+            ["[["] = "@function.outer",
+            ["[m"] = "@class.outer",
+          },
+          goto_previous_end = {
+            ["[]"] = "@function.outer",
+            ["[M"] = "@class.outer",
+          },
+        },
+        matchup = {
+          enable = true,
+        }
+      },
+    },
   },
   { 'nvim-treesitter/playground', -- Treesitter playground
     cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" }
@@ -1881,7 +1908,7 @@ return {
             -- col_offset = -2,
             -- border = "none",
             -- winhighlight = "Normal:Pmenu",
-            -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
             -- border = { "", "", "", "│", "╯", "─", "╰", "│" },
           }),
           documentation = cmp.config.window.bordered({
