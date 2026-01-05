@@ -1250,7 +1250,7 @@ return {
       display_score = false,
       previewer = false,
       -- db_dir = vim.fs.joinpath(vim.fn.stdpath "data", "fzf-lua-frecency"),
-      db_dir = vim.fs.joinpath(vim.fn.stdpath("config"), "data", "fzf-lua-frecency"),
+      db_dir = vim.fs.joinpath(vim.fn.stdpath("config"), "data", "fzf-lua-frecency", vim.loop.os_gethostname()),
     },
   },
   { 'nvim-telescope/telescope.nvim', -- Telescope
