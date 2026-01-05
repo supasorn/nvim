@@ -1194,7 +1194,7 @@ return {
     -- keys = { { "<f4>", ":FZFMru --no-sort<CR>" } },
     keys = { { Myleader .. "p", ":FZFMru --no-sort<CR>", mode = "n" } },
   },
-  { 'ibhagwan/fzf-lua', -- fzf with native preview, etc
+  { 'supasorn/fzf-lua', -- fzf with native preview, etc
     cmd = { "FzfLua" },
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     keys = {
@@ -1233,18 +1233,12 @@ return {
         previewer = false,
         headers = {},
         fzf_opts={
-          ["--delimiter"]=" ",
-          ["--with-nth"]="-1..",
+          ["--delimiter"] = ' ',
+          ["--with-nth"] = "-1..",
           ["--header-lines"] = false,
+          ["--info"] = 'inline',
         },
-
         formatter = "path.filename_first",
-        -- fzf_opts = {
-          -- ['--layout'] = 'reverse-list',
-          -- hide tabnr
-          -- ['--delimiter'] = ":",
-          -- ["--with-nth"]  = '0',
-        -- }
       },
       oldfiles = {
         previewer = false,
@@ -1268,6 +1262,9 @@ return {
       previewer = false,
       -- db_dir = vim.fs.joinpath(vim.fn.stdpath "data", "fzf-lua-frecency"),
       db_dir = vim.fs.joinpath(vim.fn.stdpath("config"), "data", "fzf-lua-frecency", vim.loop.os_gethostname()),
+      fzf_opts = {
+        ["--info"] = 'inline',
+      },
     },
   },
   { 'nvim-telescope/telescope.nvim', -- Telescope
