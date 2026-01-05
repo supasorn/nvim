@@ -121,9 +121,6 @@ return {
   { 'supasorn/targets.vim', -- Many more textobjects
     event = "VeryLazy"
   },
-  -- { 'nvim-treesitter/nvim-treesitter-textobjects', -- for im, am textobject. (Around method's)
-    -- event = "VeryLazy"
-  -- },
   -- ### Text edit / motion
   { 'gbprod/substitute.nvim', -- subversive + exchange: quick substitutions and exchange.
     keys = {
