@@ -1,0 +1,6 @@
+/Users/supasorn/dotfiles/nvim/lua/plugins.lua
+/Users/supasorn/dotfiles/scripts/reinstall_nvim.sh
+/Users/supasorn/Projects/spiral_tracks/main.py
+/Users/supasorn/Projects/fzf-lua-frecency.nvim/lua/fzf-lua-frecency/algo.lua
+/Users/supasorn/dotfiles/nvim/data/fzf-lua-frecency/dated-files.mpack
+
