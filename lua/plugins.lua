@@ -1242,13 +1242,14 @@ return {
     },
     -- " nmap <f4> :lua require('fzf-lua').oldfiles({prompt="> "})<cr>
   },
-  { 'supasorn/fzf-lua-frecency.nvim', -- fzf-lua MRU
+  { 'elanmed/fzf-lua-frecency.nvim', -- fzf-lua MRU
     lazy = false,
     keys = { { Myleader .. "p", function() require("fzf-lua-frecency").frecency() end, mode = "n" } },
     opts = {
       formatter = "path.filename_first",
       display_score = false,
       previewer = false,
+      db_dir = vim.fs.joinpath(vim.fn.stdpath "data", "fzf-lua-frecency"),
     },
   },
   { 'nvim-telescope/telescope.nvim', -- Telescope
@@ -1535,8 +1536,8 @@ return {
         pattern = { '<filetype>' },
         callback = function() 
           vim.treesitter.start() 
-          vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-          vim.wo[0][0].foldmethod = 'expr'
+          -- vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+          -- vim.wo[0][0].foldmethod = 'expr'
         end,
       })
     end,
