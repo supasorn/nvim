@@ -1,0 +1,3 @@
+/Users/supasorn/dotfiles/nvim/lua/plugins.lua
+/Users/supasorn/dotfiles/nvim/data/fzf-lua-frecency/dated-files.mpack
+

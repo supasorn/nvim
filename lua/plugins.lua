@@ -1249,7 +1249,8 @@ return {
       formatter = "path.filename_first",
       display_score = false,
       previewer = false,
-      db_dir = vim.fs.joinpath(vim.fn.stdpath "data", "fzf-lua-frecency"),
+      -- db_dir = vim.fs.joinpath(vim.fn.stdpath "data", "fzf-lua-frecency"),
+      db_dir = vim.fs.joinpath(vim.fn.stdpath("config"), "data", "fzf-lua-frecency"),
     },
   },
   { 'nvim-telescope/telescope.nvim', -- Telescope
@@ -1536,8 +1537,6 @@ return {
         pattern = { '<filetype>' },
         callback = function() 
           vim.treesitter.start() 
-          -- vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-          -- vim.wo[0][0].foldmethod = 'expr'
         end,
       })
     end,
