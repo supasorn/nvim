@@ -158,9 +158,9 @@ return {
   },
   { 'supasorn/hop.nvim', -- My hop with yank phrase, yank line
     keys = {
-      { "<c-j>", mode = { "n", "v" } },
-      { "<c-k>", mode = { "n", "v" } },
-      { "<space>", mode = { "n", "v" }, desc="hop" },
+      { "<c-j>", mode = { "n", "v" }, desc="Jump to lines downward" },
+      { "<c-k>", mode = { "n", "v" }, desc="Jump to lines upward" },
+      { "<space>", mode = { "n", "v" }, desc="Hop to any character" },
       { "p", mode = { "o" } },
       { "L", mode = { "o", "v" } },
     },
@@ -1104,6 +1104,11 @@ return {
       -- your configuration comes here
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
+      spec = {
+        {"<leader>d", group = "Debug & Diagnostics"},
+        {"<leader>g", group = "Git"},
+        {"<leader>s", group = "Session"},
+      },
     },
     cmd = "WhichKey",
   },
@@ -1980,7 +1985,7 @@ return {
     cmd = { "SudaWrite" }
   },
   { 'wesQ3/vim-windowswap', -- \ww swap two windows
-    keys = {{"<leader>ww", desc="swap two windows"}}
+    keys = {{"<leader>w", desc="swap two windows"}}
   },
   { 'tpope/vim-fugitive', -- For git
     keys = {
