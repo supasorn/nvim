@@ -20,7 +20,7 @@ return {
         cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
         -- toggle theme style ---
-        toggle_style_key = "<leader>s", -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+        toggle_style_key = "<leader><leader>s", -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
         toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
 
         -- Change code style ---
@@ -1561,6 +1561,7 @@ return {
     end,
   },
   { 'daliusd/incr.nvim', -- Treesitter incremental selection
+    enabled = true,
     opts = {
         incr_key = '<CR>', -- increment selection key
         decr_key = '<BS>', -- decrement selection key
@@ -1993,16 +1994,17 @@ return {
   { 'sindrets/diffview.nvim', -- for git diff
     cmd = {'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles', 'DiffviewRefresh'},
   },
-  { 'folke/persistence.nvim', -- for saving / loading sessions
-    event = "BufReadPre", -- this will only start session saving when an actual file was opened
-    opts = {
-      -- add any custom options here
+  { "gennaro-tedesco/nvim-possession", -- save session
+    event = "VeryLazy",
+    dependencies = {
+        "ibhagwan/fzf-lua",
     },
+    config = true,
     keys = {
-      { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
-      { "<leader>qS", function() require("persistence").select() end,desc = "Select Session" },
-      { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
-      { "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Current Session" },
+        { "<leader>sl", function() require("nvim-possession").list() end, desc = "📌List sessions", },
+        { "<leader>ss", function() require("nvim-possession").new() end, desc = "📌Save a new session", },
+        { "<leader>su", function() require("nvim-possession").update() end, desc = "📌Update current session", },
+        { "<leader>sd", function() require("nvim-possession").delete() end, desc = "📌Delete selected session"},
     },
   },
   -- ### AI coding
