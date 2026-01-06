@@ -115,7 +115,7 @@ return {
         \ })
       ]]
 
-    end
+    end,
   },
   { 'supasorn/targets.vim', -- Many more textobjects
     event = "VeryLazy"
@@ -1566,7 +1566,6 @@ return {
     end,
   },
   { 'daliusd/incr.nvim', -- Treesitter incremental selection
-    enabled = true,
     opts = {
         incr_key = '<CR>', -- increment selection key
         decr_key = '<BS>', -- decrement selection key
@@ -1598,10 +1597,12 @@ return {
   },
   -- ### Debugger (DAP)
   { 'mfussenegger/nvim-dap-python',
+    -- lazy = true,
     enabled = true, -- use nvim-dap instead
     dependencies = { 'mfussenegger/nvim-dap' },
   },
   { 'igorlfs/nvim-dap-view',
+    -- lazy = true,
     opts = {
       winbar = {
         controls = {
@@ -1768,7 +1769,6 @@ return {
     end,
   },
   { "hrsh7th/nvim-cmp",
-    enabled = true,
     event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {
       "hrsh7th/cmp-buffer",
