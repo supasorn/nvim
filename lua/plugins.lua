@@ -1596,13 +1596,8 @@ return {
     }
   },
   -- ### Debugger (DAP)
-  { 'mfussenegger/nvim-dap-python',
-    -- lazy = true,
-    enabled = true, -- use nvim-dap instead
-    dependencies = { 'mfussenegger/nvim-dap' },
-  },
   { 'igorlfs/nvim-dap-view',
-    -- lazy = true,
+    lazy = true,
     opts = {
       winbar = {
         controls = {

@@ -22,22 +22,19 @@ end
 
 -- Main entry point
 function M.StartDebugging()
-  local dap = require("dap")
-  dap.continue()
-  vim.cmd("DapViewOpen")
-  -- is_debugpy_running(function(running)
-    -- Must schedule all vim.cmd(...) or nvim API calls!
-    -- vim.schedule(function()
-      -- if not running then
-        -- vim.notify("Launching debugpy → running FirstLineCompile()", vim.log.levels.INFO)
-        -- vim.cmd("call FirstLineCompile()")
-      -- end
+  vim.notify("Start Debugging")
+  is_debugpy_running(function(running)
+    vim.schedule(function()
+      if not running then
+        vim.notify("Launching debugpy → running FirstLineCompile()", vim.log.levels.INFO)
+        vim.cmd("call FirstLineCompile()")
+      end
 
-      -- vim.defer_fn(function()
-        -- vim.cmd("DapViewOpen")
-      -- end, 100)
-    -- end)
-  -- end)
+      local dap = require("dap")
+      dap.continue()
+      vim.cmd("DapViewOpen")
+    end)
+  end)
 end
 
 

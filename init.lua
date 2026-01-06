@@ -241,12 +241,13 @@ augroup MyAutocmds
   highlight MiniFilesCursorLine guifg=NONE guibg=#1c1c1c
 augroup END
 
-augroup AutoSaveGroup
-  autocmd!
+" The below produces a bug with nvim-dap-view where its windows closes immedietely
+" augroup AutoSaveGroup
+  " autocmd!
   " https://vi.stackexchange.com/questions/13864/bufwinleave-mkview-with-unnamed-file-error-32
-  autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre ?* nested silent! mkview!
-  autocmd BufWinEnter ?* if &filetype != 'lua' | silent! loadview | endif
-augroup end
+  " autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre ?* nested silent! mkview!
+  " autocmd BufWinEnter ?* if &filetype != 'lua' | silent! loadview | endif
+" augroup end
 
 " ip for selecting python function's content
 autocmd FileType python onoremap <buffer> ip if
