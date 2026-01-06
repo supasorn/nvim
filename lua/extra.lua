@@ -26,6 +26,8 @@ function M.StartDebugging()
   is_debugpy_running(function(running)
     vim.schedule(function()
       if not running then
+        -- Put thing like this in the first line:
+        -- # Rule: tmux send -t 1 '!dpython' Enter Enter
         vim.notify("Launching debugpy → running FirstLineCompile()", vim.log.levels.INFO)
         vim.cmd("call FirstLineCompile()")
       end
