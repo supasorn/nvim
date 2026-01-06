@@ -2006,6 +2006,17 @@ return {
         { "<leader>su", function() require("nvim-possession").update() end, desc = "📌Update current session", },
         { "<leader>sd", function() require("nvim-possession").delete() end, desc = "📌Delete selected session"},
     },
+    opts = {
+      fzf_winopts = {
+        -- any valid fzf-lua winopts options, for instance
+        -- width = 30,
+        width = 1,
+        height = 0.25,
+        preview = {
+          horizontal = "right:30%"
+        }
+      }
+    }
   },
   -- ### AI coding
   { 'github/copilot.vim',
