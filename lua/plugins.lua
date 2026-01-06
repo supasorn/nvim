@@ -5,7 +5,6 @@ local in_singularity = vim.env.SINGULARITY_NAME ~= nil or vim.env.SINGULARITY_CO
 return {
   -- ### System's plugin
   { 'navarasu/onedark.nvim', -- Colorscheme
-    -- enabled = false,
     lazy = false,
     priority = 1000,
     config = function()
@@ -183,7 +182,6 @@ return {
     end
   },
   { 'kevinhwang91/nvim-fFHighlight', -- highlight fF
-    -- enabled = false,
     opts = {
       disable_keymap = false,
       disable_words_hl = false,
@@ -381,7 +379,12 @@ return {
         vim.api.nvim_set_hl(0, "Indent2", { fg = "#444444" })
       end)
 
-      require("ibl").setup { indent = { highlight = highlight } }
+      require("ibl").setup {
+        indent = {
+          -- char = "│",
+          highlight = highlight,
+        },
+      }
     end,
   },
   { 'nvim-treesitter/nvim-treesitter-context', -- Show context at the top. Cool!
@@ -458,7 +461,6 @@ return {
     end
   },
   { "SmiteshP/nvim-navic", -- show current code context
-    -- enabled = false,
     event = "VeryLazy",
     dependencies = {
       "neovim/nvim-lspconfig",
@@ -1584,7 +1586,6 @@ return {
     }
   },
   { 'kevinhwang91/nvim-bqf', -- make quickfix list fancy, preview, fzf
-    -- enabled = false,
     event = "VeryLazy",
     opts = {
     }
@@ -1950,13 +1951,11 @@ return {
     config = function(_, opts)
       local function set_blink_highlights()
         local visual_hl = vim.api.nvim_get_hl(0, { name = 'Visual' })
-        
-        vim.api.nvim_set_hl(0, 'BlinkCmpMenuSelection', { 
-          bg = visual_hl.bg, 
+        vim.api.nvim_set_hl(0, 'BlinkCmpMenuSelection', {
+          bg = visual_hl.bg,
           fg = 'NONE',
-          bold = true 
+          bold = true
         })
-        
         -- -- Optional: Ensure the fuzzy match is linked to a bright color (like Keyword)
         -- vim.api.nvim_set_hl(0, 'BlinkCmpLabelMatch', { link = 'Keyword', bold = true })
       end
