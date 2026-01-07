@@ -1201,7 +1201,7 @@ return {
     -- keys = { { "<f4>", ":FZFMru --no-sort<CR>" } },
     keys = { { Myleader .. "p", ":FZFMru --no-sort<CR>", mode = "n" } },
   },
-  { 'supasorn/fzf-lua', -- fzf with native preview, etc
+  { 'ibhagwan/fzf-lua', -- fzf with native preview, etc
     cmd = { "FzfLua" },
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     keys = {
@@ -2095,7 +2095,7 @@ return {
       -- See Configuration section for rest
     },
   },
-  { 'olimorris/codecompanion.nvim',
+  { 'supasorn/codecompanion.nvim',
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
