@@ -597,7 +597,7 @@ return {
         keymap = {
           delete = {"dd"}
         },
-        db_dir = vim.fs.joinpath(vim.fn.stdpath("config"), "data", "bookmarks"),
+        db_dir = vim.fs.joinpath(vim.fn.stdpath("config"), "data", "bookmarks", vim.loop.os_gethostname()),
       }
       vim.cmd [[
         function! BookmarkColor()
@@ -1193,8 +1193,8 @@ return {
     -- lazy = true,
     build = './install --bin'
   },
-  { 'pbogut/fzf-mru.vim', -- F4 fzf MRU
-    enabled = false,
+  { 'supasorn/fzf-mru.vim', -- F4 fzf MRU
+    enabled = true,
     lazy = false, -- otherwise, it won't remember any files
     dependencies = "fzf",
     cmd = "FZFMru",
@@ -1261,6 +1261,7 @@ return {
     -- " nmap <f4> :lua require('fzf-lua').oldfiles({prompt="> "})<cr>
   },
   { 'elanmed/fzf-lua-frecency.nvim', -- fzf-lua MRU
+    enabled = false,
     lazy = false,
     keys = { { Myleader .. "p", function() require("fzf-lua-frecency").frecency() end, mode = "n" } },
     opts = {
