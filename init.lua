@@ -111,6 +111,8 @@ map("n", ">W", "WvhdBPli<space><esc>hhvEEldEPxBBB")
 
 map("n", "\\[", ":cp<cr>")
 map("n", "\\]", ":cn<cr>")
+map('n', "'P", function() vim.cmd('edit +1 ' .. vim.fn.stdpath('config') .. '/lua/plugins.lua') end, {desc="Open plugins.lua"})
+map('n', "'V", function() vim.cmd('edit +1 ' .. vim.fn.stdpath('config') .. '/init.lua') end, {desc="Open init.lua"})
 
 local diagnostics_active = true
 local function toggle_diagnostics()
@@ -157,6 +159,7 @@ end
 function LaunchHttpServerPwd()
   LaunchHttpServerHere(vim.fn.getcwd())
 end
+
 
 -- local color_schemes = {'onedark', 'tokyonight', 'tokyonight-night' }
 -- function RotateColorScheme()

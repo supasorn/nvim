@@ -917,8 +917,8 @@ return {
               -- color = { fg = '#ffffff', gui = 'bold' },
             },
           },
-          lualine_z = { 
-            { 
+          lualine_z = {
+            {
               function()
                 local hn = vim.loop.os_gethostname()
                 if hn == 'Supasorns-MacBook-Pro.local' then
@@ -931,6 +931,14 @@ return {
                 return hn:gsub("vision", "v")
               end,
               padding = {left = 0, right = 1 }, -- We don't need space before this
+              color = function()
+                local dap_exists, dap = pcall(require, "dap")
+                if dap_exists and dap.session() then
+                  return { bg = '#ff9e64', fg = '#000000', gui = 'bold' } -- Orange BG
+                end
+                -- Returning nil tells lualine to use the theme's default color
+                return nil
+              end,
             }
           }
         },
@@ -1642,7 +1650,7 @@ return {
       { "<F4>", function() require("dap").step_out() end, desc = "Step Out" },
       -- { "<F5>", function() require("dap").continue() require("dapui").open() end,         desc = "Start/Continue Debugging" },
       -- { "<F5>", "<cmd>DapContinue<CR><cmd>DapViewOpen<CR>",         desc = "Start/Continue Debugging" },
-      { "<F5>", function() require("extra").StartDebugging() end, desc = "Start/Continue Debugging" },
+      { "<F5>", function() require("dap").continue() vim.cmd("DapViewOpen") end, desc = "Start/Continue Debugging" },
       { "<leader>t", function() require("dap").terminate() end, desc = "Terminate Debugging" },
       { "<F6>", function() require("dap").step_over() end,        desc = "Step Over" },
       { "<F7>", function() require("dap").step_into() end,        desc = "Step Into" },

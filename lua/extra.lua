@@ -19,26 +19,12 @@ local function is_debugpy_running(cb)
   end)
 end
 
+local dap = require('dap')
 
--- Main entry point
 function M.StartDebugging()
-  vim.notify("Start Debugging")
-  is_debugpy_running(function(running)
-    vim.schedule(function()
-      if not running then
-        -- Put thing like this in the first line:
-        -- # Rule: tmux send -t 1 '!dpython' Enter Enter
-        vim.notify("Launching debugpy → running FirstLineCompile()", vim.log.levels.INFO)
-        vim.cmd("call FirstLineCompile()")
-      end
-
-      local dap = require("dap")
-      dap.continue()
-      vim.cmd("DapViewOpen")
-    end)
-  end)
+  require('dap').continue()
+  vim.cmd("DapViewOpen")
 end
-
 
 M.RunDebugFromComment = function()
     -- Setup dap-python using 'which python'

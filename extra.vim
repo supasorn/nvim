@@ -43,6 +43,11 @@ function! FirstLineCompile()
     catch
       "echo l:out
     endtry
+
+    if l:command =~ 'dpython'
+      call timer_start(500, {-> [execute('DapViewOpen'), execute('DapContinue')]})
+    endif
+
     botright cwindow 8
     echo l:out
   endif
