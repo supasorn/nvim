@@ -1753,17 +1753,6 @@ return {
     end,
   },
   -- ### All things cmp-related (autocomplete)
-  { "L3MON4D3/LuaSnip",
-    dependencies = "rafamadriz/friendly-snippets",
-    lazy = true,
-    config = function()
-      require("luasnip.loaders.from_vscode").lazy_load()
-      local luasnip = require("luasnip")
-      luasnip.filetype_extend("html", { "javascript" })
-      -- vim.keymap.set({ "i", "s" }, "<c-l>", function() require 'luasnip'.jump(1) end, { desc = "LuaSnip forward jump" })
-      -- vim.keymap.set({ "i", "s" }, "<c-h>", function() require 'luasnip'.jump(-1) end, { desc = "LuaSnip backward jump" })
-    end,
-  },
   { "hrsh7th/nvim-cmp",
     event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {
@@ -1771,8 +1760,6 @@ return {
       "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-nvim-lsp",
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
       "onsails/lspkind.nvim",
     },
     config = function()
@@ -1791,12 +1778,6 @@ return {
             kind.kind = " " .. (strings[1] or "") .. ""
             kind.menu = "    (" .. (strings[2] or "") .. ")"
             return kind
-          end,
-        },
-        snippet = {
-          -- REQUIRED - you must specify a snippet engine
-          expand = function(args)
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
           end,
         },
         window = {
@@ -1820,11 +1801,8 @@ return {
           -- ["<s-tab>"] = cmp.mapping.select_prev_item(),
           -- ["<tab>"] = cmp.mapping.select_next_item(),
           ["<Tab>"] = cmp.mapping(function(fallback)
-            local luasnip = require("luasnip")
             if cmp.visible() then
               cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
             elseif has_words_before() then
               cmp.complete()
             else
@@ -1833,11 +1811,8 @@ return {
           end, { "i", "s" }),
 
           ["<S-Tab>"] = cmp.mapping(function(fallback)
-            local luasnip = require("luasnip")
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
             else
               fallback()
             end
@@ -1850,7 +1825,6 @@ return {
         sources = cmp.config.sources({
           { name = 'nvim_lsp', max_item_count = 15 },
           { name = 'buffer', max_item_count = 15 },
-          { name = 'luasnip' },
           { name = 'path' },
         })
       })
@@ -2095,7 +2069,7 @@ return {
       -- See Configuration section for rest
     },
   },
-  { 'supasorn/codecompanion.nvim',
+  { 'olimorris/codecompanion.nvim',
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
