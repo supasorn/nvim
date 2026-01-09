@@ -1,19 +1,46 @@
+local function fd_dir_and_file_cmd(dir)
+  -- return "(fd . " .. dir .. " --max-depth 1 --type d; fd . " .. dir .. " --max-depth 1 --type f)"
+  -- vim.notify("fd . " .. dir .. " --max-depth 1")
+  return "fd . " .. dir .. " --max-depth 1"
+end
+
+local function is_directory(path)
+  return vim.fn.isdirectory(path) == 1
+end
+
 _G.fzf_dirs = function(opts)
   local fzf_lua = require'fzf-lua'
   opts = opts or {}
-  opts.prompt = "Directories> "
+  -- local cwd = opts.cwd or vim.fn.getcwd()
+  local cwd = opts.cwd or vim.fn.getcwd()
+  -- add trailing / if missing
+  if cwd:sub(-1) ~= "/" then
+    cwd = cwd .. "/"
+  end
+  vim.notify("fzf_dirs called: " .. cwd)
+  opts.cwd = cwd
+  opts.prompt = cwd .. "> "
 
-  local cwd = vim.fn.getcwd()
   opts.fn_transform = function(x)
+    -- local escaped_cwd = cwd:gsub("([^%w])", "%%%1")
     -- Remove the prefix (cwd) from the directory path
-    -- x = x:gsub("^" .. vim.fn.escape(cwd, "/") .. "/", "")
-    x = x:gsub("^" .. cwd .. "/", "")
-    return fzf_lua.utils.ansi_codes.magenta(x)
+    -- x = x:gsub("^/Users/", "")
+    x = x:gsub("^" .. cwd, "")
+    -- return x .. "--" .. vim.fn.getcwd()
+    -- vim.notify(cwd .. "; " .. x, vim.log.levels.ERROR)
+    -- print("x" .. x)
+    -- print(cwd)
+    return x
   end
   opts.actions = {
     ['default'] = function(selected)
-      -- vim.cmd("cd " .. selected[1])
-      fzf_lua.fzf_exec("fd --type d . " .. vim.fn.getcwd() .. "/" .. selected[1], opts)
+      local path = cwd .. selected[1]
+      if is_directory(path) then
+        local new_opts = vim.tbl_deep_extend("force", opts, {cwd = path})
+        _G.fzf_dirs(new_opts)
+      else
+        vim.cmd("edit " .. path)
+      end
     end,
     ['ctrl-w'] = { 
       function(selected, opts)
@@ -22,17 +49,10 @@ _G.fzf_dirs = function(opts)
         print(prompt_text)
       end,
       fzf_lua.actions.resume
-      -- Remove the current word in the prompt
-      -- local prompt_text = session.prompt_text or ""
-      -- print(prompt_text)
-      -- local word_start, word_end = string.find(prompt_text, "%f[%w]%w+%f[%W]", 1)
-      -- if word_start and word_end then
-        -- local new_prompt = string.sub(prompt_text, 1, word_start - 1) .. string.sub(prompt_text, word_end + 1)
-        -- session:set_prompt(new_prompt)
-      -- end
     }
   }
-  fzf_lua.fzf_exec("fd --type d . " .. vim.fn.getcwd(), opts)
+  opts.multiprocess = false
+  fzf_lua.fzf_exec(fd_dir_and_file_cmd(cwd), opts)
 end
 
 -- map our provider to a user command ':Directories'
