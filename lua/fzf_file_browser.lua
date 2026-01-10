@@ -1,7 +1,5 @@
 local function fd_dir_and_file_cmd(dir)
-  -- return "(fd . " .. dir .. " --max-depth 1 --type d; fd . " .. dir .. " --max-depth 1 --type f)"
-  -- vim.notify("fd . " .. dir .. " --max-depth 1")
-  return "fd . " .. dir .. " --max-depth 1"
+  return "(fd . " .. dir .. " --max-depth 1 --type d; fd . " .. dir .. " --max-depth 1 --type f)"
 end
 
 local function is_directory(path)
@@ -22,14 +20,7 @@ _G.fzf_dirs = function(opts)
   opts.prompt = cwd .. "> "
 
   opts.fn_transform = function(x)
-    -- local escaped_cwd = cwd:gsub("([^%w])", "%%%1")
-    -- Remove the prefix (cwd) from the directory path
-    -- x = x:gsub("^/Users/", "")
     x = x:gsub("^" .. cwd, "")
-    -- return x .. "--" .. vim.fn.getcwd()
-    -- vim.notify(cwd .. "; " .. x, vim.log.levels.ERROR)
-    -- print("x" .. x)
-    -- print(cwd)
     return x
   end
   opts.actions = {
@@ -38,17 +29,30 @@ _G.fzf_dirs = function(opts)
       if is_directory(path) then
         local new_opts = vim.tbl_deep_extend("force", opts, {cwd = path})
         _G.fzf_dirs(new_opts)
+        -- fzf_lua.actions.set_prompt("yay >")
+        -- Reload with the absolute path command
+        -- fzf_lua.actions.reload(fd_dir_and_file_cmd(path))
       else
         vim.cmd("edit " .. path)
       end
     end,
-    ['ctrl-w'] = { 
+    ['ctrl-w'] = {
       function(selected, opts)
         local prompt_text = opts.prompt_text or ""
         print("selected item:", selected[1])
         print(prompt_text)
       end,
       fzf_lua.actions.resume
+    },
+    ['ctrl-x'] = {
+      fn = function(selected)
+        for _, f in ipairs(selected) do
+          print("deleting:", f)
+          -- uncomment to enable deletion
+          -- vim.fn.delete(f)
+        end
+      end,
+      reload = true,
     }
   }
   opts.multiprocess = false

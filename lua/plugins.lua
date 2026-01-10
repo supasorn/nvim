@@ -1605,7 +1605,7 @@ return {
     }
   },
   -- ### Debugger (DAP)
-  { 'igorlfs/nvim-dap-view',
+  { 'igorlfs/nvim-dap-view', -- UI for nvim-dap
     lazy = true,
     opts = {
       winbar = {
@@ -1963,7 +1963,7 @@ return {
     cmd = { "SudaWrite" }
   },
   { 'wesQ3/vim-windowswap', -- \ww swap two windows
-    keys = {{"<leader>w", desc="swap two windows"}}
+    keys = {{"<leader>ww", desc="swap two windows"}}
   },
   { 'tpope/vim-fugitive', -- For git
     keys = {
