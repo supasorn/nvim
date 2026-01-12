@@ -19,6 +19,7 @@ nmap <silent> ( :call JumpThroughParameter(-1)<CR>
 nmap <silent> ) :call JumpThroughParameter(1)<CR>
 
 nnoremap \m :call FirstLineCompile()<CR>
+nnoremap \r :call FirstLineCompile(2)<CR>
 
 autocmd InsertLeave * call CopyWordUnderCursor()
 
@@ -28,9 +29,10 @@ autocmd InsertLeave * call CopyWordUnderCursor()
     " echom "yes"
 " augroup END
 "
-function! FirstLineCompile() 
-  if !empty(matchstr(getline(1), ':'))
-    let l:s = split(getline(1) , ':')
+function! FirstLineCompile(...) 
+  let l:line = a:0 > 0 ? a:1 : 1
+  if !empty(matchstr(getline(l:line), ':'))
+    let l:s = split(getline(l:line) , ':')
   else
     let l:s = ''
   endif

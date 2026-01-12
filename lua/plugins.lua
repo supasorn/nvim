@@ -1475,8 +1475,7 @@ return {
     event = "VeryLazy",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
-      ensure_installed       = { "pyright", "html", "cssls", "eslint", "lua_ls" },
-      automatic_installation = true,
+      ensure_installed       = { "pyright", "html", "cssls", "eslint", "lua_ls", "clangd", "cmake" },
     },
   },
   { 'neovim/nvim-lspconfig', -- Lspconfig
@@ -1542,7 +1541,7 @@ return {
         },
       }) 
 
-      for _, server in ipairs({ "html", "cssls", "eslint" }) do
+      for _, server in ipairs({ "html", "cssls", "eslint", "clangd" }) do
         vim.lsp.enable(server)
       end
     end,
@@ -1604,7 +1603,7 @@ return {
     opts = {
     }
   },
-  -- ### Debugger (DAP)
+  -- ### Debugger (DAP) & Compiler
   { 'igorlfs/nvim-dap-view', -- UI for nvim-dap
     lazy = true,
     opts = {
@@ -1759,6 +1758,8 @@ return {
       -- })
 
     end,
+  },
+  { 'tpope/vim-dispatch',
   },
   -- ### All things cmp-related (autocomplete)
   { "hrsh7th/nvim-cmp",
