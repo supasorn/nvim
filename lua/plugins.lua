@@ -1718,6 +1718,16 @@ return {
         },
       }
 
+      dap.adapters.lldb = {
+        type = "server",
+        port = "${port}",
+        executable = {
+          command = vim.fn.stdpath("data")
+            .. "/mason/packages/codelldb/extension/adapter/codelldb",
+          args = { "--port", "${port}" },
+        },
+      }
+
       require("dapui").setup({
         layouts = {
           {
@@ -1758,8 +1768,6 @@ return {
       -- })
 
     end,
-  },
-  { 'tpope/vim-dispatch',
   },
   -- ### All things cmp-related (autocomplete)
   { "hrsh7th/nvim-cmp",

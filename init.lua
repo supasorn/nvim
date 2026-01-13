@@ -160,6 +160,24 @@ function LaunchHttpServerPwd()
   LaunchHttpServerHere(vim.fn.getcwd())
 end
 
+vim.api.nvim_create_user_command("Restart", function()
+  local session = vim.fn.stdpath("state") .. "/restart_session.vim"
+  vim.cmd("wall")
+  vim.cmd("mksession! " .. vim.fn.fnameescape(session))
+  vim.cmd("restart")
+end, {})
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    local session = vim.fn.stdpath("state") .. "/restart_session.vim"
+
+    if vim.fn.filereadable(session) == 1 then
+      vim.cmd("silent! source " .. vim.fn.fnameescape(session))
+      vim.fn.delete(session)
+    end
+  end,
+})
 
 -- local color_schemes = {'onedark', 'tokyonight', 'tokyonight-night' }
 -- function RotateColorScheme()

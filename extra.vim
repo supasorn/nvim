@@ -28,31 +28,77 @@ autocmd InsertLeave * call CopyWordUnderCursor()
     " autocmd BufWinEnter * normal zR
     " echom "yes"
 " augroup END
-"
+
+function! s:AfterDap(timer) abort
+  execute 'DapViewOpen'
+  execute 'DapContinue'
+endfunction
+
+function! s:OnCompileExit(command, output, job_id, exit_code, event) abort
+  call setqflist([], 'r')
+  call setqflist(a:output, 'a')
+
+  let l:qf = getqflist()
+
+  if a:exit_code == 0 && empty(l:qf)
+    echohl DiagnosticOk
+    echom '✔ Build succeeded'
+    echohl None
+  else
+    botright cwindow 8
+  endif
+
+  if a:command =~ 'dpython'
+    call timer_start(500, function('s:AfterDap'))
+  endif
+endfunction
+
 function! FirstLineCompile(...) 
   let l:line = a:0 > 0 ? a:1 : 1
-  if !empty(matchstr(getline(l:line), ':'))
-    let l:s = split(getline(l:line) , ':')
-  else
-    let l:s = ''
-  endif
-  " echom l:s
-  if !empty(matchstr(l:s[0], 'Rule'))
-    let l:command = l:s[1]
-    let l:out = system(l:command)
-    try
-      cexpr l:out 
-    catch
-      "echo l:out
-    endtry
+  let l:text = getline(l:line)
 
-    if l:command =~ 'dpython'
-      call timer_start(500, {-> [execute('DapViewOpen'), execute('DapContinue')]})
-    endif
-
-    botright cwindow 8
-    echo l:out
+  if l:text !~ ':'
+    return
   endif
+
+  let l:s = split(l:text, ':', 1)
+
+  if l:s[0] !~ 'Rule'
+    return
+  endif
+
+  let l:command = trim(l:s[1])
+
+  " clear quickfix
+  call setqflist([], 'r')
+
+  let l:output = []
+
+  let l:job = jobstart(l:command, {
+        \ 'stdout_buffered': v:true,
+        \ 'stderr_buffered': v:true,
+        \ 'on_stdout': {j,d,e -> extend(l:output, d)},
+        \ 'on_stderr': {j,d,e -> extend(l:output, d)},
+        \ 'on_exit': function('s:OnCompileExit', [l:command, l:output]),
+        \ })
+
+  if l:job <= 0
+    echoerr 'Failed to start job'
+  endif
+
+  " let l:out = system(l:command)
+  " try
+    " cexpr l:out 
+  " catch
+    "echo l:out
+  " endtry
+
+  " if l:command =~ 'dpython'
+    " call timer_start(500, {-> [execute('DapViewOpen'), execute('DapContinue')]})
+  " endif
+  " botright cwindow 8
+  " echo l:out
+
 endfunction 
 
 function! GetParents(dir)
