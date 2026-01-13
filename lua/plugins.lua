@@ -805,7 +805,7 @@ return {
           always_divide_middle = true,
           globalstatus = true,
           refresh = {
-            statusline = 1000,
+            statusline = 50,
             tabline = 1000,
             winbar = 1000,
           }
@@ -855,11 +855,6 @@ return {
               -- separator = ''
             -- },
             --
-            {
-              function()
-                return require('spinner').spinner_component()
-              end,
-            },
             {
               -- 'lsp_progress',
               -- display_components = { { 'title', 'percentage', 'message' } },
@@ -926,14 +921,24 @@ return {
             {
               function()
                 local hn = vim.loop.os_gethostname()
+                local out = ''
                 if hn == 'Supasorns-MacBook-Pro.local' then
-                  return 'MBP'
+                  out = 'MBP'
                 elseif hn == 'ssmb.local' then
                   -- return '⌂'
                   -- return '🛖'
-                  return '⌘'
+                  out = '⌘'
+                else
+                  out = hn:gsub("vision", "v")
                 end
-                return hn:gsub("vision", "v")
+
+                local dap_exists, dap = pcall(require, "dap")
+                if dap_exists and dap.session() then
+                  out = out .. ' Debug  '
+                elseif vim.b.building then
+                  out = out .. ' Compiling ' .. require('spinner').spinner_component()
+                end
+                return out
               end,
               padding = {left = 0, right = 1 }, -- We don't need space before this
               color = function()
@@ -944,7 +949,7 @@ return {
                 -- Returning nil tells lualine to use the theme's default color
                 return nil
               end,
-            }
+            },
           }
         },
         -- tabline = { lualine_c = {navic_context} },

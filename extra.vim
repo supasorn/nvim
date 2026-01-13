@@ -36,20 +36,25 @@ endfunction
 
 function! s:OnCompileExit(command, output, job_id, exit_code, event) abort
   call setqflist([], 'r')
-  call setqflist(a:output, 'a')
-
+  
+  execute "cexpr join(a:output, \"\n\")"
   let l:qf = getqflist()
+  let l:errors = filter(copy(l:qf), 'v:val.valid')
 
   let b:building = v:false
   let b:build_ok = (a:exit_code == 0)
   lua require('spinner').stop()
   redrawstatus
 
-  if a:exit_code == 0 && empty(l:qf)
+  if a:exit_code == 0 && empty(l:errors)
     echohl DiagnosticOk
     echom '✔ Build succeeded'
     echohl None
+    " notify build succeeded
+    lua vim.notify('Build succeeded', vim.log.levels.INFO, {title="Build Status"})
+    cclose
   else
+    lua vim.notify('Build failed', vim.log.levels.ERROR, {title="Build Status"})
     botright cwindow 8
   endif
 
