@@ -431,6 +431,7 @@ return {
     },
   },
   { 'dstein64/nvim-scrollview', -- Scrollbar
+    enabled = false,
     event = "VeryLazy",
     config = function()
       require('scrollview').setup({
