@@ -18,8 +18,8 @@ nnoremap gf :call RgCwd(expand("<cword>"))<CR>
 nmap <silent> ( :call JumpThroughParameter(-1)<CR>
 nmap <silent> ) :call JumpThroughParameter(1)<CR>
 
-nnoremap \m :call FirstLineCompile()<CR>
-nnoremap \r :call FirstLineCompile(2)<CR>
+nnoremap <silent> \m :write<CR>:call FirstLineCompile()<CR>
+nnoremap <silent> \r :write<CR>:call FirstLineCompile(2)<CR>
 
 autocmd InsertLeave * call CopyWordUnderCursor()
 
@@ -94,7 +94,7 @@ function! FirstLineCompile(...)
 
   let l:output = []
 
-  execute 'lua vim.notify("' . l:command . '", vim.log.levels.INFO, {title="Running Command"})'
+  execute 'lua vim.notify("' . l:command . '", vim.log.levels.WARN, {title="Running Command"})'
 
   let l:job = jobstart(l:command, {
         \ 'stdout_buffered': v:true,

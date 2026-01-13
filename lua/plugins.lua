@@ -1551,7 +1551,7 @@ return {
             },
           },
         },
-      }) 
+      })
 
       for _, server in ipairs({ "html", "cssls", "eslint", "clangd" }) do
         vim.lsp.enable(server)
