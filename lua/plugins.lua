@@ -1487,7 +1487,7 @@ return {
     event = "VeryLazy",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
-      ensure_installed       = { "pyright", "html", "cssls", "eslint", "lua_ls", "clangd", "cmake" },
+      ensure_installed       = { "pyright", "html", "cssls", "eslint", "lua_ls", "clangd" },
     },
   },
   { 'neovim/nvim-lspconfig', -- Lspconfig
