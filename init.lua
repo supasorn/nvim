@@ -175,6 +175,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
     if vim.fn.filereadable(session) == 1 then
       vim.cmd("silent! source " .. vim.fn.fnameescape(session))
       vim.fn.delete(session)
+
+      vim.schedule(function()
+        vim.cmd("bufdo e!")
+      end)
     end
   end,
 })

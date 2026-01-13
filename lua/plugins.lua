@@ -945,6 +945,8 @@ return {
                 local dap_exists, dap = pcall(require, "dap")
                 if dap_exists and dap.session() then
                   return { bg = '#ff9e64', fg = '#000000', gui = 'bold' } -- Orange BG
+                elseif vim.b.building then
+                  return { bg = '#ca72e4', fg = '#000000', gui = 'bold' } 
                 end
                 -- Returning nil tells lualine to use the theme's default color
                 return nil
