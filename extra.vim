@@ -34,7 +34,7 @@ function! s:AfterDap(timer) abort
   execute 'DapContinue'
 endfunction
 
-function! s:OnCompileExit(command, output, job_id, exit_code, event) abort
+function! s:OnCompileExit(command, output, line, job_id, exit_code, event) abort
   call setqflist([], 'r')
   
   execute "cexpr join(a:output, \"\n\")"
@@ -47,12 +47,17 @@ function! s:OnCompileExit(command, output, job_id, exit_code, event) abort
   redrawstatus
 
   if a:exit_code == 0 && empty(l:errors)
-    echohl DiagnosticOk
-    echom '✔ Build succeeded'
-    echohl None
-    " notify build succeeded
-    lua vim.notify('Build succeeded', vim.log.levels.INFO, {title="Build Status"})
-    cclose
+    if a:line == 1
+      echohl DiagnosticOk
+      echom '✔ Build succeeded'
+      echohl None
+      " notify build succeeded
+      lua vim.notify('Build succeeded', vim.log.levels.INFO, {title="Build Status"})
+      cclose
+    " elseif a:line == 2
+    "   execute 'lua vim.notify("Running: ' . a:command . '", vim.log.levels.INFO, {title="Running"})'
+    "   cclose
+    endif
   else
     lua vim.notify('Build failed', vim.log.levels.ERROR, {title="Build Status"})
     botright cwindow 8
@@ -89,12 +94,14 @@ function! FirstLineCompile(...)
 
   let l:output = []
 
+  execute 'lua vim.notify("' . l:command . '", vim.log.levels.INFO, {title="Running Command"})'
+
   let l:job = jobstart(l:command, {
         \ 'stdout_buffered': v:true,
         \ 'stderr_buffered': v:true,
         \ 'on_stdout': {j,d,e -> extend(l:output, d)},
         \ 'on_stderr': {j,d,e -> extend(l:output, d)},
-        \ 'on_exit': function('s:OnCompileExit', [l:command, l:output]),
+        \ 'on_exit': function('s:OnCompileExit', [l:command, l:output, l:line]),
         \ })
 
   if l:job <= 0
