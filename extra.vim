@@ -40,6 +40,11 @@ function! s:OnCompileExit(command, output, job_id, exit_code, event) abort
 
   let l:qf = getqflist()
 
+  let b:building = v:false
+  let b:build_ok = (a:exit_code == 0)
+  lua require('spinner').stop()
+  redrawstatus
+
   if a:exit_code == 0 && empty(l:qf)
     echohl DiagnosticOk
     echom '✔ Build succeeded'
@@ -66,6 +71,11 @@ function! FirstLineCompile(...)
   if l:s[0] !~ 'Rule'
     return
   endif
+
+  let b:building = 1
+  let b:build_ok = v:null
+  redrawstatus
+  lua require('spinner').start()
 
   let l:command = trim(l:s[1])
 

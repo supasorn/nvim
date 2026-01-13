@@ -856,6 +856,11 @@ return {
             -- },
             --
             {
+              function()
+                return require('spinner').spinner_component()
+              end,
+            },
+            {
               -- 'lsp_progress',
               -- display_components = { { 'title', 'percentage', 'message' } },
               -- spinner_symbols = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏', },
