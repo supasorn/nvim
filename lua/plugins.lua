@@ -1588,6 +1588,40 @@ return {
       })
     end,
   },
+  { "nvim-treesitter/nvim-treesitter-textobjects", -- treesitter textobjects
+    enabled = true,
+    branch = "main",
+    init = function()
+      vim.g.no_plugin_maps = true
+    end,
+
+    opts = {
+      move = {
+        set_jumps = true,
+      },
+    },
+    keys = {
+      { "]]", function() require("nvim-treesitter-textobjects.move").goto_next_start("@function.outer", "textobjects") end,
+        mode = { "n", "x", "o" },
+        desc = "Go to next function start (treesitter textobjects)"
+      },
+      { "][",
+        function() require("nvim-treesitter-textobjects.move").goto_next_end("@function.outer", "textobjects") end,
+        mode = { "n", "x", "o" },
+        desc = "Go to next function end (treesitter textobjects)"
+      },
+      { "[[",
+        function() require("nvim-treesitter-textobjects.move").goto_previous_start("@function.outer", "textobjects") end,
+        mode = { "n", "x", "o" },
+        desc = "Go to previous function start (treesitter textobjects)"
+      },
+      { "[]",
+        function() require("nvim-treesitter-textobjects.move").goto_previous_end("@function.outer", "textobjects") end,
+        mode = { "n", "x", "o" },
+        desc = "Go to previous function end (treesitter textobjects)"
+      },
+    },
+  },
   { 'daliusd/incr.nvim', -- Treesitter incremental selection
     opts = {
         incr_key = '<CR>', -- increment selection key
