@@ -1,5 +1,7 @@
 local M = {}
-local frames = { "⠋","⠙","⠹","⠸","⠼","⠴","⠦","⠧","⠇","⠏" }
+-- local frames = { "⠋","⠙","⠹","⠸","⠼","⠴","⠦","⠧","⠇","⠏" }
+-- local frames = { "◢", "◣", "◤", "◥" }
+local frames = { "◐", "◓", "◑", "◒" }
 local timer = nil
 local index = 1
 

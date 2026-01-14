@@ -790,7 +790,8 @@ return {
 
         options = {
           icons_enabled = true,
-          theme = 'onedark2',
+          -- theme = 'onedark2',
+          theme = 'auto',
           -- theme = custom_theme,
           -- component_separators = { left = '', right = '' },
           component_separators = { left = '|', right = '|' },
@@ -945,9 +946,10 @@ return {
               color = function()
                 local dap_exists, dap = pcall(require, "dap")
                 if dap_exists and dap.session() then
-                  return { bg = '#ff9e64', fg = '#000000', gui = 'bold' } -- Orange BG
+                  -- return { bg = '#ff9e64', fg = '#000000', gui = 'bold' } 
+                  return { bg = '#ff9e64', fg = '#000000' } 
                 elseif vim.b.building then
-                  return { bg = '#ca72e4', fg = '#000000', gui = 'bold' } 
+                  return { bg = '#ca72e4', fg = '#000000' } 
                 end
                 -- Returning nil tells lualine to use the theme's default color
                 return nil
