@@ -1881,6 +1881,8 @@ return {
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
       end
       local cmp = require 'cmp'
+
+      cmp.register_source("lsp_symbols_cmdline", require("cmp_lsp_symbols").new())
       cmp.setup({
         formatting = {
           fields = { "kind", "abbr", "menu" }, -- "abbr" is the actual text
@@ -1909,7 +1911,50 @@ return {
           }),
         },
         mapping = {
-          ["<cr>"] = cmp.mapping.confirm({ select = false }),
+          -- ["<cr>"] = cmp.mapping.confirm({ select = false }),
+
+          ["<CR>"] = cmp.mapping(function(fallback)
+            local cmp = require("cmp")
+
+            if not cmp.visible() then
+              return fallback()
+            end
+
+            local entry = cmp.get_selected_entry()
+            if not entry or entry.source.name ~= "lsp_symbols_cmdline" then
+              return fallback()
+            end
+
+            local item = entry:get_completion_item()
+            local sym = item and item.data and item.data.sym
+            if not sym then
+              return fallback()
+            end
+
+            local r = sym.selectionRange or sym.range
+
+            -- close cmp menu
+            cmp.close()
+
+            -- abort the / search
+            vim.api.nvim_feedkeys(
+              vim.api.nvim_replace_termcodes("<C-c>", true, false, true),
+              "n",
+              true
+            )
+
+            -- defer jump until cmdline fully exits
+            vim.schedule(function()
+              vim.api.nvim_win_set_cursor(0, {
+                r.start.line + 1,
+                r.start.character,
+              })
+              vim.cmd("normal! zz")
+            end)
+          end, { "c" }),
+
+
+
           -- ["<s-tab>"] = cmp.mapping.select_prev_item(),
           -- ["<tab>"] = cmp.mapping.select_next_item(),
           ["<Tab>"] = cmp.mapping(function(fallback)
@@ -1953,10 +1998,12 @@ return {
       cmp.setup.cmdline('/', {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
-          { name = 'buffer', max_item_count = 5 }
+          { name = 'buffer', max_item_count = 5 },
+          { name = "lsp_symbols_cmdline" },
         },
         formatting = {
-          fields = { "abbr" },
+          -- fields = { "abbr" },
+          fields = { "abbr", "kind", "menu" }, -- "abbr" is the actual text
         },
       })
 
