@@ -2005,6 +2005,10 @@ return {
           -- fields = { "abbr" },
           fields = { "abbr", "kind", "menu" }, -- "abbr" is the actual text
         },
+        completion = {
+          completeopt = 'menu,menuone',
+        },
+        preselect = cmp.PreselectMode.Item,
       })
 
       -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
