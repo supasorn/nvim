@@ -162,7 +162,9 @@ end
 
 vim.api.nvim_create_user_command("Restart", function()
   local session = vim.fn.stdpath("state") .. "/restart_session.vim"
+  vim.cmd("set sessionoptions+=globals,tabpages,winsize,folds,help")
   vim.cmd("wall")
+
   vim.cmd("mksession! " .. vim.fn.fnameescape(session))
   vim.cmd("restart")
 end, {})
@@ -176,8 +178,20 @@ vim.api.nvim_create_autocmd("VimEnter", {
       vim.cmd("silent! source " .. vim.fn.fnameescape(session))
       vim.fn.delete(session)
 
+      -- vim.schedule(function()
+        -- vim.cmd("bufdo e!")
+      -- end)
       vim.schedule(function()
-        vim.cmd("bufdo e!")
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.api.nvim_buf_is_loaded(buf)
+             and vim.api.nvim_buf_get_option(buf, "buftype") == ""
+             and vim.api.nvim_buf_get_name(buf) ~= "" then
+            vim.api.nvim_buf_call(buf, function()
+              vim.cmd("edit!")
+            end)
+          end
+        end
       end)
     end
   end,

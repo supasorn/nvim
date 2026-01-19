@@ -980,18 +980,18 @@ return {
             { 
               filepath.get_path,
               padding = { left = 0, right = 0 },
-              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.93) },
+              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 1.0) },
               cond = not_in_filetypes({ 'oil' })
             }
           },
           lualine_y = {
             {
               my_filename, colored = true,
-              -- color = {fg = util.lighten(string.format("#%06x", utils.getHl("Function").foreground), 0.5) }
+              color = {fg = util.lighten(string.format("#%06x", utils.getHl("Function").foreground), 0.8)},
               -- color = {fg = string.format("#%06x", utils.getHl("Function").foreground) }
-              -- separator = {left = '' },
+              separator = {left = '' },
               -- separator = {},
-              padding = { left = 1, right = 1 },
+              -- padding = { left = 1, right = 1 },
               cond = not_in_filetypes({ 'oil' })
             },
           },
@@ -1010,7 +1010,7 @@ return {
             { 
               filepath.get_path,
               padding = { left = 0, right = 0 },
-              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 0.93) },
+              color = {fg = util.darken(string.format("#%06x", utils.getHl("Comment").foreground), 1.0) },
               cond = not_in_filetypes({ 'oil' })
             }
           },
