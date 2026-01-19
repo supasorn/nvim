@@ -2005,10 +2005,6 @@ return {
           -- fields = { "abbr" },
           fields = { "abbr", "kind", "menu" }, -- "abbr" is the actual text
         },
-        completion = {
-          completeopt = 'menu,menuone',
-        },
-        preselect = cmp.PreselectMode.Item,
       })
 
       -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
@@ -2137,7 +2133,6 @@ return {
     dependencies = {
         "ibhagwan/fzf-lua",
     },
-    config = true,
     keys = {
         { "<leader>sl", function() require("nvim-possession").list() end, desc = "📌List sessions", },
         { "<leader>ss", function() require("nvim-possession").new() end, desc = "📌Save a new session", },
@@ -2154,7 +2149,15 @@ return {
           horizontal = "right:30%"
         }
       }
-    }
+    },
+    config = function(_, opts)
+      local session_dir = vim.fn.stdpath("data") .. "/sessions"
+      if vim.fn.isdirectory(session_dir) == 0 then
+        vim.fn.mkdir(session_dir, "p")
+      end
+      require("nvim-possession").setup(opts)
+    end,
+
   },
   -- ### AI coding
   { 'github/copilot.vim',
