@@ -2134,7 +2134,7 @@ return {
         "ibhagwan/fzf-lua",
     },
     keys = {
-        { "<leader>sl", function() require("nvim-possession").list() end, desc = "📌List sessions", },
+      { "<leader>sl", function() require("nvim-possession").list() end, desc = "📌List sessions", },
         { "<leader>ss", function() require("nvim-possession").new() end, desc = "📌Save a new session", },
         { "<leader>su", function() require("nvim-possession").update() end, desc = "📌Update current session", },
         { "<leader>sd", function() require("nvim-possession").delete() end, desc = "📌Delete selected session"},

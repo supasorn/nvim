@@ -203,8 +203,19 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 -- map("n", "\\s", RotateColorScheme)
 
+vim.cmd("source " .. vim.fn.stdpath("config") .. "/extra.vim")
+
 vim.cmd [[
 set shm+=I
+
+nnoremap gf :call RgCwd(expand("<cword>"))<CR>
+
+nnoremap <silent> \m :write<CR>:call FirstLineCompile()<CR>
+nnoremap <silent> \r :write<CR>:call FirstLineCompile(2)<CR>
+
+nmap <silent> ( :call JumpThroughParameter(-1)<CR>
+nmap <silent> ) :call JumpThroughParameter(1)<CR>
+
 command! W write
 command! Q quit
 
@@ -280,4 +291,3 @@ augroup END
 " augroup END
 ]]
 
-vim.cmd("source " .. vim.fn.stdpath("config") .. "/extra.vim")
