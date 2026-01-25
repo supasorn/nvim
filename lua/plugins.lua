@@ -1988,7 +1988,8 @@ return {
             -- border = { "", "", "", "│", "╯", "─", "╰", "│" },
           }),
           documentation = cmp.config.window.bordered({
-            winhighlight = "Normal:Normal,FloatBorder:Normal,Search:None",
+            winhighlight = "Normal:Normal,FloatBorder:Directory,Search:None",
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
           }),
         },
         mapping = {
