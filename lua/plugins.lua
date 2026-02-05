@@ -1953,7 +1953,8 @@ return {
       "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-nvim-lsp",
-      { "onsails/lspkind.nvim", commit = "3ddd1b4edefa425fda5a9f95a4f25578727c0bb3" },
+      -- { "onsails/lspkind.nvim", commit = "3ddd1b4edefa425fda5a9f95a4f25578727c0bb3" },
+      { "onsails/lspkind.nvim"},
     },
     config = function()
       local has_words_before = function()
@@ -1967,13 +1968,25 @@ return {
       cmp.setup({
         formatting = {
           fields = { "kind", "abbr", "menu" }, -- "abbr" is the actual text
+
           format = function(entry, vim_item)
-            local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
-            local strings = vim.split(kind.kind, "%s", { trimempty = true })
-            kind.kind = " " .. (strings[1] or "") .. ""
-            kind.menu = "    (" .. (strings[2] or "") .. ")"
-            return kind
+            local item = require("lspkind").cmp_format({
+              mode = "symbol_text",
+              maxwidth = 50,
+              ellipsis_char = "...",
+            })(entry, vim_item)
+
+            local icon = item.icon or ""
+            local kind_text = item.kind or ""
+
+            item.kind = " " .. icon
+            item.menu = " (" .. kind_text .. ")"
+
+            -- avoid showing a separate "icon" column if cmp decides to render it
+            item.icon = nil
+            return item
           end,
+
         },
         window = {
           completion = cmp.config.window.bordered({
