@@ -1953,7 +1953,6 @@ return {
       "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-nvim-lsp",
-      -- { "onsails/lspkind.nvim", commit = "3ddd1b4edefa425fda5a9f95a4f25578727c0bb3" },
       { "onsails/lspkind.nvim"},
     },
     config = function()
