@@ -334,15 +334,17 @@ return {
     end
   },
   { "folke/snacks.nvim",
-    enabled = false,
+    enabled = true,
     opts = {
       indent = {
-        enabled = true,
+        enabled = false,
         hl = {
           "SnacksIndent1",
           "SnacksIndent2",
         },
-      }
+      },
+      -- explorer = {
+      -- }
     },
     config = function(_, opts)
       vim.cmd [[
@@ -582,6 +584,7 @@ return {
     },
   },
   { "LintaoAmons/bookmarks.nvim", -- bookmark that allows naming
+    enabled = false,
     event = "VeryLazy",
     keys = {
       {"mm", "<cmd>BookmarksMark<cr>", mode = {"n", "v"}},
@@ -614,7 +617,7 @@ return {
     end,
   },
   { "TheNoeTrevino/haunt.nvim",
-    enabled = false,
+    enabled = true,
     -- default config: change to your liking, or remove it to use defaults
     ---@class HauntConfig
     opts = {
@@ -626,7 +629,7 @@ return {
       virt_text_pos = "eol",
       data_dir = nil,
       per_branch_bookmarks = true,
-      picker = "fzf", -- "auto", "snacks", "telescope", or "fzf"
+      picker = "snacks", -- "auto", "snacks", "telescope", or "fzf"
       picker_keys = { -- picker agnostic, we got you covered
         delete = { key = "d", mode = { "n" } },
         edit_annotation = { key = "a", mode = { "n" } },
@@ -639,11 +642,18 @@ return {
       local map = vim.keymap.set
       local prefix = "<leader>h"
 
+      -- My own shortcuts
+      map("n", "mm", function()
+        haunt.annotate()
+      end, { desc = "Annotate" })
+      map("n", "'o", function()
+        haunt_picker.show()
+      end, { desc = "Show Picker" })
+
       -- annotations
       map("n", prefix .. "a", function()
         haunt.annotate()
       end, { desc = "Annotate" })
-
       map("n", prefix .. "t", function()
         haunt.toggle_annotation()
       end, { desc = "Toggle annotation" })
