@@ -2413,7 +2413,7 @@ return {
     },
   },
   { "folke/sidekick.nvim", -- next edit suggestions and AI CLI
-    enabled = false,
+    enabled = true,
     opts = {
       -- add any options here
       cli = {
