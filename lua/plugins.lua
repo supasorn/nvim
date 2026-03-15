@@ -304,8 +304,17 @@ return {
   { 'catgoose/nvim-colorizer.lua', -- Shows color blocks when see hex code
     event = "BufReadPre",
     config = function()
-      require 'colorizer'.setup({ 'lua', 'css', 'javascript', 'html' }, {
-        mode = "virtualtext"
+      require 'colorizer'.setup({
+        options = {
+          parsers = {
+            css = true,  -- preset: enables names, hex, rgb, hsl, oklch
+            tailwind = { enable = true },
+          },
+          display = {
+            mode = "virtualtext",
+            virtualtext = { position = "after" },
+          },
+        },
       })
     end
   },
@@ -393,6 +402,7 @@ return {
     event = "VeryLazy",
     opts = {
       enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+      multiwindow = true,
       max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
       trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
       patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
@@ -1789,6 +1799,12 @@ return {
     opts = {
     }
   },
+  { 'stevearc/quicker.nvim',
+    ft = "qf",
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
+    opts = {},
+  },
   -- ### Debugger (DAP) & Compiler
   { 'igorlfs/nvim-dap-view', -- UI for nvim-dap
     lazy = true,
@@ -2263,6 +2279,11 @@ return {
     end,
 
   },
+  { "vim-scripts/a.vim", -- alternate .cpp and .h
+    keys = {
+      { "<c-h>", ":A<cr>", desc = "Open alternate file" },
+    },
+  },
   -- ### AI coding
   { 'github/copilot.vim',
     enabled = false and not in_singularity,
@@ -2422,10 +2443,13 @@ return {
           enabled = true,
         },
       },
+      nes = {
+        enabled = true,
+      },
     },
     keys = {
       {
-        "<tab>",
+        "<s-tab>",
         function()
           -- if there is a next edit, jump to it, otherwise apply it if any
           if not require("sidekick").nes_jump_or_apply() then
@@ -2435,36 +2459,20 @@ return {
         expr = true,
         desc = "Goto/Apply Next Edit Suggestion",
       },
-      {
-        "<c-.>",
-        function()
-          require("sidekick.cli").focus()
-        end,
-        mode = { "n", "x", "i", "t" },
-        desc = "Sidekick Switch Focus",
-      },
+      -- {
+        -- "<c-.>",
+        -- function()
+          -- require("sidekick.cli").focus()
+        -- end,
+        -- mode = { "n", "x", "i", "t" },
+        -- desc = "Sidekick Switch Focus",
+      -- },
       {
         "<leader>aa",
         function()
           require("sidekick.cli").toggle({ focus = true })
         end,
         desc = "Sidekick Toggle CLI",
-        mode = { "n", "v" },
-      },
-      {
-        "<leader>ac",
-        function()
-          require("sidekick.cli").toggle({ name = "claude", focus = true })
-        end,
-        desc = "Sidekick Claude Toggle",
-        mode = { "n", "v" },
-      },
-      {
-        "<leader>ag",
-        function()
-          require("sidekick.cli").toggle({ name = "grok", focus = true })
-        end,
-        desc = "Sidekick Grok Toggle",
         mode = { "n", "v" },
       },
       {
