@@ -352,6 +352,13 @@ return {
           "SnacksIndent2",
         },
       },
+      picker = {
+        enabled = true,
+        ui_select = true,
+      },
+      -- input = {
+        -- enabled = true
+      -- }
       -- explorer = {
       -- }
     },
@@ -2442,6 +2449,10 @@ return {
           backend = "tmux",
           enabled = true,
         },
+        picker = "snacks",
+        prompts = {
+          implements = "Can you implement these comments {this}?",
+        },
       },
       nes = {
         enabled = true,
@@ -2478,7 +2489,7 @@ return {
       {
         "<leader>ap",
         function()
-          require("sidekick.cli").select_prompt()
+          require("sidekick.cli").prompt()
         end,
         desc = "Sidekick Ask Prompt",
         mode = { "n", "v" },
