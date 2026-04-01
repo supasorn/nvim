@@ -894,6 +894,15 @@ return {
         end
       end
 
+      local function is_any_building()
+        for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+          if vim.api.nvim_buf_is_loaded(bufnr) and vim.b[bufnr].building then
+            return true
+          end
+        end
+        return false
+      end
+
       require('lualine').setup {
 
         options = {
@@ -1045,7 +1054,7 @@ return {
                 local dap_exists, dap = pcall(require, "dap")
                 if dap_exists and dap.session() then
                   out = out .. ' Debug  '
-                elseif vim.b.building then
+                elseif is_any_building() then
                   out = out .. ' Compiling ' .. require('spinner').spinner_component()
                 end
                 return out
@@ -1056,7 +1065,7 @@ return {
                 if dap_exists and dap.session() then
                   -- return { bg = '#ff9e64', fg = '#000000', gui = 'bold' } 
                   return { bg = '#ff9e64', fg = '#000000' } 
-                elseif vim.b.building then
+                elseif is_any_building() then
                   return { bg = '#ca72e4', fg = '#000000' } 
                 end
                 -- Returning nil tells lualine to use the theme's default color
