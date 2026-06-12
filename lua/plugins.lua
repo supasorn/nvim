@@ -1566,7 +1566,7 @@ return {
     },
   },
   -- ### LSP, Treesitter, Tags
-  { "jose-elias-alvarez/null-ls.nvim", -- For adding format() to lsp, etc
+  { "nvimtools/none-ls.nvim", -- For adding format() to lsp, etc
     keys = {
       { "<leader>f", vim.lsp.buf.format, mode = { "n", "v" }, desc="format code" }
     },
