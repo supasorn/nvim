@@ -149,6 +149,7 @@ return {
     config = true,
   },
   { 'numToStr/Comment.nvim', -- <c-c> to comment line
+    enabled=false,
     dependencies = "nvim-treesitter",
     keys = {
       { "<c-c>", "gccj", remap = true },

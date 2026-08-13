@@ -81,6 +81,11 @@ require("lazy").setup("plugins", {
 -- Disable Diagnostcs globally
 -- vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
 
+map("n", "<C-c>", function()
+  return vim.v.count == 0 and 'gccj' or 'gc'
+end, { expr = true, remap = true, desc = 'Comment line and move down' })
+map("v", "<C-c>", 'gc', { remap = true, desc = 'Comment selection' })
+
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
